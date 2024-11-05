@@ -1,0 +1,26 @@
+{
+  "name": "@iptip-hack/monorepo",
+  "version": "1.0.0",
+  "description": "monorepo for iptip hack 2024 autumn",
+  "author": "Alex Peshkov",
+  "license": "ISC",
+  "keywords": [
+    "monorepo",
+    "iptip-hack",
+    "iptip",
+    "hack"
+  ],
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "@shared/eslint-config": "workspace:*",
+    "husky": "^9.1.6",
+    "lint-staged": "^15.2.10"
+  },
+  "lint-staged": {
+    "*.{js,ts,vue,tsx}": "eslint --fix"
+  }
+}
