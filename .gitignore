@@ -1,7 +1,17 @@
-# Misc
 .DS_Store
 .fleet
 .idea
 *.log
 .idea
 .zed
+
+*.tsbuildinfo
+.eslintcache
+*.tgz
+.cache
+
+.env
+.env.development.local
+.env.test.local
+.env.production.local
+.env.local
