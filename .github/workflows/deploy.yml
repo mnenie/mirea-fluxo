@@ -29,8 +29,8 @@ jobs:
       - run: corepack enable
       - run: npm install --global vercel@latest
       - run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
-      - run: vercel build --cwd=core/client --token=${{ secrets.VERCEL_TOKEN }}
-      - run: vercel deploy --prebuilt --cwd=core/client --token=${{ secrets.VERCEL_TOKEN }}
+      - run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+      - run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
 
   deployment-status-preview:
     runs-on: ubuntu-latest
@@ -56,10 +56,12 @@ jobs:
             https://api.github.com/repos/${{ github.repository }}/deployments)
           echo "deployment_id=$(echo $response | jq -r .id)" >> $GITHUB_ENV
 
-      - name: wait for preview deployment to finish
+      - name: last preview deployment URL
         run: |
-          deployment_url=$(vercel --token=${{ secrets.VERCEL_TOKEN }} --cwd=core/client --confirm)
-          echo "Vercel deployment URL: $deployment_url"
+          deployment_info=$(curl -s -X GET \
+            "https://api.vercel.com/v6/deployments?projectId=${{ secrets.VERCEL_PROJECT_ID }}&token=${{ secrets.VERCEL_TOKEN }}")
+          deployment_url=$(echo $deployment_info | jq -r '.deployments[0].url')
+          echo "Deployment URL: $deployment_url"
 
       - name: preview gh deployment status
         run: |
@@ -67,7 +69,9 @@ jobs:
             -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             -d '{
               "state": "success",
-              "description": "Preview deployment completed successfully"
+              "description": "Preview deployment completed successfully",
+              "environment": "preview",
+              "url": "${{ steps.get_deployment_url.outputs.deployment_url }}"
             }' \
             https://api.github.com/repos/${{ github.repository }}/deployments/${{ env.deployment_id }}
 
@@ -79,8 +83,8 @@ jobs:
       - run: corepack enable
       - run: npm install --global vercel@latest
       - run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
-      - run: vercel build --prod --cwd=core/client --token=${{ secrets.VERCEL_TOKEN }}
-      - run: vercel deploy --prebuilt --prod --cwd=core/client --token=${{ secrets.VERCEL_TOKEN }}
+      - run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+      - run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
 
   deployment-status-production:
     runs-on: ubuntu-latest
@@ -106,10 +110,10 @@ jobs:
             https://api.github.com/repos/${{ github.repository }}/deployments)
           echo "deployment_id=$(echo $response | jq -r .id)" >> $GITHUB_ENV
 
-      - name: wait for production deployment to finish
+      - name: wait for prod deployment to finish
         run: |
-          deployment_url=$(vercel --token=${{ secrets.VERCEL_TOKEN }} --cwd=core/client --confirm)
-          echo "Vercel deployment URL: $deployment_url"
+          deployment_url=$(vercel --token=${{ secrets.VERCEL_TOKEN }} --yes)
+          echo "vercel deployment URL: $deployment_url"
 
       - name: production gh deployment status
         run: |
