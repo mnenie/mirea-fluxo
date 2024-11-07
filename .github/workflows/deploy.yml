@@ -1,23 +1,18 @@
 name: Deployment
 
 on:
-  workflow_run:
-    workflows: ['CI']
-    types:
-      - completed
   push:
     branches:
       - '**'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
     steps:
       - uses: actions/checkout@v4
@@ -27,7 +22,9 @@ jobs:
           node-version: 20
           cache: pnpm
       - run: pnpm install
-      - run: pnpm lint
+
+      - name: Run lint
+        run: pnpm lint
 
       - uses: nexterias/actions-vercel@v1
         id: vercel
