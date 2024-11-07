@@ -5,22 +5,44 @@ on:
     workflows: [CI]
     types:
       - completed
+  push:
+    branches:
+      - master
+      - client
+  pull_request:
 
-env:
-  VERCEL_PREVIEW_HOOK: ${{ secrets.VERCEL_PREVIEW_HOOK }}
-  VERCEL_PRODUCTION_HOOK: ${{ secrets.VERCEL_PRODUCTION_HOOK }}
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   deploy:
+    name: Deploy
     runs-on: ubuntu-latest
     if: github.event.workflow_run.conclusion == 'success'
-    steps:
-      - name: preview
-        if: github.ref != 'refs/heads/master'
-        run: |
-          curl -X POST "${{ env.VERCEL_PREVIEW_HOOK }}"
 
-      - name: production
-        if: github.ref == 'refs/heads/master'
-        run: |
-          curl -X POST "${{ env.VERCEL_PRODUCTION_HOOK }}"
+    permissions:
+      contents: read
+      deployments: write
+      statuses: write
+      pull-requests: write
+
+    steps:
+      - uses: actions/checkout@v4
+      - run: corepack enable
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install
+      - run: pnpm format:check
+      - run: pnpm lint
+
+      - uses: nexterias/actions-vercel@v1
+        id: vercel
+        with:
+          token: ${{ secrets.VERCEL_TOKEN }}
+          org-id: ${{ secrets.VERCEL_ORG_ID }}
+          project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          production: ${{ github.ref == 'refs/heads/master' }}
+          prebuilt: true
