@@ -25,7 +25,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: npm install --global vercel@latest
-      - run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+      - run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }} --cwd=core/client
       - run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }} --cwd=core/client
       - run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }} --cwd=core/client
 
@@ -35,6 +35,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: npm install --global vercel@latest
-      - run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+      - run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }} --cwd=core/client
       - run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }} --cwd=core/client
       - run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }} --cwd=core/client
