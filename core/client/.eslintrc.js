@@ -1,3 +1,3 @@
 export default {
-  extends: ['@shared/eslint-config'],
+  extends: ['@packages/eslint-config'],
 }

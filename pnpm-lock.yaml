@@ -8,7 +8,7 @@ importers:
 
   .:
     devDependencies:
-      '@shared/eslint-config':
+      '@packages/eslint-config':
         specifier: workspace:*
         version: link:packages/eslint-config
       eslint:

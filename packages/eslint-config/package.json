@@ -1,5 +1,5 @@
 {
-  "name": "@shared/eslint-config",
+  "name": "@packages/eslint-config",
   "type": "module",
   "version": "1.0.0",
   "license": "ISC",
