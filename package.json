@@ -1,6 +1,8 @@
 {
   "name": "@iptip-hack/monorepo",
   "version": "1.0.0",
+  "private": true,
+  "packageManager": "pnpm@9.12.2",
   "description": "monorepo for iptip hack 2024 autumn",
   "author": "Alex Peshkov",
   "license": "ISC",
