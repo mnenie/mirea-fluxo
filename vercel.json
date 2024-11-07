@@ -1,7 +1,9 @@
 {
   "git": {
     "deploymentEnabled": {
-      "master": false
+      "master": false,
+      "client": false,
+      "server": false
     }
   }
 }
