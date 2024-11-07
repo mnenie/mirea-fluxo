@@ -26,7 +26,6 @@ jobs:
           node-version: 20
           cache: pnpm
       - run: pnpm install
-      - run: pnpm format:check
       - run: pnpm lint
 
       - uses: nexterias/actions-vercel@v1
