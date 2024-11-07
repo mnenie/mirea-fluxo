@@ -16,9 +16,6 @@ export default antfu(
           void: 'always',
           normal: 'never',
         },
-        custom: {
-          slot: 'always',
-        },
       }],
       'vue/max-attributes-per-line': ['error', {
         singleline: { max: 10 },
