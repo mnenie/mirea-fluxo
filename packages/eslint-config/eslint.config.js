@@ -30,4 +30,9 @@ export default antfu(
       'no-alert': 'warn',
     },
   },
+  {
+    ignores: [
+      'core/client/src/components/ui/*',
+    ],
+  },
 )
