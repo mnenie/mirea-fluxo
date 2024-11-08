@@ -1,8 +1,7 @@
-<script setup lang="ts">
-import { Button } from './components/ui/button'
-</script>
-
 <template>
-  hello from app
-  <Button>Hello</Button>
+  <component :is="$route.meta.layout">
+    <RouterView v-slot="{ Component }">
+      <component :is="Component" />
+    </RouterView>
+  </component>
 </template>
