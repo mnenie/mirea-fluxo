@@ -5,7 +5,6 @@ import mongoose from 'mongoose'
 mongoose.set('strictQuery', false)
 
 dotenv.config()
-// eslint-disable-next-line node/prefer-global/process
 const MONGO_DB = process.env.MONGO_DB
 
 mongoose
