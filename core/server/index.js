@@ -2,8 +2,10 @@ import dotenv from 'dotenv'
 import express from 'express'
 import mongoose from 'mongoose'
 
-mongoose.set('strictQuery', false)
+import { UserController } from './controllers/index.js'
+import { checkAuth, handleValidationErrors } from './utils/index.js'
 
+mongoose.set('strictQuery', false)
 dotenv.config()
 const MONGO_DB = process.env.MONGO_DB
 
@@ -26,6 +28,6 @@ app.listen(1234, (err) => {
 app.get('/', (req, res) => {
   res.send('Гугуца батрачит')
 })
-// app.post('/auth/login', handleValidationErrors, UserController.login)
-// app.post('/auth/register', handleValidationErrors, UserController.register)
-// app.get('/auth/me', checkAuth, UserController.getMe)
+app.post('/auth/login', handleValidationErrors, UserController.login)
+app.post('/auth/register', handleValidationErrors, UserController.register)
+app.get('/auth/me', checkAuth, UserController.getMe)
