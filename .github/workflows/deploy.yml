@@ -31,11 +31,20 @@ jobs:
       - name: Run lint
         run: pnpm lint
 
+      - name: Set environment variables for Vercel
+        id: set-env
+        run: |
+          if [[ "${GITHUB_REF}" == "refs/heads/master" ]]; then
+            echo "PRODUCTION=true" >> $GITHUB_ENV
+          else
+            echo "PRODUCTION=false" >> $GITHUB_ENV
+          fi
+
       - uses: nexterias/actions-vercel@v1
         id: vercel
         with:
           token: ${{ secrets.VERCEL_TOKEN }}
           org-id: ${{ secrets.VERCEL_ORG_ID }}
           project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          production: ${{ github.ref == 'refs/heads/master' }}
+          production: ${{ env.PRODUCTION }}
           prebuilt: true
