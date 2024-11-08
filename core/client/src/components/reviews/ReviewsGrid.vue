@@ -23,7 +23,7 @@ useInfiniteScroll(el, onLoadMore, { distance: 10 })
 </script>
 
 <template>
-  <div ref="el" class="review-grid overflow-y-auto h-full w-full">
+  <div ref="el" class=" review-grid overflow-y-auto h-full w-full">
     <ReviewCard v-for="review in reviews" :key="review" :review="review" />
   </div>
 </template>
@@ -32,8 +32,9 @@ useInfiniteScroll(el, onLoadMore, { distance: 10 })
     .review-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      /* how much height must each element occupy! change that! */
+      grid-auto-rows: minmax(20%, 250px);
       grid-gap: 1rem;
+      overflow: scroll;
     }
     .scroll::-webkit-scrollbar {
       display: none;

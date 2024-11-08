@@ -3,7 +3,7 @@ const { review } = defineProps(['review'])
 </script>
 
 <template>
-  <div class="w-full aspect-[2/1] border rounded">
+  <div class="w-full border rounded">
     {{ review }}
   </div>
 </template>
