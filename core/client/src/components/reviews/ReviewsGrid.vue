@@ -16,7 +16,6 @@ async function onLoadMore() {
   for (let i = 0; i < 15; i++) {
     reviews.value.push(`review${reviews.value.length + 1}`)
   }
-  noNewReviews.value = true
 }
 
 useInfiniteScroll(el, onLoadMore, { distance: 10 })
@@ -30,11 +29,11 @@ useInfiniteScroll(el, onLoadMore, { distance: 10 })
 
 <style>
     .review-grid {
+      overflow: scroll;
       display: grid;
       grid-template-columns: 1fr 1fr;
       grid-auto-rows: minmax(20%, 250px);
       grid-gap: 1rem;
-      overflow: scroll;
     }
     .scroll::-webkit-scrollbar {
       display: none;
