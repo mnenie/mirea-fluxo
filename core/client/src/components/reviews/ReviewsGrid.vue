@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { useInfiniteScroll } from '@vueuse/core'
 import { ref } from 'vue'
+import { useReviewStore } from '~/stores/reviews'
 
 import ReviewCard from './ReviewCard.vue'
 
+const reviewStore = useReviewStore()
+
 const el = ref<HTMLElement | null>(null)
-const reviews = ref(['review1', 'review2', 'review3', 'review4', 'review5', 'review6'])
 
 const noNewReviews = ref<boolean>(false)
 
@@ -13,17 +15,15 @@ async function onLoadMore() {
   if (noNewReviews.value) {
     return
   }
-  for (let i = 0; i < 15; i++) {
-    reviews.value.push(`review${reviews.value.length + 1}`)
-  }
+  reviewStore.fetchReviews()
 }
 
 useInfiniteScroll(el, onLoadMore, { distance: 10 })
 </script>
 
 <template>
-  <div ref="el" class=" review-grid overflow-y-auto h-full w-full">
-    <ReviewCard v-for="review in reviews" :key="review" :review="review" />
+  <div ref="el" class="scroll review-grid overflow-y-auto h-full w-full py-6">
+    <ReviewCard v-for="review in reviewStore.reviews" :key="review.title" :review="review" />
   </div>
 </template>
 
@@ -32,7 +32,7 @@ useInfiniteScroll(el, onLoadMore, { distance: 10 })
       overflow: scroll;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      grid-auto-rows: minmax(20%, 250px);
+      grid-auto-rows: 320px;
       grid-gap: 1rem;
     }
     .scroll::-webkit-scrollbar {
