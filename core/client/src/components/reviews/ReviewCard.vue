@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed } from 'vue'
 import type { Review } from '~/types/review.interface'
 import Badge from '../ui/badge/Badge.vue'
 import Rating from './card/Rating.vue'
@@ -9,25 +9,13 @@ const props = defineProps<{
   review: Review
 }>()
 
-const statusColor = ref<string>('')
+const colorsMap = new Map<Review['status'], string>([
+  ['not verified', '#3b82f6'],
+  ['consideration', '#fbbf24'],
+  ['verified', '#16a34a'],
+])
 
-function checkStatus(status: string) {
-  if (status === 'not verified') {
-    statusColor.value = '#3b82f6'
-    return 'Не проверено'
-  }
-  else if (status === 'consideration') {
-    statusColor.value = '#fbbf24'
-
-    return 'На рассмотрении'
-  }
-  else {
-    statusColor.value = '#16a34a'
-    return 'Одобрено'
-  }
-}
-
-const status = ref<string>(checkStatus(props.review.status))
+const statusColor = computed(() => colorsMap.get(props.review.status))
 </script>
 
 <template>
@@ -40,7 +28,7 @@ const status = ref<string>(checkStatus(props.review.status))
           </Badge>
           <div class="relative">
             <Badge variant="outline" class="px-1 py-0" :style="{ color: statusColor }">
-              <span class="text-xs">{{ status }}</span>
+              <span class="text-xs">{{ review.status }}</span>
             </Badge>
           </div>
         </div>
