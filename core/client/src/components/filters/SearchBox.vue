@@ -16,7 +16,7 @@ const emits = defineEmits<{
   >
     <div class="flex items-center">
       <Search class="w-4 h-4 mr-2 text-neutral-500" />
-      <span class="text-[13px] text-neutral-500">Search</span>
+      <span class="2xl:text-[13px] sm:text-sm text-neutral-500">Search</span>
     </div>
     <div class="flex items-center gap-1">
       <Badge variant="outline" class="px-1 py-0 text-xs gap-[1px] text-neutral-600">

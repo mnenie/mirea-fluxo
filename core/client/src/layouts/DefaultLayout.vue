@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useLocalStorage } from '@vueuse/core'
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
 import { AiStars, Check, Notifications, Pane } from '~/assets/svgs-vite'
 import Sidebar from '~/components/layout/Sidebar.vue'
 import { Badge } from '~/components/ui/badge'
@@ -19,13 +19,12 @@ import {
   ResizablePanelGroup,
 } from '~/components/ui/resizable'
 
-const sidebarSize = ref<number>(15)
-const sidebarMaxSize = computed<number>(() => sidebarSize.value + 1)
+const sidebarSize = ref<string>('286')
 
 const transitionFl = ref<boolean>(false)
 
 function toggleSidebar() {
-  sidebarSize.value = sidebarSize.value === 2 ? 15 : 2
+  sidebarSize.value = sidebarSize.value === '52' ? '286' : '52'
   transitionFl.value = true
 }
 
@@ -38,7 +37,7 @@ useLocalStorage('sidebar-size', sidebarSize)
       <div class="max-w-[286px] w-full px-2 h-full flex items-center border-r border-neutral-200">
         <DropdownMenu>
           <DropdownMenuTrigger>
-            <div class="min-w-9 min-h-9 bg-blue-500 border border-blue-300 rounded-lg flex items-center justify-center mr-2 cursor-pointer hover:border-blue-100">
+            <div class="min-w-9 min-h-9 bg-blue-500 rounded-lg flex items-center justify-center mr-2 cursor-pointer hover:border hover:border-blue-100">
               <p class="text-sm text-neutral-100 text-center font-semibold">
                 1A
               </p>
@@ -55,9 +54,9 @@ useLocalStorage('sidebar-size', sidebarSize)
         </DropdownMenu>
         <div class="flex flex-col h-full items-start pt-2 w-full">
           <Badge variant="secondary" class="py-[0px] px-1.5">
-            <span class="text-[11px] text-neutral-600">commercial</span>
+            <span class="sm:text-[10px] 2xl:text-[11px] text-neutral-600">commercial</span>
           </Badge>
-          <span class="text-xs font-semibold text-neutral-800">
+          <span class="text-sm font-semibold text-neutral-800">
             1alexpeshkov@gmail.com
           </span>
         </div>
@@ -71,7 +70,7 @@ useLocalStorage('sidebar-size', sidebarSize)
           </span>
         </div>
         <div class="flex flex-row items-center gap-4">
-          <Button variant="secondary" size="sm">
+          <Button variant="secondary">
             <Check class="w-4 h-4 mr-2 text-blue-500" />
             Open Source
           </Button>
@@ -89,15 +88,13 @@ useLocalStorage('sidebar-size', sidebarSize)
     >
       <ResizablePanel
         id="handle-demo-panel-1"
-        :default-size="sidebarSize"
-        :min-size="3"
-        :max-size="sidebarMaxSize"
-        :style="{ transition: transitionFl && 'all 0.2s ease-out' }"
+        :style="{ transition: transitionFl && 'all 0.2s ease-out', width: `${sidebarSize}px` }"
+        style="flex: none;"
       >
         <Sidebar />
       </ResizablePanel>
       <!-- <ResizableHandle id="handle-demo-handle-1" with-handle /> -->
-      <ResizablePanel id="handle-demo-panel-2" :default-size="86">
+      <ResizablePanel id="handle-demo-panel-2">
         <div class="flex items-center justify-center p-6 bg-neutral-50 h-full">
           <slot />
         </div>
