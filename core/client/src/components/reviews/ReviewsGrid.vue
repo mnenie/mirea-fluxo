@@ -22,17 +22,17 @@ useInfiniteScroll(el, onLoadMore, { distance: 10 })
 </script>
 
 <template>
-  <div ref="el" class="scroll review-grid overflow-y-auto h-full w-full py-6">
+  <div ref="el" class="scroll review-grid overflow-y-auto h-full w-full">
     <ReviewCard v-for="review in reviewStore.reviews" :key="review.title" :review="review" />
   </div>
 </template>
 
-<style>
+<style scoped>
     .review-grid {
       overflow: scroll;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      grid-auto-rows: 320px;
+      grid-auto-rows: auto;
       grid-gap: 1rem;
     }
     .scroll::-webkit-scrollbar {

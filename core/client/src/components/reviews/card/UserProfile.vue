@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import Avatar from '~/components/ui/avatar/Avatar.vue'
-
 defineProps<{
   email: string
 }>()
@@ -8,12 +6,12 @@ defineProps<{
 
 <template>
   <div class="flex flex-row space-x-2">
-    <Avatar>
+    <!-- <Avatar>
       <AvatarImage src="https://github.com/radix-vue.png" alt="@radix-vue" />
       <AvatarFallback>CN</AvatarFallback>
-    </Avatar>
+    </Avatar> -->
     <div class="flex items-center">
-      {{ email }}
+      <span class="text-sm text-neutral-500">{{ email }}</span>
     </div>
   </div>
 </template>

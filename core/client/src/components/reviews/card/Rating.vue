@@ -7,8 +7,8 @@ defineProps<{
 </script>
 
 <template>
-  <div class="flex flex-row text-neutral-600">
-    <RatingStar v-for="star in stars" :key="star" fill="#eab308" stroke="#eab308" />
-    <RatingStar v-for="star in 5 - stars" :key="star" />
+  <div class="flex flex-row">
+    <span class="text-xs text-neutral-500">{{ stars }}/5 </span>
+    <RatingStar class="w-2 h-2 text-yellow-500" />
   </div>
 </template>
