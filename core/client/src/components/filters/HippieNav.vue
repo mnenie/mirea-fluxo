@@ -1,19 +1,20 @@
 <script setup lang="ts">
 import { HippieNav } from '@noction/hippie-nav'
+import { storeToRefs } from 'pinia'
 import { computed, nextTick, useTemplateRef } from 'vue'
 import { useRouter } from 'vue-router'
+import { useReviewStore } from '~/stores/reviews'
 import SearchBox from './SearchBox.vue'
-
-const props = defineProps<{
-  // TODO: remove any
-  reviews: any[]
-}>()
 
 const hippieNav = useTemplateRef<InstanceType<typeof HippieNav> | null>('hippieNav')
 
+const reviewStore = useReviewStore()
+
+const { reviews } = storeToRefs(reviewStore)
+
 const formattedReviews = computed(() => {
-  return props.reviews.map(review => ({
-    name: review.title,
+  return reviews.value.map(review => ({
+    name: review.email,
     path: `/reviews/${review._id}`,
   }))
 })

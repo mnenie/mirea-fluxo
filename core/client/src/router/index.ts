@@ -13,6 +13,33 @@ const routes = [
       layout: DefaultLayout,
     },
   },
+  {
+    name: Routes.notifications,
+    path: '/notifications',
+    component: () => import('~/pages/NotificationsPage.vue'),
+    meta: {
+      requiresAuth: false,
+      layout: DefaultLayout,
+    },
+  },
+  {
+    name: Routes.settings,
+    path: '/settings',
+    component: () => import('~/pages/SettingsPage.vue'),
+    meta: {
+      requiresAuth: false,
+      layout: DefaultLayout,
+    },
+  },
+  {
+    name: Routes.archive,
+    path: '/archive',
+    component: () => import('~/pages/ArchivePage.vue'),
+    meta: {
+      requiresAuth: false,
+      layout: DefaultLayout,
+    },
+  },
 ] satisfies readonly AppRouterRecord[]
 
 const router = createRouter({

@@ -1,30 +1,46 @@
 <script setup lang="ts">
+import { createReusableTemplate } from '@vueuse/core'
 import { Search } from '~/assets/svgs-vite'
+import { useExpanded } from '~/composables/useExpanded'
 import { Badge } from '../ui/badge'
 import { Button } from '../ui/button'
 
 const emits = defineEmits<{
   (e: 'openModal'): void
 }>()
+
+const expanded = useExpanded()
+
+const { isExpanded } = expanded.getExpanded()
+
+const [DefineTemplate, ReuseTemplate] = createReusableTemplate()
 </script>
 
 <template>
   <Button
     variant="outline"
-    class="w-full justify-between px-2 shadow-none border-none bg-neutral-50 text-neutral-500"
+    size="sm"
+    class="relative w-full justify-between px-2 text-neutral-500"
+    :class="[isExpanded ? 'shadow-sm' : 'shadow-none']"
     @click="emits('openModal')"
   >
     <div class="flex items-center">
       <Search class="w-4 h-4 mr-2 text-neutral-500" />
-      <span class="2xl:text-[13px] sm:text-sm text-neutral-500">Search</span>
+      <span v-show="isExpanded" class="2xl:text-[13px] sm:text-sm text-neutral-500">Search</span>
     </div>
-    <div class="flex items-center gap-1">
-      <Badge variant="outline" class="px-1 py-0 text-xs gap-[1px] text-neutral-600">
-        <span class="text-[10px]">Ctrl / ⌘</span>
+
+    <DefineTemplate v-slot="{ content }">
+      <Badge variant="outline" class="px-1 py-0 text-xs gap-[1px] text-neutral-600 bg-neutral-50">
+        <span class="text-[10px]">
+          {{ content }}
+        </span>
       </Badge>
-      <Badge variant="outline" class="px-1 py-0 text-xs gap-[1px] text-neutral-600">
-        <span class="text-[10px]">K</span>
-      </Badge>
+    </DefineTemplate>
+
+    <div v-if="isExpanded" class="flex items-center gap-1">
+      <ReuseTemplate content="Ctrl / ⌘" />
+      <ReuseTemplate content="K" />
     </div>
+    <ReuseTemplate v-else content="⌘K" class="absolute -right-1 top-1 transform -translate-y-1/2 bg-white" />
   </Button>
 </template>

@@ -1,10 +1,11 @@
-export type reviewStatus = 'not verified' | 'consideration' | 'verified'
+export type Status = 'not verified' | 'consideration' | 'verified'
 
 export interface Review {
+  _id: string
   title: string
   content: string
   email: string
   date: Date
-  status: reviewStatus
+  status: Status
   stars: number
 }

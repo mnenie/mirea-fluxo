@@ -31,7 +31,7 @@ useInfiniteScroll(el, onLoadMore, { distance: 10 })
     .review-grid {
       overflow: scroll;
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       grid-auto-rows: auto;
       grid-gap: 1rem;
     }

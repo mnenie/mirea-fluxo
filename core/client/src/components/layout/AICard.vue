@@ -1,10 +1,24 @@
 <script setup lang="ts">
-import { Ai } from '~/assets/svgs-vite'
+import { refDebounced } from '@vueuse/core'
+import { computed } from 'vue'
+import { Ai, Logout } from '~/assets/svgs-vite'
+import { useExpanded } from '~/composables/useExpanded'
 import { Badge } from '../ui/badge'
+import { Button } from '../ui/button'
+
+const expanded = useExpanded()
+const { isExpanded } = expanded.getExpanded()
+
+const debounced = refDebounced(isExpanded, 130)
+
+const showCard = computed((): boolean => {
+  return isExpanded.value ? debounced.value : false
+})
 </script>
 
 <template>
   <div
+    v-if="showCard"
     class="relative flex w-full flex-col items-start overflow-hidden rounded-lg border bg-neutral-50 md:shadow-sm p-2"
   >
     <div class="flex flex-col">
@@ -27,4 +41,7 @@ import { Badge } from '../ui/badge'
       </div>
     </div>
   </div>
+  <Button v-else variant="ghost" size="sm">
+    <Logout class="text-neutral-600 min-w-4 min-h-4" />
+  </Button>
 </template>

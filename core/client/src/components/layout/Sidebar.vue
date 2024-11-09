@@ -18,7 +18,7 @@ const routes = markRaw([
 <template>
   <div class="flex flex-col h-full items-center justify-between  bg-white border-r border-neutral-200 px-2 pt-4 pb-2">
     <div class="flex flex-col w-full">
-      <HippieNav :reviews="[]" />
+      <HippieNav />
       <MenuList :routes />
       <UpdateList />
     </div>

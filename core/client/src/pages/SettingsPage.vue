@@ -1,14 +1,13 @@
 <script setup lang="ts">
 import { useHead } from '@unhead/vue'
-import ReviewsGrid from '~/components/reviews/ReviewsGrid.vue'
 
 useHead({
-  title: '1CManager | Reviews',
+  title: '1CManager | Settings',
 })
 </script>
 
 <template>
   <div class="w-full h-full">
-    <ReviewsGrid />
+    settings page
   </div>
 </template>

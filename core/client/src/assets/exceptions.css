@@ -16,6 +16,15 @@
   --hippie-animate-duration: 0.225s;
 }
 
+.v-popper__inner {
+  font-size: 12px;
+  padding: 4px 10px !important;
+}
+
+.v-popper__arrow-container {
+  display: none !important;
+}
+
 .hippie-nav {
   box-sizing: border-box;
 }

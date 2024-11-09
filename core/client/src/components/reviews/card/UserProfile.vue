@@ -11,7 +11,7 @@ defineProps<{
       <AvatarFallback>CN</AvatarFallback>
     </Avatar> -->
     <div class="flex items-center">
-      <span class="text-sm text-neutral-500">{{ email }}</span>
+      <span class="text-xs text-neutral-500">{{ email }}</span>
     </div>
   </div>
 </template>

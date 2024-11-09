@@ -1,6 +1,7 @@
 <script setup lang="ts" generic="T extends MenuItem">
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
+import { useExpanded } from '~/composables/useExpanded'
 import { Button } from '../ui/button'
 
 export interface MenuItem {
@@ -17,25 +18,37 @@ defineProps<{
 const route = useRoute()
 
 const isActiveRoute = computed(() => (path: string) => route.path === path)
+
+const expanded = useExpanded()
+
+const { isExpanded } = expanded.getExpanded()
 </script>
 
 <template>
-  <div class="text-sm text-neutral-400 font-medium w-full px-2 flex items-center gap-2 mt-5">
-    <span class="text-[13px] sm:text-sm">Menu</span>
+  <div
+    class="text-sm text-neutral-400 font-medium w-full flex items-center gap-2 mt-5"
+    :class="[isExpanded ? 'px-2' : 'px-0']"
+  >
+    <span :class="[isExpanded ? '2xl:text-[13px] sm:text-sm' : '2xl:text-[12px] sm:text-xs']">Menu</span>
   </div>
   <div class="flex flex-col space-y-1.5 w-full mt-2">
     <RouterLink
       v-for="{ name, path, label, icon } in routes"
       :key="name"
+      v-tooltip.right="{
+        content: label,
+        triggers: ['hover'],
+        disabled: isExpanded,
+      }"
       :to="path"
       class="text-sm font-semibolds w-full"
     >
-      <Button :variant="isActiveRoute(path) ? 'secondary' : 'ghost'" size="sm" class="w-full justify-between px-2">
+      <Button :variant="isActiveRoute(path) ? 'secondary' : 'ghost'" size="sm" class="w-full px-2" :class="[isExpanded ? 'justify-between' : 'justify-center']">
         <div class="flex items-center">
-          <component :is="icon" class="w-4 h-4 mr-2 text-neutral-900" />
-          <span class="2xl:text-[13px] md:text-sm">{{ label }}</span>
+          <component :is="icon" class="w-4 h-4 text-neutral-900" :class="[isExpanded ? 'mr-2' : 'mr-0']" />
+          <span v-if="isExpanded" class="2xl:text-[13px] md:text-sm">{{ label }}</span>
         </div>
-        <Badge v-if="path === '/' || path === '/notifications'" variant="outline" class="px-2 py-0 text-xs bg-blue-500 rounded-lg">
+        <Badge v-if="(path === '/' || path === '/notifications') && isExpanded" variant="outline" class="px-1.5 py-0 text-xs bg-blue-600 rounded-md">
           <!-- TODO -->
           <span class="text-[10px] text-white">{{ path === '/' ? '10' : '3' }}</span>
         </Badge>
