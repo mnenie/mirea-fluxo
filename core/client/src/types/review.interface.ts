@@ -6,5 +6,5 @@ export interface Review {
   email: string
   date: Date
   status: reviewStatus
-  start: number
+  stars: number
 }
