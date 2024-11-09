@@ -3,7 +3,7 @@ import ReviewsGrid from '~/components/reviews/ReviewsGrid.vue'
 </script>
 
 <template>
-  <div class="w-full h-full p-20">
+  <div class="w-full h-full px-20">
     <ReviewsGrid />
   </div>
 </template>

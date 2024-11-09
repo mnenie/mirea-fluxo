@@ -98,7 +98,7 @@ useLocalStorage('sidebar-size', sidebarSize)
       </ResizablePanel>
       <!-- <ResizableHandle id="handle-demo-handle-1" with-handle /> -->
       <ResizablePanel id="handle-demo-panel-2" :default-size="86">
-        <div class="flex items-center justify-center p-6 bg-neutral-50 h-full">
+        <div class="flex items-center justify-center px-6 bg-neutral-50 h-full">
           <slot />
         </div>
       </ResizablePanel>
