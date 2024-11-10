@@ -3,4 +3,6 @@ export enum Routes {
   archive = 'archive',
   settings = 'settings',
   notifications = 'notifications',
+  signin = 'signin',
+  signup = 'signup',
 }

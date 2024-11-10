@@ -20,6 +20,7 @@
 
 /**
  * @typedef {object} Review
+ * @property {string} _id - The unique identifier for the review.
  * @property {string} title - The title of the review.
  * @property {string} content - The content of the review.
  * @property {string} email - The email address of the user who created the review.

@@ -1,7 +1,10 @@
 import type { AppRouterRecord } from './types'
 import { createRouter, createWebHistory } from 'vue-router'
+import AuthLayout from '~/layouts/AuthLayout.vue'
 import DefaultLayout from '~/layouts/DefaultLayout.vue'
 import { Routes } from '~/utils/contants'
+
+// TODO (@mnenie): fix requiresAuth and add middlewares
 
 const routes = [
   {
@@ -38,6 +41,24 @@ const routes = [
     meta: {
       requiresAuth: false,
       layout: DefaultLayout,
+    },
+  },
+  {
+    name: Routes.signin,
+    path: '/user/sign-in',
+    component: () => import('~/pages/SignInPage.vue'),
+    meta: {
+      requiresAuth: false,
+      layout: AuthLayout,
+    },
+  },
+  {
+    name: Routes.signup,
+    path: '/user/sign-up',
+    component: () => import('~/pages/SignUpPage.vue'),
+    meta: {
+      requiresAuth: false,
+      layout: AuthLayout,
     },
   },
 ] satisfies readonly AppRouterRecord[]
