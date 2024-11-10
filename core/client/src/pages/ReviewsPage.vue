@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useHead } from '@unhead/vue'
-import ReviewsGrid from '~/components/reviews/ReviewsGrid.vue'
+import ReviewTable from '~/components/reviews/ReviewTable.vue'
 
 useHead({
   title: '1CManager | Reviews',
@@ -9,6 +9,6 @@ useHead({
 
 <template>
   <div class="w-full h-full">
-    <ReviewsGrid />
+    <ReviewTable />
   </div>
 </template>
