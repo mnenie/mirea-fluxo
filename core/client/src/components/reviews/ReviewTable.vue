@@ -57,7 +57,9 @@ const [DefineTemplate, ReuseTemplate] = createReusableTemplate()
 <template>
   <div ref="el" class="overflow-y-auto h-full w-full bg-white shadow-sm rounded-md">
     <Table>
-      <TableCaption>A list of your recent invoices.</TableCaption>
+      <TableCaption class="pb-4">
+        A list of your recent invoices.
+      </TableCaption>
       <TableHeader>
         <!-- reusable temlate -->
         <DefineTemplate v-slot="{ content, icon, width }">
@@ -70,7 +72,7 @@ const [DefineTemplate, ReuseTemplate] = createReusableTemplate()
         </DefineTemplate>
 
         <TableRow>
-          <ReuseTemplate content="ID" width="w-1/12" />
+          <ReuseTemplate content="ID" width="w-[200px]" />
           <ReuseTemplate content="Status" :icon="StatusTable" />
           <ReuseTemplate
             content="
@@ -79,7 +81,7 @@ const [DefineTemplate, ReuseTemplate] = createReusableTemplate()
           />
           <ReuseTemplate content="Heading" :icon="Heading" />
           <ReuseTemplate content="Rating" :icon="RatingSvg" />
-          <ReuseTemplate content="Calendar" :icon="Calendar" />
+          <ReuseTemplate content="Calendar" :icon="Calendar" width="w-[200px]" />
         </TableRow>
       </TableHeader>
       <TableBody>
