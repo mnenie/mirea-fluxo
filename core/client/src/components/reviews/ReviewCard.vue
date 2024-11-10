@@ -29,14 +29,13 @@ const sheet = useTemplateRef<InstanceType<typeof Sheet> | null>('sheet')
 const isReview = computed(() => route.name === Routes.review)
 
 function toggleModalRoute() {
-  if (sheet.value && !sheet.value.open) {
+  if (sheet.value && !sheet.value.open && route.name === Routes.review) {
     router.back()
   }
 }
 onBeforeMount(() => {
-  if (isReview.value) {
-    router.back()
-  }
+  if (isReview.value)
+    router.push({ name: Routes.reviews })
 })
 </script>
 
@@ -45,7 +44,7 @@ onBeforeMount(() => {
     <SheetTrigger as-child>
       <button
         class="flex flex-col bg-white items-start gap-2 rounded-lg border p-3 text-left text-sm transition-all hover:bg-accent cursor-pointer"
-        @click="$router.push(`/reviews/${1}`)"
+        @click="router.push(`/reviews/${1}`)"
       >
         <div class="space-y-2">
           <div class="flex flex-row items-center justify-between">
