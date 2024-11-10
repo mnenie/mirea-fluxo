@@ -43,7 +43,7 @@ createContext({
         <Sidebar />
       </ResizablePanel>
       <ResizablePanel id="handle-demo-panel-2">
-        <div class="flex items-center justify-center p-6 bg-neutral-50 h-full">
+        <div class="flex items-center justify-center p-4 bg-neutral-50 h-full">
           <slot />
         </div>
       </ResizablePanel>

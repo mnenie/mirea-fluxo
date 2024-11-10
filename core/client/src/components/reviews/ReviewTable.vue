@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { useInfiniteScroll } from '@vueuse/core'
-import { ref } from 'vue'
+import { createReusableTemplate } from '@vueuse/core'
+import { computed, ref } from 'vue'
+import { Calendar, Heading, Rating as RatingSvg, StatusTable, User } from '~/assets/svgs-vite'
+import { cn } from '~/lib/utils'
 import { useReviewStore } from '~/stores/reviews'
 import type { Review } from '~/types/review.interface'
 import Badge from '../ui/badge/Badge.vue'
-import Button from '../ui/button/Button.vue'
 import {
   Table,
   TableBody,
@@ -20,66 +21,78 @@ const reviewStore = useReviewStore()
 
 const el = ref<HTMLElement | null>(null)
 
-const noNewReviews = ref<boolean>(false)
+// const noNewReviews = ref<boolean>(false)
 
-async function onLoadMore() {
-  if (noNewReviews.value) {
-    return
-  }
-  reviewStore.fetchReviews()
-}
+// async function onLoadMore() {
+//   if (noNewReviews.value) {
+//     return
+//   }
+//   reviewStore.fetchReviews()
+// }
 
-const colorsMap = new Map<Review['status'], string>([
-  ['not verified', '#3b82f6'],
-  ['consideration', '#fbbf24'],
-  ['verified', '#16a34a'],
-])
+// TODO: reactivity / obj link issue (возможно, создам репродюс чтобы решить и оптимизировать)
 
-// const statusColor = computed(() => colorsMap.get(props.review.status))
+const colorMap: Record<Review['status'], string> = {
+  'not verified': 'bg-blue-100',
+  'consideration': 'bg-amber-100',
+  'verified': 'bg-green-100',
+} as const
 
-useInfiniteScroll(el, onLoadMore, { distance: 10 })
+const textColorMap: Record<Review['status'], string> = {
+  'not verified': 'text-blue-600',
+  'consideration': 'text-amber-600',
+  'verified': 'text-green-900',
+} as const
+
+const statusColor = computed(() => (status: Review['status']) => colorMap[status] || '')
+const textColor = computed(() => (status: Review['status']) => textColorMap[status] || '')
+
+// TODO (@sv022): надо поправить сайт из за того что бесконечно подругжается грузится на 587мБ ))
+// я думаю мб пагинацию ? https://www.shadcn-vue.com/docs/components/pagination.html
+// useInfiniteScroll(el, onLoadMore, { distance: 10 })
+
+const [DefineTemplate, ReuseTemplate] = createReusableTemplate()
 </script>
 
 <template>
-  <div ref="el" class="overflow-y-auto h-full w-full">
+  <div ref="el" class="overflow-y-auto h-full w-full bg-white shadow-sm rounded-md">
     <Table>
       <TableCaption>A list of your recent invoices.</TableCaption>
       <TableHeader>
+        <!-- reusable temlate -->
+        <DefineTemplate v-slot="{ content, icon, width }">
+          <TableHead :class="width">
+            <div class="flex justify-start items-center gap-2">
+              <component :is="icon" />
+              {{ content }}
+            </div>
+          </TableHead>
+        </DefineTemplate>
+
         <TableRow>
-          <TableHead class="w-[100px]">
-            #
-          </TableHead>
-          <TableHead class="w-[150px]">
-            <Button variant="ghost">
-              статус
-            </Button>
-          </TableHead>
-          <TableHead>
-            Отправитель
-          </TableHead>
-          <TableHead>
-            Заголовок
-          </TableHead>
-          <TableHead class="w-[150px]">
-            <Button variant="ghost">
-              Рейтинг
-            </Button>
-          </TableHead>
-          <TableHead>
-            <Button variant="ghost">
-              Дата
-            </Button>
-          </TableHead>
+          <ReuseTemplate content="ID" width="w-1/12" />
+          <ReuseTemplate content="Status" :icon="StatusTable" />
+          <ReuseTemplate
+            content="
+            Sender"
+            :icon="User"
+          />
+          <ReuseTemplate content="Heading" :icon="Heading" />
+          <ReuseTemplate content="Rating" :icon="RatingSvg" />
+          <ReuseTemplate content="Calendar" :icon="Calendar" />
         </TableRow>
       </TableHeader>
       <TableBody>
-        <TableRow v-for="review in reviewStore.reviews" :key="review.title">
+        <TableRow v-for="review in reviewStore.reviews" :key="review.title" class="cursor-pointer">
           <TableCell class="font-medium">
             {{ review._id }}
           </TableCell>
           <TableCell>
-            <Badge :style="{ 'background-color': colorsMap.get(review.status) }">
-              {{ review.status }}
+            <Badge
+              variant="outline"
+              :class="cn([statusColor(review.status), textColor(review.status), 'shadow-none border-none'])"
+            >
+              <span>{{ review.status }}</span>
             </Badge>
           </TableCell>
           <TableCell>

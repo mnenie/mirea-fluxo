@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { RatingStar } from '~/assets/svgs-vite'
+import { Badge } from '~/components/ui/badge'
 
 defineProps<{
   stars: number
@@ -8,7 +8,8 @@ defineProps<{
 
 <template>
   <div class="flex flex-row px-4">
-    <span class="2xl:text-[11px] text-xs text-neutral-500">{{ stars }}/5 </span>
-    <RatingStar class="w-2 h-2 text-blue-600" />
+    <Badge variant="outline" class="px-1 py-0 flex items-center gap-1">
+      <span class="2xl:text-[11px] text-xs text-neutral-600">{{ stars }} / 5</span>
+    </Badge>
   </div>
 </template>
