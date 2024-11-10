@@ -15,6 +15,14 @@ const routes = [
       requiresAuth: false,
       layout: DefaultLayout,
     },
+    children: [
+      {
+        name: Routes.review,
+        path: 'reviews/:id',
+        component: () => import('~/pages/ReviewSheetPage.vue'),
+      },
+    ],
+
   },
   {
     name: Routes.notifications,
