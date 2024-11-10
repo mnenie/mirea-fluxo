@@ -1,3 +1,7 @@
+<script setup lang="ts">
+import { SheetHeader } from '~/components/ui/sheet'
+</script>
+
 <template>
-  review
+  <SheetHeader>header</SheetHeader>
 </template>

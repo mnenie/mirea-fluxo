@@ -1,11 +1,15 @@
 <script setup lang="ts">
 import { createReusableTemplate } from '@vueuse/core'
-import { computed, ref } from 'vue'
+import { computed, onBeforeMount, ref, useTemplateRef } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { Calendar, Heading, Rating as RatingSvg, StatusTable, User } from '~/assets/svgs-vite'
+import { formatDate } from '~/helpers/formatDateHelper'
 import { cn } from '~/lib/utils'
 import { useReviewStore } from '~/stores/reviews'
 import type { Review } from '~/types/review.interface'
+import { Routes } from '~/utils/contants'
 import Badge from '../ui/badge/Badge.vue'
+import { Sheet, SheetContent, SheetTrigger } from '../ui/sheet'
 import {
   Table,
   TableBody,
@@ -47,11 +51,31 @@ const textColorMap: Record<Review['status'], string> = {
 const statusColor = computed(() => (status: Review['status']) => colorMap[status] || '')
 const textColor = computed(() => (status: Review['status']) => textColorMap[status] || '')
 
+const router = useRouter()
+const route = useRoute()
+
+const sheet = useTemplateRef<InstanceType<typeof Sheet> | null>('sheet')
+
+const isSheetOpen = ref(false)
+
+const isReview = computed(() => route.name === Routes.review)
+
+function toggleModalRoute() {
+  if (sheet.value && !sheet.value.open && route.name === Routes.review) {
+    router.back()
+  }
+}
+
 // TODO (@sv022): надо поправить сайт из за того что бесконечно подругжается грузится на 587мБ ))
 // я думаю мб пагинацию ? https://www.shadcn-vue.com/docs/components/pagination.html
 // useInfiniteScroll(el, onLoadMore, { distance: 10 })
 
 const [DefineTemplate, ReuseTemplate] = createReusableTemplate()
+
+onBeforeMount(() => {
+  if (isReview.value)
+    router.push({ name: Routes.reviews })
+})
 </script>
 
 <template>
@@ -85,31 +109,50 @@ const [DefineTemplate, ReuseTemplate] = createReusableTemplate()
         </TableRow>
       </TableHeader>
       <TableBody>
-        <TableRow v-for="review in reviewStore.reviews" :key="review.title" class="cursor-pointer">
-          <TableCell class="font-medium">
-            {{ review._id }}
-          </TableCell>
-          <TableCell>
-            <Badge
-              variant="outline"
-              :class="cn([statusColor(review.status), textColor(review.status), 'shadow-none border-none'])"
+        <Sheet ref="sheet" v-model:open="isSheetOpen" @update:open="toggleModalRoute">
+          <SheetTrigger as-child>
+            <TableRow
+              v-for="review in reviewStore.reviews"
+              :key="review.title"
+              class="cursor-pointer"
+              @click="router.push(`/reviews/${review._id}`), isSheetOpen = true"
             >
-              <span>{{ review.status }}</span>
-            </Badge>
-          </TableCell>
-          <TableCell>
-            {{ review.email }}
-          </TableCell>
-          <TableCell class="line-clamp-1 font-semibold">
-            {{ review.title }}
-          </TableCell>
-          <TableCell>
-            <Rating :stars="review.stars" />
-          </TableCell>
-          <TableCell>
-            {{ review.date }}
-          </TableCell>
-        </TableRow>
+              <TableCell>
+                <span class="line-clamp-1 text-neutral-500">{{ review._id }}</span>
+              </TableCell>
+              <TableCell>
+                <Badge
+                  variant="outline"
+                  :class="cn(
+                    [statusColor(review.status),
+                     textColor(review.status),
+                     'shadow-none border-none',
+                    ],
+                  )"
+                >
+                  <span>{{ review.status }}</span>
+                </Badge>
+              </TableCell>
+              <TableCell>
+                {{ review.email }}
+              </TableCell>
+              <TableCell>
+                <span class="line-clamp-1 font-semibold">{{ review.title }}</span>
+              </TableCell>
+              <TableCell>
+                <Rating :stars="review.stars" />
+              </TableCell>
+              <TableCell>
+                <div class="px-2">
+                  {{ formatDate(review.date) }}
+                </div>
+              </TableCell>
+            </TableRow>
+          </SheetTrigger>
+          <SheetContent class="min-w-[500px] !max-w-full w-1/3">
+            <RouterView />
+          </SheetContent>
+        </Sheet>
       </TableBody>
     </Table>
   </div>
