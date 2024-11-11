@@ -3,23 +3,18 @@ import { createReusableTemplate } from '@vueuse/core'
 import { computed, onBeforeMount, ref, useTemplateRef } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { Calendar, Heading, Rating as RatingSvg, StatusTable, User } from '~/assets/svgs-vite'
-import { formatDate } from '~/helpers/formatDateHelper'
-import { cn } from '~/lib/utils'
 import { useReviewStore } from '~/stores/reviews'
-import type { Review } from '~/types/review.interface'
 import { Routes } from '~/utils/contants'
-import Badge from '../ui/badge/Badge.vue'
 import { Sheet, SheetContent, SheetTrigger } from '../ui/sheet'
 import {
   Table,
   TableBody,
   TableCaption,
-  TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from '../ui/table/'
-import Rating from './card/Rating.vue'
+import ReviewRow from './table/ReviewRow.vue'
 
 const reviewStore = useReviewStore()
 
@@ -35,21 +30,6 @@ const el = ref<HTMLElement | null>(null)
 // }
 
 // TODO: reactivity / obj link issue (возможно, создам репродюс чтобы решить и оптимизировать)
-
-const colorMap: Record<Review['status'], string> = {
-  'not verified': 'bg-blue-100',
-  'consideration': 'bg-amber-100',
-  'verified': 'bg-green-100',
-} as const
-
-const textColorMap: Record<Review['status'], string> = {
-  'not verified': 'text-blue-600',
-  'consideration': 'text-amber-600',
-  'verified': 'text-green-900',
-} as const
-
-const statusColor = computed(() => (status: Review['status']) => colorMap[status] || '')
-const textColor = computed(() => (status: Review['status']) => textColorMap[status] || '')
 
 const router = useRouter()
 const route = useRoute()
@@ -111,43 +91,7 @@ onBeforeMount(() => {
       <TableBody>
         <Sheet ref="sheet" v-model:open="isSheetOpen" @update:open="toggleModalRoute">
           <SheetTrigger as-child>
-            <TableRow
-              v-for="review in reviewStore.reviews"
-              :key="review.title"
-              class="cursor-pointer"
-              @click="router.push(`/reviews/${review._id}`), isSheetOpen = true"
-            >
-              <TableCell>
-                <span class="line-clamp-1 text-neutral-500">{{ review._id }}</span>
-              </TableCell>
-              <TableCell>
-                <Badge
-                  variant="outline"
-                  :class="cn(
-                    [statusColor(review.status),
-                     textColor(review.status),
-                     'shadow-none border-none',
-                    ],
-                  )"
-                >
-                  <span>{{ review.status }}</span>
-                </Badge>
-              </TableCell>
-              <TableCell>
-                {{ review.email }}
-              </TableCell>
-              <TableCell>
-                <span class="line-clamp-1 font-semibold">{{ review.title }}</span>
-              </TableCell>
-              <TableCell>
-                <Rating :stars="review.stars" />
-              </TableCell>
-              <TableCell>
-                <div class="px-2">
-                  {{ formatDate(review.date) }}
-                </div>
-              </TableCell>
-            </TableRow>
+            <ReviewRow v-for="review in reviewStore.reviews" :key="review.title" :review="review" class="cursor-pointer" @click="router.push(`/reviews/${review._id}`), isSheetOpen = true" />
           </SheetTrigger>
           <SheetContent class="min-w-[500px] !max-w-full w-1/3">
             <RouterView />
