@@ -40,6 +40,11 @@ function selectReviewPage(page: number, itemsPerPage: number) {
   reviewsPage.value = reviewStore.getPaginatedReviews(page, itemsPerPage)
 }
 
+function updateItemsPerPage(newItemsPerPage: number) {
+  itemsPerPage.value = newItemsPerPage
+  selectReviewPage(currentPage.value, itemsPerPage.value)
+}
+
 selectReviewPage(1, itemsPerPage.value)
 
 const router = useRouter()
@@ -116,27 +121,46 @@ onBeforeMount(() => {
         </Sheet>
       </TableBody>
     </Table>
-    <Pagination v-slot="{ page }" :total="reviewStore.reviews.length / 5" :sibling-count="1" show-edges :default-page="1" class="m-2">
-      <PaginationList v-slot="{ items }" class="flex items-center gap-1">
-        <PaginationFirst @click="selectReviewPage(1, itemsPerPage)" />
-        <PaginationPrev @click="selectReviewPage(currentPage - 1, itemsPerPage)" />
+    <div class="flex flex-row">
+      <Pagination v-slot="{ page }" :total="reviewStore.reviews.length / (itemsPerPage / 10)" :sibling-count="1" show-edges :default-page="1" class="m-2">
+        <PaginationList v-slot="{ items }" class="flex items-center gap-1">
+          <PaginationFirst @click="selectReviewPage(1, itemsPerPage)" />
+          <PaginationPrev @click="selectReviewPage(currentPage - 1, itemsPerPage)" />
 
-        <template v-for="(item, index) in items">
-          <PaginationListItem v-if="item.type === 'page'" :key="index" :value="item.value" as-child>
-            <Button
-              class="w-10 h-10 p-0"
-              :variant="item.value === page ? 'default' : 'outline'"
-              @click="selectReviewPage(item.value, itemsPerPage)"
-            >
-              {{ item.value }}
-            </Button>
-          </PaginationListItem>
-          <PaginationEllipsis v-else :key="item.type" :index="index" />
-        </template>
+          <template v-for="(item, index) in items">
+            <PaginationListItem v-if="item.type === 'page'" :key="index" :value="item.value" as-child>
+              <Button
+                class="w-10 h-10 p-0"
+                :variant="item.value === page ? 'default' : 'outline'"
+                @click="selectReviewPage(item.value, itemsPerPage)"
+              >
+                {{ item.value }}
+              </Button>
+            </PaginationListItem>
+            <PaginationEllipsis v-else :key="item.type" :index="index" />
+          </template>
 
-        <PaginationNext @click="selectReviewPage(currentPage + 1, itemsPerPage)" />
-        <PaginationLast @click="selectReviewPage(reviewStore.reviews.length / 50, itemsPerPage)" />
-      </PaginationList>
-    </Pagination>
+          <PaginationNext @click="selectReviewPage(currentPage + 1, itemsPerPage)" />
+          <PaginationLast @click="selectReviewPage(reviewStore.reviews.length / 50, itemsPerPage)" />
+        </PaginationList>
+      </Pagination>
+      <div class="flex flex-row ml-[50%] items-center space-x-2">
+        <span class="text-sm text-muted-foreground">Отображать на странице: </span>
+        <Button
+          variant="ghost"
+          class="w-9"
+          @click="updateItemsPerPage(50)"
+        >
+          50
+        </Button>
+        <Button
+          variant="ghost"
+          class="w-9"
+          @click="updateItemsPerPage(100)"
+        >
+          100
+        </Button>
+      </div>
+    </div>
   </div>
 </template>
