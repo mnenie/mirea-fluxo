@@ -29,7 +29,7 @@ const [DefineTemplate, ReuseTemplate] = createReusableTemplate()
         class="min-w-[15px] min-h-[15px] text-neutral-900"
         :class="[isExpanded ? 'mr-2' : 'mr-0']"
       />
-      <span v-show="isExpanded" class="text-sm md:text-[13px]">Smart Kanban</span>
+      <span v-show="isExpanded" class="text-sm md:text-[13px] 2xl:text-sm">Smart Kanban</span>
     </div>
 
     <DefineTemplate v-slot="{ content, variant }">

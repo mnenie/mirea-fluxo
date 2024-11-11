@@ -32,7 +32,7 @@ const [DefineTemplate, ReuseTemplate] = createReusableTemplate()
         class=" text-neutral-500"
         :class="[isExpanded ? 'min-w-[16px] min-h-[16px] mr-2' : 'w-[17px] h-[17px] mr-0']"
       />
-      <span v-show="isExpanded" class="2xl:text-[13px] text-sm md:text-[13px] text-neutral-500">Search</span>
+      <span v-show="isExpanded" class="2xl:text-sm text-sm md:text-[13px] text-neutral-500">Search</span>
     </div>
 
     <DefineTemplate v-slot="{ content }">

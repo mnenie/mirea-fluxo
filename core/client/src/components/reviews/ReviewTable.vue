@@ -55,7 +55,7 @@ onBeforeMount(() => {
           <TableHead :class="width">
             <div class="flex justify-start items-center gap-2">
               <component :is="icon" />
-              <span class="2xl:text-[13px] text-sm md:text-[13px]">{{ content }}</span>
+              <span class="2xl:text-sm text-sm md:text-[13px]">{{ content }}</span>
             </div>
           </TableHead>
         </DefineTemplate>

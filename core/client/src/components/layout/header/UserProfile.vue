@@ -52,7 +52,7 @@ const emits = defineEmits<{
       <Badge variant="secondary" class="py-[0px] px-1.5">
         <span class="sm:text-[10px] 2xl:text-[11px] text-neutral-600">commercial</span>
       </Badge>
-      <span class="text-sm md:text-[13px] font-semibold text-neutral-800">
+      <span class="text-sm md:text-[13px] 2xl:text-sm font-semibold text-neutral-800">
         1alexpeshkov@gmail.com
       </span>
     </div>

@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useExpanded } from '~/composables/useExpanded'
+import { cn } from '~/lib/utils'
 import { Button } from '../ui/button'
 
 export interface MenuItem {
@@ -43,14 +44,19 @@ const { isExpanded } = expanded.getExpanded()
       :to="path"
       class="text-sm font-semibolds w-full"
     >
-      <Button :variant="isActiveRoute(path) ? 'secondary' : 'ghost'" size="sm" class="w-full px-2" :class="[isExpanded ? 'justify-between' : 'justify-center']">
+      <Button
+        :variant="isActiveRoute(path) ? 'secondary' : 'ghost'"
+        size="sm"
+        class="w-full px-2"
+        :class="cn([isExpanded ? 'justify-between' : 'justify-center'], [isActiveRoute(path) ? '' : 'text-neutral-600'])"
+      >
         <div class="flex items-center">
           <component
             :is="icon"
             class="text-neutral-900 min-w-[15px] min-h-[15px]"
-            :class="[isExpanded ? 'mr-2' : 'mr-0']"
+            :class="cn([isExpanded ? 'mr-2' : 'mr-0'], [isActiveRoute(path) ? '' : 'text-neutral-600'])"
           />
-          <span v-if="isExpanded" class="2xl:text-[13px] text-sm md:text-[13px]">{{ label }}</span>
+          <span v-if="isExpanded" class="2xl:text-sm text-sm md:text-[13px]">{{ label }}</span>
         </div>
         <Badge v-if="(path === '/' || path === '/notifications') && isExpanded" variant="outline" class="px-1.5 py-0 text-xs bg-blue-600 rounded-md">
           <!-- TODO -->

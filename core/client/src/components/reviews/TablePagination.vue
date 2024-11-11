@@ -27,8 +27,8 @@ const [DefineTemplate, ReuseTemplate] = createReusableTemplate()
 </script>
 
 <template>
-  <div class="absolute w-full bottom-0 flex flex-row items-center justify-between">
-    <Pagination v-slot="{ page }" :total="reviews.length / (itemsPerPage / 10)" :sibling-count="1" show-edges :default-page="1" class="m-2 mb-0">
+  <div class="absolute w-full bottom-0 flex flex-row items-stretch justify-between mt-6">
+    <Pagination v-slot="{ page }" :total="reviews.length / (itemsPerPage / 10)" :sibling-count="1" show-edges :default-page="1" class="mb-0">
       <PaginationList v-slot="{ items }" class="flex items-center gap-1">
         <PaginationFirst @click="selectReviewPage(1, itemsPerPage)" />
         <PaginationPrev @click="selectReviewPage(currentPage - 1, itemsPerPage)" />
@@ -42,7 +42,7 @@ const [DefineTemplate, ReuseTemplate] = createReusableTemplate()
           >
             <Button
               size="sm"
-              class="w-9 h-9 p-0"
+              class="w-9 h-9 2xl:h-[34px] 2xl:w-[34px] p-0"
               :class="[item.value === page ? 'border border-dashed border-neutral-300' : '']"
               :variant="item.value === page ? 'secondary' : 'outline'"
               @click="selectReviewPage(item.value, itemsPerPage)"
@@ -63,10 +63,11 @@ const [DefineTemplate, ReuseTemplate] = createReusableTemplate()
       <DefineTemplate v-slot="{ count }">
         <Button
           :variant="isActiveBtn(count) ? 'secondary' : 'ghost'"
-          class="w-9"
+          class="w-9 2xl:h-[34px] 2xl:w-[34px]"
+          size="sm"
           @click="updateItemsPerPage(count)"
         >
-          {{ count }}
+          <span class="text-sm text-neutral-500 font-medium">{{ count }}</span>
         </Button>
       </DefineTemplate>
 
@@ -76,7 +77,3 @@ const [DefineTemplate, ReuseTemplate] = createReusableTemplate()
     </div>
   </div>
 </template>
-
-<style lang="scss" scoped>
-
-</style>
