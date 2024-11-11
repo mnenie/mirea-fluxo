@@ -16,13 +16,16 @@
     "@noction/hippie-nav": "^0.7.7",
     "@radix-icons/vue": "^1.0.0",
     "@unhead/vue": "^1.11.11",
+    "@vee-validate/zod": "^4.14.7",
     "@vueuse/core": "^11.2.0",
     "@vueuse/motion": "^2.2.6",
     "floating-vue": "^5.2.2",
     "pinia": "^2.2.6",
     "radix-vue": "^1.9.9",
+    "vee-validate": "^4.14.7",
     "vue": "^3.5.12",
-    "vue-router": "^4.4.5"
+    "vue-router": "^4.4.5",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@inspira-ui/plugins": "^0.0.1",

@@ -1,9 +1,9 @@
 <template>
   <div class="main-container relative w-full min-h-dvh h-full grid mx-auto my-0 overflow-hidden">
-    <div class="header flex justify-center items-center">
+    <div class="header flex h-40 justify-center items-center">
       <img src="https://cdn.icon-icons.com/icons2/2148/PNG/512/c_icon_132654.png" alt="logo" class="w-16 h-16">
     </div>
-    <div class="main flex flex-col justify-center items-center -mt-8">
+    <div class="main flex flex-col items-center py-10">
       <slot />
     </div>
     <div class="footer flex justify-center items-center pb-6 gap-6 flex-col">
