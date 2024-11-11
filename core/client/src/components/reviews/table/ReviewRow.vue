@@ -5,6 +5,7 @@ import { TableCell, TableRow } from '~/components/ui/table/'
 import { formatDate } from '~/helpers/formatDateHelper'
 import { cn } from '~/lib/utils'
 import type { Review } from '~/types/review.interface'
+import Rating from '../card/Rating.vue'
 
 const props = defineProps<{
   review: Review

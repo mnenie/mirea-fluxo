@@ -20,9 +20,16 @@ const [DefineTemplate, ReuseTemplate] = createReusableTemplate()
     <span class="2xl:text-[13px] text-sm text-ellipsis w-full overflow-hidden whitespace-nowrap">AI Proposal</span>
   </div>
   <Button disabled variant="ghost" size="sm" class="relative w-full justify-between px-2">
-    <div class="flex items-center">
-      <component :is="AiStars" class="w-4 h-4 mr-2 text-neutral-900" />
-      <span v-show="isExpanded" class="text-[13px]">Smart Kanban</span>
+    <div
+      class="flex items-center w-full"
+      :class="[isExpanded ? '' : 'justify-center']"
+    >
+      <component
+        :is="AiStars"
+        class="min-w-[15px] min-h-[15px] text-neutral-900"
+        :class="[isExpanded ? 'mr-2' : 'mr-0']"
+      />
+      <span v-show="isExpanded" class="text-sm md:text-[13px]">Smart Kanban</span>
     </div>
 
     <DefineTemplate v-slot="{ content, variant }">

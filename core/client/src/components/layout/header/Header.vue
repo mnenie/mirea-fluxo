@@ -44,7 +44,7 @@ const icon = computed(() => {
         <div class="z-10 flex items-center justify-center">
           <ShimmerButton
             shimmer-size="2px"
-            class="h-8 px-4 py-2 rounded-md flex items-center gap-2 bg-white"
+            class="h-9 2xl:h-8 px-4 py-2 rounded-md flex items-center gap-2 bg-white"
             @click="redirect('https://github.com/mnenie/iptip-hack-2024')"
           >
             <span
@@ -55,8 +55,8 @@ const icon = computed(() => {
           </ShimmerButton>
         </div>
         <div class="h-10 rounded-md flex items-center gap-3">
-          <Check v-tooltip.bottom="'Open Source'" class="w-4 h-4 text-neutral-600" />
-          <Notifications class="w-[17px] h-[17px] text-neutral-600" />
+          <Check v-tooltip.bottom="'Open Source'" class="w-[15px] h-[15px] 2xl:w-4 2xl:h-4 text-neutral-600" />
+          <Notifications class="w-[15px] h-[15px] 2xl:w-[17px] 2xl:h-[17px] text-neutral-600 cursor-pointer" />
         </div>
       </div>
     </div>

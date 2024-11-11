@@ -38,11 +38,11 @@ const emits = defineEmits<{
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem>
-            <span class="text-xs font-medium">Go to Welcome</span>
+            <span class="2xl:text-xs text-sm font-medium">Go to Welcome</span>
             <DropdownMenuShortcut>⇧P</DropdownMenuShortcut>
           </DropdownMenuItem>
           <DropdownMenuItem>
-            <span class="text-xs font-medium">Logout</span>
+            <span class="2xl:text-xs text-sm font-medium">Logout</span>
             <DropdownMenuShortcut>⌘X</DropdownMenuShortcut>
           </DropdownMenuItem>
         </DropdownMenuGroup>
@@ -52,7 +52,7 @@ const emits = defineEmits<{
       <Badge variant="secondary" class="py-[0px] px-1.5">
         <span class="sm:text-[10px] 2xl:text-[11px] text-neutral-600">commercial</span>
       </Badge>
-      <span class="text-sm font-semibold text-neutral-800">
+      <span class="text-sm md:text-[13px] font-semibold text-neutral-800">
         1alexpeshkov@gmail.com
       </span>
     </div>

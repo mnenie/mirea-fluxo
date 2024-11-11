@@ -24,9 +24,15 @@ const [DefineTemplate, ReuseTemplate] = createReusableTemplate()
     :class="[isExpanded ? 'shadow-sm' : 'shadow-none']"
     @click="emits('openModal')"
   >
-    <div class="flex items-center">
-      <Search class="w-4 h-4 mr-2 text-neutral-500" />
-      <span v-show="isExpanded" class="2xl:text-[13px] sm:text-sm text-neutral-500">Search</span>
+    <div
+      class="flex items-center w-full"
+      :class="[isExpanded ? '' : 'justify-center']"
+    >
+      <Search
+        class=" text-neutral-500"
+        :class="[isExpanded ? 'min-w-[16px] min-h-[16px] mr-2' : 'w-[17px] h-[17px] mr-0']"
+      />
+      <span v-show="isExpanded" class="2xl:text-[13px] text-sm md:text-[13px] text-neutral-500">Search</span>
     </div>
 
     <DefineTemplate v-slot="{ content }">

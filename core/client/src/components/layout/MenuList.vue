@@ -29,7 +29,7 @@ const { isExpanded } = expanded.getExpanded()
     class="text-sm text-neutral-400 font-medium w-full flex items-center gap-2 mt-5"
     :class="[isExpanded ? 'px-2' : 'px-0']"
   >
-    <span :class="[isExpanded ? '2xl:text-[13px] sm:text-sm' : '2xl:text-[12px] sm:text-xs']">Menu</span>
+    <span :class="[isExpanded ? '2xl:text-[13px] text-sm' : '2xl:text-[12px] text-xs']">Menu</span>
   </div>
   <div class="flex flex-col space-y-1.5 w-full mt-2">
     <RouterLink
@@ -45,8 +45,12 @@ const { isExpanded } = expanded.getExpanded()
     >
       <Button :variant="isActiveRoute(path) ? 'secondary' : 'ghost'" size="sm" class="w-full px-2" :class="[isExpanded ? 'justify-between' : 'justify-center']">
         <div class="flex items-center">
-          <component :is="icon" class="w-4 h-4 text-neutral-900" :class="[isExpanded ? 'mr-2' : 'mr-0']" />
-          <span v-if="isExpanded" class="2xl:text-[13px] md:text-sm">{{ label }}</span>
+          <component
+            :is="icon"
+            class="text-neutral-900 min-w-[15px] min-h-[15px]"
+            :class="[isExpanded ? 'mr-2' : 'mr-0']"
+          />
+          <span v-if="isExpanded" class="2xl:text-[13px] text-sm md:text-[13px]">{{ label }}</span>
         </div>
         <Badge v-if="(path === '/' || path === '/notifications') && isExpanded" variant="outline" class="px-1.5 py-0 text-xs bg-blue-600 rounded-md">
           <!-- TODO -->

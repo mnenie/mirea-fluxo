@@ -1,10 +1,10 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { ref } from 'vue'
+import { shallowRef } from 'vue'
 import type { Review } from '~/types/review.interface'
 
 export const useReviewStore = defineStore('reviews', () => {
-  // TODO(@sv022): shallowRef вместо ref (после получения норм данных с бэка)
-  const reviews = ref<Review[]>([])
+  const reviews = shallowRef<Review[]>([])
+  const reviewsPage = shallowRef<Review[]>([])
 
   // temporary for testing reviews pagination - remove later
   for (let index = 0; index < 147; index++) {
@@ -13,7 +13,7 @@ export const useReviewStore = defineStore('reviews', () => {
 
   const fetchReviews = async function () {
     const response = await (await fetch('https://raw.githubusercontent.com/sv022/MockDB/refs/heads/main/ReviewService/reviews.json')).json()
-    reviews.value.push(...response)
+    reviews.value = response
   }
 
   const getPaginatedReviews = function (page: number, itemsPerPage: number) {
@@ -25,8 +25,14 @@ export const useReviewStore = defineStore('reviews', () => {
     return paginatedReviews
   }
 
+  function updateReviews(page: number, items: number) {
+    reviewsPage.value = getPaginatedReviews(page, items)
+  }
+
   return {
     reviews,
+    reviewsPage,
+    updateReviews,
     fetchReviews,
     getPaginatedReviews,
   }

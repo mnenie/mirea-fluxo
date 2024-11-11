@@ -42,6 +42,6 @@ const showCard = computed((): boolean => {
     </div>
   </div>
   <Button v-else variant="ghost" size="sm">
-    <Logout class="text-neutral-600 min-w-4 min-h-4" />
+    <Logout class="text-neutral-600 min-w-[15px] min-h-[15px]" />
   </Button>
 </template>
