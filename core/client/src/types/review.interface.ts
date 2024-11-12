@@ -1,4 +1,5 @@
 export type Status = 'not verified' | 'consideration' | 'verified'
+type Department = 'marketing' | 'design' | 'development' | 'sales' | 'general'
 
 export interface Review {
   _id: string
@@ -7,5 +8,6 @@ export interface Review {
   email: string
   date: Date
   status: Status
+  department?: Department
   stars: number
 }

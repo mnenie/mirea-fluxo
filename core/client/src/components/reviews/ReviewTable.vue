@@ -3,7 +3,8 @@ import { createReusableTemplate } from '@vueuse/core'
 import { storeToRefs } from 'pinia'
 import { computed, onBeforeMount, ref, useTemplateRef } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { Calendar, Heading, Rating as RatingSvg, StatusTable, User } from '~/assets/svgs-vite'
+import { Calendar, Department, Heading, Rating as RatingSvg, StatusTable, User } from '~/assets/svgs-vite'
+import { cn } from '~/lib/utils'
 import { useReviewStore } from '~/stores/reviews'
 import { Routes } from '~/utils/contants'
 import { Sheet, SheetContent, SheetTrigger } from '../ui/sheet'
@@ -44,7 +45,7 @@ onBeforeMount(() => {
 </script>
 
 <template>
-  <div class="overflow-y-auto h-[calc(100dvh-200px)] w-full bg-white shadow-sm rounded-md">
+  <div class="overflow-y-auto h-[calc(100dvh-200px)] w-full bg-white shadow rounded-md">
     <Table>
       <TableCaption class="pb-4">
         A list of all reviews.
@@ -52,7 +53,7 @@ onBeforeMount(() => {
       <TableHeader>
         <!-- reusable temlate -->
         <DefineTemplate v-slot="{ content, icon, width }">
-          <TableHead :class="width">
+          <TableHead :class="cn(width, [content === 'ID' && 'pl-10'])">
             <div class="flex justify-start items-center gap-2">
               <component :is="icon" />
               <span class="2xl:text-sm text-sm md:text-[13px]">{{ content }}</span>
@@ -62,11 +63,13 @@ onBeforeMount(() => {
 
         <TableRow>
           <ReuseTemplate content="ID" width="w-[200px]" />
-          <ReuseTemplate content="Status" :icon="StatusTable" />
+          <ReuseTemplate content="Status" :icon="StatusTable" width="w-[200px]" />
+          <ReuseTemplate content="Department" :icon="Department" width="w-[220px]" />
           <ReuseTemplate
             content="
             Sender"
             :icon="User"
+            width="w-[300px]"
           />
           <ReuseTemplate content="Heading" :icon="Heading" />
           <ReuseTemplate content="Rating" :icon="RatingSvg" />
@@ -78,13 +81,13 @@ onBeforeMount(() => {
           <SheetTrigger as-child>
             <ReviewRow
               v-for="review in reviewsPage"
-              :key="review.title"
+              :key="review._id"
               :review="review"
               class="cursor-pointer"
               @click="router.push(`/reviews/${review._id}`), isSheetOpen = true"
             />
           </SheetTrigger>
-          <SheetContent class="min-w-[500px] !max-w-full w-1/3">
+          <SheetContent class="min-w-[560px] !max-w-full w-1/4">
             <RouterView />
           </SheetContent>
         </Sheet>

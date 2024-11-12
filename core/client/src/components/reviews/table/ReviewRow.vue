@@ -25,11 +25,13 @@ const textColorMap: Record<Review['status'], string> = {
 
 const statusColor = computed(() => (status: Review['status']) => colorMap[status] || '')
 const textColor = computed(() => (status: Review['status']) => textColorMap[status] || '')
+
+const departmentCell = computed(() => props.review.department ? props.review.department : '-')
 </script>
 
 <template>
   <TableRow>
-    <TableCell>
+    <TableCell class="pl-10">
       <span class="line-clamp-1 text-neutral-500">{{ review._id }}</span>
     </TableCell>
     <TableCell>
@@ -43,6 +45,16 @@ const textColor = computed(() => (status: Review['status']) => textColorMap[stat
         )"
       >
         <span>{{ review.status }}</span>
+      </Badge>
+    </TableCell>
+    <TableCell>
+      <Badge
+        variant="outline"
+        :class="cn(
+          'shadow-none border-none',
+        )"
+      >
+        <span>{{ departmentCell }}</span>
       </Badge>
     </TableCell>
     <TableCell>
