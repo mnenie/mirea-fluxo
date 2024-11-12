@@ -9,6 +9,7 @@ import router from './router'
 import './assets/index.css'
 
 import 'floating-vue/dist/style.css'
+import 'vue-data-ui/style.css'
 
 const app = createApp(App)
 

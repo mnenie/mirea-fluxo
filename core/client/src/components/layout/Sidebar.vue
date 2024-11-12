@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { h, markRaw } from 'vue'
-import { Archive, Inbox, Notifications, Settings } from '~/assets/svgs-vite'
+import { Inbox, Notifications, Rating, Settings } from '~/assets/svgs-vite'
 import { Routes } from '~/utils/contants'
 import HippieNav from '../filters/HippieNav.vue'
 import AICard from './AICard.vue'
@@ -9,7 +9,8 @@ import UpdateList from './UpdateList.vue'
 
 const routes = markRaw([
   { name: Routes.reviews, path: '/', label: 'Reviews', icon: h(Inbox) },
-  { name: Routes.archive, path: '/archive', label: 'Archive', icon: h(Archive) },
+  // { name: Routes.archive, path: '/archive', label: 'Archive', icon: h(Archive) },
+  { name: Routes.analytics, path: '/analytics', label: 'Analytics', icon: h(Rating) },
   { name: Routes.notifications, path: '/notifications', label: 'Notifications', icon: h(Notifications) },
   { name: Routes.settings, path: '/settings', label: 'Settings', icon: h(Settings) },
 ])
