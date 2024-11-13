@@ -32,10 +32,10 @@ const showCard = computed((): boolean => {
         </div>
       </div>
       <div class="flex items-center gap-1">
-        <Badge variant="outline" class="text-[10px]">
+        <Badge variant="outline" class="text-[10px] bg-white">
           How do I respond?
         </Badge>
-        <Badge variant="outline" class="text-[10px]">
+        <Badge variant="outline" class="text-[10px] bg-white">
           Help with analytics
         </Badge>
       </div>

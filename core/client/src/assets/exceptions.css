@@ -261,3 +261,42 @@ html.dark .clear-btn {
 html.dark .no-result {
   @apply text-neutral-500;
 }
+
+
+.vue-ui-user-options > div:first-child{
+  top: -86px !important;
+  right: -2px !important;
+}
+
+[data-v-f558d57b] > [data-v-d4402778] > div:first-child {
+  top: -56px !important;
+  right: -2px !important;
+}
+
+.vue-ui-user-options > div:first-child > svg{
+  width: 18px !important;
+  height: 18px !important;
+}
+
+[data-v-51ea40dd] .vue-ui-user-options-drawer{
+  top: -50px !important;
+}
+
+.vue-ui-user-options-drawer{
+  top: -20px !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.vue-ui-user-options-button > svg{
+  width: 18px !important;
+  height: 18px !important;
+}
+
+.vue-ui-user-options-button > svg > path{
+  stroke: #525252 !important;
+}
+
+.vue-ui-user-options-button .button-info{
+  display: none !important;
+}

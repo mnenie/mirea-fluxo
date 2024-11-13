@@ -30,7 +30,7 @@ const router = useRouter()
 
 <template>
   <div class="max-w-[286px] w-full px-2 h-full flex items-center border-r border-neutral-200">
-    <DropdownMenu v-if="authStore.user.email">
+    <DropdownMenu>
       <DropdownMenuTrigger>
         <Avatar class="w-9 h-9 bg-neutral-100 border border-neutral-200 rounded-lg flex items-center justify-center mr-2 cursor-pointer">
           <AvatarImage :src="authStore.user.photoUrl" alt="@radix-vue" />
@@ -38,7 +38,7 @@ const router = useRouter()
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start" class="w-[200px]">
-        <DropdownMenuLabel class="2xl:text-[13px] sm:text-sm">
+        <DropdownMenuLabel v-if="authStore.user.email" class="2xl:text-[13px] sm:text-sm">
           {{ authStore.user.email }}
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
@@ -55,15 +55,15 @@ const router = useRouter()
       </DropdownMenuContent>
     </DropdownMenu>
     <div class="flex flex-col h-full items-start pt-2 w-full">
-      <div v-if="authStore.user.email" class="flex flex-col">
+      <div class="flex flex-col">
         <Badge variant="secondary" class="py-[0px] px-1.5">
           <span class="sm:text-[10px] 2xl:text-[11px] text-neutral-600">commercial</span>
         </Badge>
-        <span class="text-sm md:text-[13px] 2xl:text-sm font-semibold text-neutral-800 px-1.5">
+        <span v-if="false" class="text-sm md:text-[13px] 2xl:text-sm font-semibold text-neutral-800 px-1.5">
           {{ authStore.user.email }}
         </span>
       </div>
-      <span v-else class="flex items-center">
+      <span v-if="false" class="flex items-center">
         <Button @click="router.push(`/user/sign-in`)">
           Войти
         </Button>
