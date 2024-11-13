@@ -17,6 +17,7 @@
  * @property {'not verified' | 'in process' | 'closed'} status - Статус заказа, может быть не проверен, в процессе или закрыт
  * @property {number} price - Цена заказа
  * @property {string} organization - Название организации, ответственной за заказ
+ * @property {Array<any>} stages - Список этапов заказа // any - TODO: fix
  */
 
 /**
