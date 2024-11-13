@@ -1,9 +1,10 @@
-import { computed } from 'vue'
+import type { VueUiDonut, VueUiStackbar } from 'vue-data-ui'
+import { computed, type ShallowRef } from 'vue'
 import { useBreakpoints } from './useBreakpoints'
 import { useExpanded } from './useExpanded'
 
 // from Jenda
-export function useCharts() {
+export function useCharts(chart?: ShallowRef<null | InstanceType<typeof VueUiDonut> | InstanceType<typeof VueUiStackbar>>) {
   const { breakpoints } = useBreakpoints()
 
   const expanded = useExpanded()
@@ -27,9 +28,25 @@ export function useCharts() {
 
   const chartSummaryValue = computed(() => (isBetweenIntermediateDesktopAnd4K ? 14 : 18))
 
+  function generatePng() {
+    // @ts-expect-error never type error
+    chart!.value.generateImage()
+  }
+  function generatePdf() {
+    // @ts-expect-error never type error
+    chart!.value!.generatePdf()
+  }
+  function generateCvs() {
+    // @ts-expect-error never type error
+    chart!.value.generateCsv()
+  }
+
   return {
     chartWorkloadValue,
     chartOrdersValue,
     chartSummaryValue,
+    generatePng,
+    generatePdf,
+    generateCvs,
   }
 }

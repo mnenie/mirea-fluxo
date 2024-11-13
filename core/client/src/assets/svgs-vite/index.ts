@@ -1,4 +1,5 @@
 export * from './base'
+export * from './charts'
 export * from './header'
 export * from './review'
 export * from './sidebar'

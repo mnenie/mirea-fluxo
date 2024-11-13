@@ -262,24 +262,9 @@ html.dark .no-result {
   @apply text-neutral-500;
 }
 
-
-.vue-ui-user-options > div:first-child{
-  top: -86px !important;
-  right: -2px !important;
-}
-
-[data-v-f558d57b] > [data-v-d4402778] > div:first-child {
-  top: -56px !important;
-  right: -2px !important;
-}
-
 .vue-ui-user-options > div:first-child > svg{
   width: 18px !important;
   height: 18px !important;
-}
-
-[data-v-51ea40dd] .vue-ui-user-options-drawer{
-  top: -50px !important;
 }
 
 .vue-ui-user-options-drawer{

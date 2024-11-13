@@ -19,7 +19,9 @@ const graphSize = computed(() => ({
   height: isExpanded.value ? 380 : 300,
 }))
 
-const { chartOrdersValue } = useCharts()
+const chartStackbar = ref(null)
+
+const { chartOrdersValue, generateCvs, generatePdf, generatePng } = useCharts(chartStackbar)
 
 const config = computed<any>(() => ({
   responsive: false,
@@ -27,7 +29,7 @@ const config = computed<any>(() => ({
   useCssAnimation: true,
   orientation: 'vertical',
   table: { show: false },
-  userOptions: { show: true, buttons: { tooltip: false, table: false, labels: false, fullscreen: false } },
+  userOptions: { show: false },
   style: {
     chart: {
       backgroundColor: 'transparent',
@@ -85,14 +87,19 @@ watch(graphSize, () => {
 const dataset = ref([{ name: 'boards', series: [5, 2, 10, 2, 1, 5, 5, 9, 7, 3, 1, 4], color: '#538BF3' }])
 
 const chart = markRaw<Chart>({
-
   section: 'orders',
   title: 'Orders in our workspace',
 })
 </script>
 
 <template>
-  <ChartItemWrapper :chart="chart" width="100%">
-    <VueUiStackbar :key="chartKey" :config="config" :dataset="dataset" />
+  <ChartItemWrapper
+    :chart="chart"
+    width="100%"
+    @generate-pdf="generatePdf"
+    @generate-png="generatePng"
+    @generate-csv="generateCvs"
+  >
+    <VueUiStackbar ref="chartStackbar" :key="chartKey" :config="config" :dataset="dataset" />
   </ChartItemWrapper>
 </template>

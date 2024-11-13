@@ -5,7 +5,9 @@ import { useCharts } from '~/composables/useCharts'
 import type { Chart } from '~/types/chart.interface'
 import ChartItemWrapper from './ChartItemWrapper.vue'
 
-const { chartSummaryValue } = useCharts()
+const chartDonut = ref(null)
+
+const { chartSummaryValue, generateCvs, generatePdf, generatePng } = useCharts(chartDonut)
 
 const nameSize = computed(() => chartSummaryValue.value - 4)
 
@@ -16,13 +18,7 @@ const config = computed(() => ({
   useCssAnimation: true,
   useBlurOnHover: true,
   userOptions: {
-    show: true,
-    buttons: {
-      tooltip: false,
-      table: false,
-      labels: false,
-      fullscreen: false,
-    },
+    show: false,
   },
   style: {
     fontFamily: 'inherit',
@@ -104,7 +100,13 @@ const chart = markRaw<Chart>({
 </script>
 
 <template>
-  <ChartItemWrapper :chart width="600px">
-    <VueUiDonut :config="config" :dataset="dataset" style="padding-top: 0" />
+  <ChartItemWrapper
+    :chart="chart"
+    width="600px"
+    @generate-csv="generateCvs"
+    @generate-pdf="generatePdf"
+    @generate-png="generatePng"
+  >
+    <VueUiDonut ref="chartDonut" :config="config" :dataset="dataset" style="padding-top: 0" />
   </ChartItemWrapper>
 </template>
