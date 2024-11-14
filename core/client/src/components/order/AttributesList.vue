@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import { Calendar, Department, Rating as RatingSvg, Smile, StatusTable } from '~/assets/svgs-vite'
 import type { Order } from '~/types/order.interface'
 import type { Review } from '~/types/review.interface'
-import Rating from '../reviews/card/Price.vue'
+import Price from '../orders/card/Price.vue'
 import ReviewBadgeSelect from '../shared/ReviewBadgeSelect.vue'
 import { Button } from '../ui/button'
 import { Select, SelectValue } from '../ui/select'
@@ -48,7 +48,7 @@ const modelStatus = ref<Order['status']>('in process')
         <RatingSvg />
       </template>
       <div class="flex flex-row items-center gap-2">
-        <Rating :price="4" class="pl-0 pr-0" />
+        <Price :price="1201020" class="pl-0 pr-0" />
         <span class="text-sm text-neutral-500">company is ready to pay</span>
       </div>
     </AttributeItem>

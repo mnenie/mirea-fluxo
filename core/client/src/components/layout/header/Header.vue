@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { type Component, computed } from 'vue'
 import { useRoute } from 'vue-router'
-import { Check, Inbox, Notifications, Rating, Settings } from '~/assets/svgs-vite'
+import { Archive, Check, Inbox, Notifications, Rating, Settings } from '~/assets/svgs-vite'
 import { ShimmerButton } from '~/components/ui/shimmer-button'
 import { useExpanded } from '~/composables/useExpanded'
 import { redirect } from '~/helpers/redirectHelper'
@@ -13,9 +13,9 @@ const expanded = useExpanded()
 const { toggleExpanded: toggleSidebar, isExpanded } = expanded.getExpanded()
 
 const section = new Map<Component, string>([
-  [Inbox, Routes.reviews],
+  [Inbox, Routes.orders],
   [Notifications, Routes.notifications],
-  // [Archive, Routes.archive],
+  [Archive, Routes.archive],
   [Rating, Routes.analytics],
   [Settings, Routes.settings],
 ])
