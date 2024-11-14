@@ -46,7 +46,7 @@ const { value: password } = useField<string>('password')
 </script>
 
 <template>
-  <div class="flex flex-col w-[25dvw] items-center space-y-10">
+  <div class="flex flex-col w-full h-full justify-center items-center space-y-10">
     <div class="font-semibold text-2xl">
       Авторизация
     </div>
@@ -78,7 +78,7 @@ const { value: password } = useField<string>('password')
           </FormItem>
         </FormField>
       </div>
-      <Button class="mt-8" type="submit">
+      <Button class="mt-6 w-full bg-blue-600" type="submit">
         Войти
       </Button>
     </form>

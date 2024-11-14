@@ -1,19 +1,22 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
-import { ArrowLeft } from '~/assets/svgs-vite'
+import { Arrow } from '~/assets/svgs-vite'
 
 const router = useRouter()
 </script>
 
 <template>
   <div class="main-container relative w-full min-h-dvh h-full grid mx-auto my-0 overflow-hidden">
-    <div class="flex items-center justify-center absolute left-0 top-0 h-40 w-40 text-neutral-400 hover:bg-neutral-100" @click="router.push(`/`)">
-      <ArrowLeft />
+    <div
+      class="flex items-center justify-center absolute left-10 top-10 cursor-pointer text-neutral-500"
+      @click="router.push(`/`)"
+    >
+      <Arrow class="w-[18px] h-[18px] rotate-90" />
     </div>
-    <div class="header flex h-40 justify-center items-center">
+    <div class="header flex py-4 justify-center items-center">
       <img src="https://cdn.icon-icons.com/icons2/2148/PNG/512/c_icon_132654.png" alt="logo" class="w-16 h-16">
     </div>
-    <div class="main flex flex-col items-center py-10">
+    <div class="main flex flex-col items-center pb-10">
       <slot />
     </div>
     <div class="footer flex justify-center items-center pb-6 gap-6 flex-col">

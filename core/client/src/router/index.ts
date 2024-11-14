@@ -69,15 +69,6 @@ const routes = [
       layout: AuthLayout,
     },
   },
-  {
-    name: Routes.signup,
-    path: '/user/sign-up',
-    component: () => import('~/pages/SignUpPage.vue'),
-    meta: {
-      requiresAuth: false,
-      layout: AuthLayout,
-    },
-  },
 ] satisfies readonly AppRouterRecord[]
 
 const router = createRouter({
