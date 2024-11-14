@@ -9,38 +9,41 @@ import CommentActions from '~/components/review/CommentActions.vue'
 import InfoPart from '~/components/review/InfoPart.vue'
 import { Badge } from '~/components/ui/badge'
 import { SheetHeader } from '~/components/ui/sheet'
-import type { Review } from '~/types/review.interface'
+import type { Order } from '~/types/order.interface'
 
-const reviewDescription = `
+const orderDescription = `
   Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos, quas
   <strong>consectetur</strong> Lorem ipsum dolor sit amet, consectetur adipisicing elit.
   <br />
   Odit blanditiis ab quaerat, <strong>quisquam eos pariatur neque consequatur possimus</strong> at id nam officia libero repellendus quo deleniti, fuga totam vel accusantium?
 `
 
-const review = ref<Review>({
+const order = ref<Order>({
   _id: '0',
   title: 'Привет мир 👋',
   date: new Date(),
-  content: reviewDescription,
-  status: 'consideration',
-  email: 'example@gmail.com',
-  stars: 3,
+  content: orderDescription,
+  status: 'in process',
+  price: 10000,
+  organization: 'Google',
+  stages: [],
 })
 </script>
 
 <template>
-  <div class="relative h-full flex flex-col">
-    <SheetHeader class="border-b border-neutral-100 justify-between">
+  <div class="relative h-full overflow-auto flex flex-col">
+    <SheetHeader
+      class="border-b border-neutral-100 justify-between sticky bg-white opacity-100 z-[9999999] top-0 w-full"
+    >
       <Badge variant="secondary" class="text-neutral-500">
-        <span>#{{ review._id }}</span>
+        <span>#{{ order._id }}</span>
         <Link class="ml-1 w-[14px] h-[14px]" />
       </Badge>
       <template #actions>
         <CommentActions />
       </template>
     </SheetHeader>
-    <InfoPart :review="review" />
+    <InfoPart :order />
     <AttributesList />
     <BadgesList />
     <CommentsList />

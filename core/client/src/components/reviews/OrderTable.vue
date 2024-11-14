@@ -28,10 +28,10 @@ const sheet = useTemplateRef<InstanceType<typeof Sheet> | null>('sheet')
 
 const isSheetOpen = ref(false)
 
-const isOrder = computed(() => route.name === Routes.review)
+const isOrder = computed(() => route.name === Routes.order)
 
 function toggleModalRoute() {
-  if (sheet.value && !sheet.value.open && route.name === Routes.review) {
+  if (sheet.value && !sheet.value.open && route.name === Routes.order) {
     router.back()
   }
 }
@@ -40,7 +40,7 @@ const [DefineTemplate, ReuseTemplate] = createReusableTemplate()
 
 onBeforeMount(() => {
   if (isOrder.value)
-    router.push({ name: Routes.reviews })
+    router.push({ name: Routes.orders })
 })
 </script>
 
@@ -62,18 +62,12 @@ onBeforeMount(() => {
         </DefineTemplate>
 
         <TableRow>
-          <ReuseTemplate content="ID" width="w-[200px]" />
-          <ReuseTemplate content="Status" :icon="StatusTable" width="w-[200px]" />
-          <ReuseTemplate content="Department" :icon="Department" width="w-[220px]" />
-          <!-- <ReuseTemplate
-            content="
-            Sender"
-            :icon="User"
-            width="w-[300px]"
-          /> -->
+          <ReuseTemplate content="ID" />
+          <ReuseTemplate content="Status" :icon="StatusTable" />
+          <ReuseTemplate content="Department" :icon="Department" />
           <ReuseTemplate content="Heading" :icon="Heading" />
-          <ReuseTemplate content="Price" :icon="RatingSvg" />
-          <ReuseTemplate content="Calendar" :icon="Calendar" width="w-[200px]" />
+          <ReuseTemplate content="Price" :icon="RatingSvg" width="w-[200px]" />
+          <ReuseTemplate content="Calendar" :icon="Calendar" />
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -84,7 +78,7 @@ onBeforeMount(() => {
               :key="order._id"
               :order="order"
               class="cursor-pointer"
-              @click="router.push(`/reviews/${order._id}`), isSheetOpen = true"
+              @click="router.push(`/orders/${order._id}`), isSheetOpen = true"
             />
           </SheetTrigger>
           <SheetContent class="min-w-[560px] !max-w-full w-1/4">

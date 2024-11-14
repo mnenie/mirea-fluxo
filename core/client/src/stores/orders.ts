@@ -1,9 +1,25 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { shallowRef } from 'vue'
+import { ref, shallowRef } from 'vue'
 import type { Order } from '~/types/order.interface'
+
+const orderDescription = `
+  Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos, quas
+  <strong>consectetur</strong> Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+  <br />
+  Odit blanditiis ab quaerat, <strong>quisquam eos pariatur neque consequatur possimus</strong> at id nam officia libero repellendus quo deleniti, fuga totam vel accusantium?`
 
 export const useOrderStore = defineStore('orders', () => {
   const orders = shallowRef<Order[]>([])
+  const order = ref<Order>({
+    _id: '0',
+    title: 'Hello world',
+    content: orderDescription,
+    date: new Date(),
+    status: 'in process',
+    price: 123000,
+    organization: '1C Software',
+    stages: [],
+  } as Order)
   const ordersPage = shallowRef<Order[]>([])
 
   // temporary for testing orders pagination - remove later
@@ -38,11 +54,18 @@ export const useOrderStore = defineStore('orders', () => {
     ordersPage.value = getPaginatedOrders(page, items)
   }
 
+  // TODO
+  function postNewStage(stage: any) {
+    order.value.stages.push(stage)
+  }
+
   return {
     orders,
     ordersPage,
+    order,
     updateOrders,
     fetchOrders,
+    postNewStage,
     getPaginatedOrders,
   }
 })

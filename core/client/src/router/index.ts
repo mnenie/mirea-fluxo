@@ -8,7 +8,7 @@ import { Routes } from '~/utils/contants'
 
 const routes = [
   {
-    name: Routes.reviews,
+    name: Routes.orders,
     path: '/',
     component: () => import('~/pages/OrdersPage.vue'),
     meta: {
@@ -17,9 +17,9 @@ const routes = [
     },
     children: [
       {
-        name: Routes.review,
-        path: 'reviews/:id',
-        component: () => import('~/pages/ReviewSheetPage.vue'),
+        name: Routes.order,
+        path: 'orders/:id',
+        component: () => import('~/pages/OrderSheetPage.vue'),
       },
     ],
 

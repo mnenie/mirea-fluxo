@@ -25,7 +25,7 @@ const changeHeight = () => {
   const _textarea = textarea.value
     if (_textarea) {
     _textarea.style.height = 'auto'
-    _textarea.style.height = `${_textarea.scrollHeight - 18}px`
+    _textarea.style.height = `${_textarea.scrollHeight - 16}px`
     textareaHeight.value = _textarea.scrollHeight
   }
 }

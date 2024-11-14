@@ -1,20 +1,21 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { Calendar, Department, Rating as RatingSvg, Smile, StatusTable } from '~/assets/svgs-vite'
+import type { Order } from '~/types/order.interface'
 import type { Review } from '~/types/review.interface'
-import Rating from '../reviews/card/Rating.vue'
+import Rating from '../reviews/card/Price.vue'
 import ReviewBadgeSelect from '../shared/ReviewBadgeSelect.vue'
 import { Button } from '../ui/button'
 import { Select, SelectValue } from '../ui/select'
 import AttributeItem from './AttributeItem.vue'
 
 const modelDepartment = ref<Review['department']>()
-const modelStatus = ref<Review['status']>('consideration')
+const modelStatus = ref<Order['status']>('in process')
 </script>
 
 <template>
   <div class="px-6 pt-5 flex flex-col space-y-4">
-    <AttributeItem title="Executor">
+    <AttributeItem title="Responsible">
       <template #icon>
         <Smile />
       </template>
@@ -31,7 +32,7 @@ const modelStatus = ref<Review['status']>('consideration')
         <StatusTable />
       </template>
       <Select v-model:model-value="modelStatus">
-        <ReviewBadgeSelect :values="['consideration', 'verified', 'not verified']">
+        <ReviewBadgeSelect :values="['in process', 'closed', 'not verified']">
           <Button
             size="sm"
             variant="secondary"
@@ -42,16 +43,16 @@ const modelStatus = ref<Review['status']>('consideration')
         </ReviewBadgeSelect>
       </Select>
     </AttributeItem>
-    <AttributeItem title="Rating">
+    <AttributeItem title="Price">
       <template #icon>
         <RatingSvg />
       </template>
       <div class="flex flex-row items-center gap-2">
-        <Rating :stars="4" class="pl-0 pr-0" />
-        <span class="text-sm text-neutral-500">stars were assigned in the review</span>
+        <Rating :price="4" class="pl-0 pr-0" />
+        <span class="text-sm text-neutral-500">company is ready to pay</span>
       </div>
     </AttributeItem>
-    <AttributeItem title="Department">
+    <AttributeItem title="Organization">
       <template #icon>
         <Department />
       </template>
@@ -62,7 +63,7 @@ const modelStatus = ref<Review['status']>('consideration')
             size="sm"
             class="h-5 text-neutral-500 hover:text-neutral-500 focus-visible:ring-0"
           >
-            <SelectValue :class="[!modelDepartment && 'text-neutral-300 font-normal']" placeholder="Choose a department" />
+            <SelectValue :class="[!modelDepartment && 'text-neutral-300 font-normal']" placeholder="Choose an organization" />
           </Button>
         </ReviewBadgeSelect>
       </Select>

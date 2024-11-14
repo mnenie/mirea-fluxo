@@ -6,7 +6,7 @@ import TablePagination from '~/components/reviews/TablePagination.vue'
 import { Button } from '~/components/ui/button'
 
 useHead({
-  title: '1CManager | Reviews',
+  title: '1CManager | Orders',
 })
 </script>
 
