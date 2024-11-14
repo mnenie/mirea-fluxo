@@ -74,7 +74,7 @@ onBeforeMount(() => {
         <div class="flex flex-row items-center justify-between w-full mt-3">
           <UserProfile :email="review.email" />
           <div class="flex flex-row items-center gap-2">
-            <Rating :stars="review.stars" />
+            <Rating :price="review.stars" />
           </div>
         </div>
       </button>

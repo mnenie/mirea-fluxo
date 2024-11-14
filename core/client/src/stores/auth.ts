@@ -18,7 +18,7 @@ export const useAuthStore = defineStore('auth', () => {
       user.value = {
         _id: '0',
         email,
-        role: 'test',
+        role: 'manager',
         photoUrl: `https://api.dicebear.com/9.x/glass/svg?seed=${Math.floor(Math.random() * 1000)}}`,
       }
     }

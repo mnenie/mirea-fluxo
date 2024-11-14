@@ -10,7 +10,7 @@ const routes = [
   {
     name: Routes.reviews,
     path: '/',
-    component: () => import('~/pages/ReviewsPage.vue'),
+    component: () => import('~/pages/OrdersPage.vue'),
     meta: {
       requiresAuth: false,
       layout: DefaultLayout,

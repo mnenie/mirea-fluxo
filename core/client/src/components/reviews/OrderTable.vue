@@ -3,9 +3,9 @@ import { createReusableTemplate } from '@vueuse/core'
 import { storeToRefs } from 'pinia'
 import { computed, onBeforeMount, ref, useTemplateRef } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { Calendar, Department, Heading, Rating as RatingSvg, StatusTable, User } from '~/assets/svgs-vite'
+import { Calendar, Department, Heading, Rating as RatingSvg, StatusTable } from '~/assets/svgs-vite'
 import { cn } from '~/lib/utils'
-import { useReviewStore } from '~/stores/reviews'
+import { useOrderStore } from '~/stores/orders'
 import { Routes } from '~/utils/contants'
 import { Sheet, SheetContent, SheetTrigger } from '../ui/sheet'
 import {
@@ -15,20 +15,20 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '../ui/table/'
-import ReviewRow from './table/ReviewRow.vue'
+} from '../ui/table'
+import OrderRow from './table/OrderRow.vue'
 
 const router = useRouter()
 const route = useRoute()
 
-const reviewStore = useReviewStore()
-const { reviewsPage } = storeToRefs(reviewStore)
+const orderStore = useOrderStore()
+const { ordersPage } = storeToRefs(orderStore)
 
 const sheet = useTemplateRef<InstanceType<typeof Sheet> | null>('sheet')
 
 const isSheetOpen = ref(false)
 
-const isReview = computed(() => route.name === Routes.review)
+const isOrder = computed(() => route.name === Routes.review)
 
 function toggleModalRoute() {
   if (sheet.value && !sheet.value.open && route.name === Routes.review) {
@@ -39,7 +39,7 @@ function toggleModalRoute() {
 const [DefineTemplate, ReuseTemplate] = createReusableTemplate()
 
 onBeforeMount(() => {
-  if (isReview.value)
+  if (isOrder.value)
     router.push({ name: Routes.reviews })
 })
 </script>
@@ -65,26 +65,26 @@ onBeforeMount(() => {
           <ReuseTemplate content="ID" width="w-[200px]" />
           <ReuseTemplate content="Status" :icon="StatusTable" width="w-[200px]" />
           <ReuseTemplate content="Department" :icon="Department" width="w-[220px]" />
-          <ReuseTemplate
+          <!-- <ReuseTemplate
             content="
             Sender"
             :icon="User"
             width="w-[300px]"
-          />
+          /> -->
           <ReuseTemplate content="Heading" :icon="Heading" />
-          <ReuseTemplate content="Rating" :icon="RatingSvg" />
+          <ReuseTemplate content="Price" :icon="RatingSvg" />
           <ReuseTemplate content="Calendar" :icon="Calendar" width="w-[200px]" />
         </TableRow>
       </TableHeader>
       <TableBody>
         <Sheet ref="sheet" v-model:open="isSheetOpen" @update:open="toggleModalRoute">
           <SheetTrigger as-child>
-            <ReviewRow
-              v-for="review in reviewsPage"
-              :key="review._id"
-              :review="review"
+            <OrderRow
+              v-for="order in ordersPage"
+              :key="order._id"
+              :order="order"
               class="cursor-pointer"
-              @click="router.push(`/reviews/${review._id}`), isSheetOpen = true"
+              @click="router.push(`/reviews/${order._id}`), isSheetOpen = true"
             />
           </SheetTrigger>
           <SheetContent class="min-w-[560px] !max-w-full w-1/4">

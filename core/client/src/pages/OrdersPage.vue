@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useHead } from '@unhead/vue'
 import { Arrow, Filter, Reload, Sort } from '~/assets/svgs-vite'
-import ReviewTable from '~/components/reviews/ReviewTable.vue'
+import OrderTable from '~/components/reviews/OrderTable.vue'
 import TablePagination from '~/components/reviews/TablePagination.vue'
 import { Button } from '~/components/ui/button'
 
@@ -31,7 +31,7 @@ useHead({
         <span class="2xl:text-[13px] text-sm text-neutral-800">Reshuffle 👌</span>
       </Button>
     </div>
-    <ReviewTable />
+    <OrderTable />
     <TablePagination />
   </div>
 </template>

@@ -3,7 +3,7 @@ import { createReusableTemplate } from '@vueuse/core'
 import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
 import { useReviewsPagination } from '~/composables/useReviewsPagination'
-import { useReviewStore } from '~/stores/reviews'
+import { useOrderStore } from '~/stores/orders'
 import { Button } from '../ui/button'
 import {
   Pagination,
@@ -16,10 +16,10 @@ import {
   PaginationPrev,
 } from '../ui/pagination/'
 
-const reviewStore = useReviewStore()
-const { reviews } = storeToRefs(reviewStore)
+const orderStore = useOrderStore()
+const { orders } = storeToRefs(orderStore)
 
-const { selectReviewPage, updateItemsPerPage, itemsPerPage, currentPage } = useReviewsPagination()
+const { selectOrderPage, updateItemsPerPage, itemsPerPage, currentPage } = useReviewsPagination()
 
 const isActiveBtn = computed(() => (count: number) => itemsPerPage.value === count)
 
@@ -28,10 +28,10 @@ const [DefineTemplate, ReuseTemplate] = createReusableTemplate()
 
 <template>
   <div class="absolute w-full bottom-0 flex flex-row items-stretch justify-between mt-6">
-    <Pagination v-slot="{ page }" :total="reviews.length / (itemsPerPage / 10)" :sibling-count="1" show-edges :default-page="1" class="mb-0">
+    <Pagination v-slot="{ page }" :total="orders.length / (itemsPerPage / 10)" :sibling-count="1" show-edges :default-page="1" class="mb-0">
       <PaginationList v-slot="{ items }" class="flex items-center gap-1">
-        <PaginationFirst @click="selectReviewPage(1, itemsPerPage)" />
-        <PaginationPrev @click="selectReviewPage(currentPage - 1, itemsPerPage)" />
+        <PaginationFirst @click="selectOrderPage(1, itemsPerPage)" />
+        <PaginationPrev @click="selectOrderPage(currentPage - 1, itemsPerPage)" />
 
         <template v-for="(item, index) in items">
           <PaginationListItem
@@ -45,7 +45,7 @@ const [DefineTemplate, ReuseTemplate] = createReusableTemplate()
               class="w-9 h-9 2xl:h-[34px] 2xl:w-[34px] p-0"
               :class="[item.value === page ? 'border border-dashed border-neutral-300' : '']"
               :variant="item.value === page ? 'secondary' : 'outline'"
-              @click="selectReviewPage(item.value, itemsPerPage)"
+              @click="selectOrderPage(item.value, itemsPerPage)"
             >
               {{ item.value }}
             </Button>
@@ -53,8 +53,8 @@ const [DefineTemplate, ReuseTemplate] = createReusableTemplate()
           <PaginationEllipsis v-else :key="item.type" :index="index" />
         </template>
 
-        <PaginationNext @click="selectReviewPage(currentPage + 1, itemsPerPage)" />
-        <PaginationLast @click="selectReviewPage(reviews.length / 50, itemsPerPage)" />
+        <PaginationNext @click="selectOrderPage(currentPage + 1, itemsPerPage)" />
+        <PaginationLast @click="selectOrderPage(orders.length / 50, itemsPerPage)" />
       </PaginationList>
     </Pagination>
     <div class="flex flex-row items-center space-x-2">
