@@ -55,6 +55,11 @@ const icon = computed(() => {
             </span>
           </ShimmerButton>
         </div>
+        <div class="h-3 w-px bg-neutral-200" />
+        <div class="text-sm text-neutral-500 cursor-pointer">
+          EN
+        </div>
+        <div class="h-3 w-px bg-neutral-200" />
         <div class="h-10 rounded-md flex items-center gap-3">
           <Check v-tooltip.bottom="'Open Source'" class="w-[15px] h-[15px] 2xl:w-4 2xl:h-4 text-neutral-600" />
           <Notifications class="w-[15px] h-[15px] 2xl:w-[17px] 2xl:h-[17px] text-neutral-600 cursor-pointer" />

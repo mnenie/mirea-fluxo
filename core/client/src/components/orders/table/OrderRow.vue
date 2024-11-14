@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import Badge from '~/components/ui/badge/Badge.vue'
 import { TableCell, TableRow } from '~/components/ui/table/'
+import { useSharedStatus } from '~/composables/useStatus'
 import { formatDate } from '~/helpers/formatDateHelper'
 import { cn } from '~/lib/utils'
 import type { Order } from '~/types/order.interface'
@@ -11,22 +12,9 @@ const props = defineProps<{
   order: Order
 }>()
 
-const colorMap: Record<Order['status'], string> = {
-  'not verified': 'bg-blue-100',
-  'in process': 'bg-amber-100',
-  'closed': 'bg-green-100',
-} as const
-
-const textColorMap: Record<Order['status'], string> = {
-  'not verified': 'text-blue-600',
-  'in process': 'text-amber-600',
-  'closed': 'text-green-900',
-} as const
-
-const statusColor = computed(() => (status: Order['status']) => colorMap[status] || '')
-const textColor = computed(() => (status: Order['status']) => textColorMap[status] || '')
-
 const organizationCell = computed(() => props.order.organization ? props.order.organization : '-')
+
+const { statusColor, textColor } = useSharedStatus()
 </script>
 
 <template>

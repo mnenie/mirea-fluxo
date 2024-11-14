@@ -11,7 +11,7 @@ interface ReviewsContext {
 
 const reviewStore = useOrderStore()
 
-export function useReviewsPagination(): ReviewsContext {
+export function useOrdersPagination(): ReviewsContext {
   const itemsPerPage = ref<number>(15)
   const currentPage = ref<number>(1)
 

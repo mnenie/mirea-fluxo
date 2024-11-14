@@ -11,7 +11,7 @@ defineProps<{
 </script>
 
 <template>
-  <SelectTrigger v-bind="$attrs" class="border-none shadow-none focus:ring-0 focus:outline-none ring-0 ring-offset-0" as-child>
+  <SelectTrigger v-bind="$attrs" class="border-none shadow-none bg-none focus:ring-0 focus:outline-none ring-0 ring-offset-0" as-child>
     <slot />
   </SelectTrigger>
   <SelectContent class="w-[120px]">

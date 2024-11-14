@@ -2,7 +2,7 @@
 import { createReusableTemplate } from '@vueuse/core'
 import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
-import { useReviewsPagination } from '~/composables/useReviewsPagination'
+import { useOrdersPagination } from '~/composables/useOrdersPagination'
 import { useOrderStore } from '~/stores/orders'
 import { Button } from '../ui/button'
 import {
@@ -19,7 +19,7 @@ import {
 const orderStore = useOrderStore()
 const { orders } = storeToRefs(orderStore)
 
-const { selectOrderPage, updateItemsPerPage, itemsPerPage, currentPage } = useReviewsPagination()
+const { selectOrderPage, updateItemsPerPage, itemsPerPage, currentPage } = useOrdersPagination()
 
 const isActiveBtn = computed(() => (count: number) => itemsPerPage.value === count)
 

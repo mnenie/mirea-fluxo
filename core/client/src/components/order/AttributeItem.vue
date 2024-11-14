@@ -7,9 +7,7 @@ defineProps<{
 <template>
   <div class="grid grid-cols-2 attribute items-center gap-10 relative">
     <div class="text-neutral-500 flex flex-row items-center gap-2 text-sm">
-      <div class="w-[15px] h-[15px]">
-        <slot name="icon" />
-      </div>
+      <slot name="icon" />
       <span>{{ title }}</span>
     </div>
     <slot />
@@ -22,5 +20,9 @@ defineProps<{
   grid-column-gap: 12px;
   align-items: center;
   max-width: max-content;
+}
+
+:slotted(.icon) {
+  @apply w-[14px] h-[14px]
 }
 </style>

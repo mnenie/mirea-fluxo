@@ -1,5 +1,5 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { ref, shallowRef } from 'vue'
+import { computed, ref, shallowRef } from 'vue'
 import type { Order } from '~/types/order.interface'
 
 const orderDescription = `
@@ -36,6 +36,9 @@ export const useOrderStore = defineStore('orders', () => {
     })
   }
 
+  const totalOrderPriceByStages = computed(() =>
+    order.value.stages.reduce((acc, stage) => acc + stage.price, 0))
+
   const fetchOrders = async function () {
     const response = await (await fetch('https://raw.githubusercontent.com/sv022/MockDB/refs/heads/main/ReviewService/reviews.json')).json()
     orders.value = response
@@ -63,6 +66,7 @@ export const useOrderStore = defineStore('orders', () => {
     orders,
     ordersPage,
     order,
+    totalOrderPriceByStages,
     updateOrders,
     fetchOrders,
     postNewStage,

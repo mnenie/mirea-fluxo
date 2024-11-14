@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { Link } from '~/assets/svgs-vite'
-import CommentBox from '~/components/comments/CommentBox.vue'
-import CommentsList from '~/components/comments/CommentsList.vue'
 import AttributesList from '~/components/order/AttributesList.vue'
 import BadgesList from '~/components/order/BadgesList.vue'
-import CommentActions from '~/components/order/CommentActions.vue'
 import InfoPart from '~/components/order/InfoPart.vue'
+import OrderActions from '~/components/order/OrderActions.vue'
+import StageBox from '~/components/stages/StageBox.vue'
+import StageList from '~/components/stages/StageList.vue'
+import StageModal from '~/components/stages/StageModal.vue'
 import { Badge } from '~/components/ui/badge'
 import { SheetHeader } from '~/components/ui/sheet'
 import type { Order } from '~/types/order.interface'
@@ -40,13 +41,15 @@ const order = ref<Order>({
         <Link class="ml-1 w-[14px] h-[14px]" />
       </Badge>
       <template #actions>
-        <CommentActions />
+        <OrderActions />
       </template>
     </SheetHeader>
     <InfoPart :order />
     <AttributesList />
     <BadgesList />
-    <CommentsList />
-    <CommentBox />
+    <StageList />
+    <StageModal>
+      <StageBox />
+    </StageModal>
   </div>
 </template>
