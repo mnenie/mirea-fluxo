@@ -2,6 +2,7 @@
 import { createReusableTemplate } from '@vueuse/core'
 import { storeToRefs } from 'pinia'
 import { computed, onBeforeMount, ref, useTemplateRef } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import { Calendar, Department, Heading, Rating as RatingSvg, StatusTable } from '~/assets/svgs-vite'
 import { cn } from '~/lib/utils'
@@ -20,6 +21,7 @@ import OrderRow from './table/OrderRow.vue'
 
 const router = useRouter()
 const route = useRoute()
+const { tm } = useI18n()
 
 const orderStore = useOrderStore()
 const { ordersPage } = storeToRefs(orderStore)
@@ -52,22 +54,22 @@ onBeforeMount(() => {
       </TableCaption>
       <TableHeader>
         <!-- reusable temlate -->
-        <DefineTemplate v-slot="{ content, icon, width }">
-          <TableHead :class="cn(width, [content === 'ID' && 'pl-10'])">
+        <DefineTemplate v-slot="{ plural, icon, width }">
+          <TableHead :class="cn(width, [plural === 0 && 'pl-10'])">
             <div class="flex justify-start items-center gap-2">
               <component :is="icon" />
-              <span class="2xl:text-sm text-sm md:text-[13px]">{{ content }}</span>
+              <span class="2xl:text-sm text-sm md:text-[13px]">{{ tm('orders.table')[plural] }}</span>
             </div>
           </TableHead>
         </DefineTemplate>
 
         <TableRow>
-          <ReuseTemplate content="ID" />
-          <ReuseTemplate content="Status" :icon="StatusTable" />
-          <ReuseTemplate content="Department" :icon="Department" />
-          <ReuseTemplate content="Heading" :icon="Heading" />
-          <ReuseTemplate content="Price" :icon="RatingSvg" width="w-[200px]" />
-          <ReuseTemplate content="Calendar" :icon="Calendar" />
+          <ReuseTemplate :plural="0" />
+          <ReuseTemplate :plural="1" :icon="StatusTable" />
+          <ReuseTemplate :plural="2" :icon="Department" />
+          <ReuseTemplate :plural="3" :icon="Heading" />
+          <ReuseTemplate :plural="4" :icon="RatingSvg" width="w-[200px]" />
+          <ReuseTemplate :plural="5" :icon="Calendar" />
         </TableRow>
       </TableHeader>
       <TableBody>

@@ -57,29 +57,37 @@ const onSubmit = handleSubmit(async (values) => {
     </DialogTrigger>
     <DialogContent class="sm:max-w-[425px]">
       <DialogHeader>
-        <DialogTitle>Add new stage</DialogTitle>
+        <DialogTitle>{{ $t('order.stages.dialog.title') }}</DialogTitle>
         <DialogDescription>
-          You can add a new stage in this order here
+          {{ $t('order.stages.dialog.description') }}
         </DialogDescription>
       </DialogHeader>
       <form id="dialogForm" class="space-y-4" @submit="onSubmit">
         <FormField v-slot="{ componentField }" name="stage">
           <FormItem>
-            <FormLabel>Stage</FormLabel>
+            <FormLabel>{{ $t('order.stages.dialog.fields.stage.label') }}</FormLabel>
             <FormControl>
-              <Input type="text" placeholder="Enter new stage" v-bind="componentField" />
+              <Input
+                type="text"
+                :placeholder="$t('order.stages.dialog.fields.stage.placeholder')"
+                v-bind="componentField"
+              />
             </FormControl>
             <FormDescription>
-              This is the stage of the order
+              {{ $t('order.stages.dialog.fields.stage.description') }}
             </FormDescription>
             <FormMessage />
           </FormItem>
         </FormField>
         <FormField v-slot="{ componentField }" name="price">
           <FormItem>
-            <FormLabel>Price</FormLabel>
+            <FormLabel> {{ $t('order.stages.dialog.fields.price.label') }}</FormLabel>
             <FormControl>
-              <Input type="number" placeholder="Enter the price" v-bind="componentField" />
+              <Input
+                type="number"
+                :placeholder="$t('order.stages.dialog.fields.price.placeholder')"
+                v-bind="componentField"
+              />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -87,7 +95,7 @@ const onSubmit = handleSubmit(async (values) => {
       </form>
       <DialogFooter>
         <Button type="submit" form="dialogForm">
-          Add to the list
+          {{ $t('order.stages.dialog.add') }}
         </Button>
       </DialogFooter>
     </DialogContent>

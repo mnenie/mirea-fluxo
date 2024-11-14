@@ -58,7 +58,7 @@ const [DefineTemplate, ReuseTemplate] = createReusableTemplate()
       </PaginationList>
     </Pagination>
     <div class="flex flex-row items-center space-x-2">
-      <span class="text-sm text-muted-foreground whitespace-nowrap">Отображать на странице: </span>
+      <span class="text-sm text-muted-foreground whitespace-nowrap">{{ $t('orders.pagination') }}: </span>
 
       <DefineTemplate v-slot="{ count }">
         <Button

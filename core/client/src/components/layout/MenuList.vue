@@ -30,7 +30,9 @@ const { isExpanded } = expanded.getExpanded()
     class="text-sm text-neutral-400 font-medium w-full flex items-center gap-2 mt-5"
     :class="[isExpanded ? 'px-2' : 'px-0']"
   >
-    <span :class="[isExpanded ? '2xl:text-[13px] text-sm' : '2xl:text-[12px] text-xs']">Menu</span>
+    <span :class="[isExpanded ? '2xl:text-[13px] text-sm' : '2xl:text-[12px] text-xs']">
+      {{ $t('sidebar.menu') }}
+    </span>
   </div>
   <div class="flex flex-col space-y-1.5 w-full mt-2">
     <RouterLink

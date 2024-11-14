@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { type Component, computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
-import { Archive, Check, Inbox, Notifications, Rating, Settings } from '~/assets/svgs-vite'
+import { Archive, Check, Inbox, Notifications, Rating } from '~/assets/svgs-vite'
+import LanguageProvider from '~/components/i18n/LanguageProvider.vue'
 import { ShimmerButton } from '~/components/ui/shimmer-button'
 import { useExpanded } from '~/composables/useExpanded'
 import { redirect } from '~/helpers/redirectHelper'
@@ -14,20 +16,29 @@ const { toggleExpanded: toggleSidebar, isExpanded } = expanded.getExpanded()
 
 const section = new Map<Component, string>([
   [Inbox, Routes.orders],
-  [Notifications, Routes.notifications],
   [Archive, Routes.archive],
+  [Notifications, Routes.notifications],
   [Rating, Routes.analytics],
-  [Settings, Routes.settings],
 ])
 
 const route = useRoute()
+const { tm } = useI18n()
 
 const icon = computed(() => {
   for (const [icon, routeName] of section.entries()) {
     if (route.name === routeName)
       return icon
+    if (route.name === Routes.order) {
+      return routeName === Routes.orders ? Inbox : Archive
+    }
   }
   return null
+})
+
+const localizedRouteName = computed(() => {
+  const names = tm('sidebar.items') as string[]
+  const idx = Array.from(section.values()).indexOf(route.name as string)
+  return route.name !== Routes.order ? names[idx] : tm('sidebar.items')[0]
 })
 </script>
 
@@ -38,7 +49,7 @@ const icon = computed(() => {
       <div class="flex flex-row items-center gap-2">
         <component :is="icon" class="w-[18px] h-[18px] text-neutral-800" />
         <span class="text-[17px] font-semibold text-neutral-800 capitalize">
-          {{ route.name }}
+          {{ localizedRouteName }}
         </span>
       </div>
       <div class="flex flex-row items-center gap-4">
@@ -51,14 +62,12 @@ const icon = computed(() => {
             <span
               class="whitespace-pre-wrap text-center text-sm font-medium leading-none tracking-tight text-neutral-800 dark:from-white dark:to-slate-900/10"
             >
-              Build-in AI
+              {{ $t('header.ai') }}
             </span>
           </ShimmerButton>
         </div>
         <div class="h-3 w-px bg-neutral-200" />
-        <div class="text-sm text-neutral-500 cursor-pointer">
-          EN
-        </div>
+        <LanguageProvider />
         <div class="h-3 w-px bg-neutral-200" />
         <div class="h-10 rounded-md flex items-center gap-3">
           <Check v-tooltip.bottom="'Open Source'" class="w-[15px] h-[15px] 2xl:w-4 2xl:h-4 text-neutral-600" />

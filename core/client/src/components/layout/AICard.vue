@@ -26,17 +26,19 @@ const showCard = computed((): boolean => {
         <Ai class="min-w-5 min-h-5" />
         <div class="flex flex-col">
           <p class="text-sm text-neutral-900 font-semibold">
-            Ask AI anything about reviews
+            {{ $t('sidebar.card.title') }}
           </p>
-          <span class="text-xs text-neutral-500">Get answers to your questions about reviews</span>
+          <span class="text-xs text-neutral-500">
+            {{ $t('sidebar.card.description') }}
+          </span>
         </div>
       </div>
       <div class="flex items-center gap-1">
         <Badge variant="outline" class="text-[10px] bg-white">
-          How do I respond?
+          {{ $t('sidebar.card.badges', 0) }}
         </Badge>
         <Badge variant="outline" class="text-[10px] bg-white">
-          Help with analytics
+          {{ $t('sidebar.card.badges', 1) }}
         </Badge>
       </div>
     </div>

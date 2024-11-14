@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { Calendar, Department, Rating as RatingSvg, Smile, StatusTable } from '~/assets/svgs-vite'
 import { useSharedStatus } from '~/composables/useStatus'
 import type { Order } from '~/types/order.interface'
@@ -14,6 +15,9 @@ import AttributeItem from './AttributeItem.vue'
 const modelDepartment = ref<Review['department']>()
 const modelStatus = ref<Order['status']>('in process')
 
+const { tm } = useI18n()
+const attributes = computed(() => tm('order.attributes'))
+
 const isBtnDisabled = computed(() => modelStatus.value === 'closed')
 
 const { statusColor, textColor } = useSharedStatus()
@@ -21,20 +25,22 @@ const { statusColor, textColor } = useSharedStatus()
 
 <template>
   <div class="px-6 pt-5 flex flex-col space-y-4">
-    <AttributeItem title="Responsible">
+    <AttributeItem :title="attributes[0]">
       <template #icon>
         <Smile class="icon" />
       </template>
-      <span v-if="modelStatus === 'not verified'" class="text-sm text-neutral-300">Change status to in process or closed...</span>
+      <span v-if="modelStatus === 'not verified'" class="text-sm text-neutral-300">
+        {{ $t('order.values', 0) }}
+      </span>
       <span v-else class="text-sm text-neutral-500 font-medium">hi@example.com</span>
     </AttributeItem>
-    <AttributeItem title="Date">
+    <AttributeItem :title="attributes[1]">
       <template #icon>
         <Calendar class="icon" />
       </template>
       <span class="text-sm text-neutral-500 font-medium">11.10.2024</span>
     </AttributeItem>
-    <AttributeItem title="Status">
+    <AttributeItem :title="attributes[2]">
       <template #icon>
         <StatusTable class="icon" />
       </template>
@@ -51,16 +57,16 @@ const { statusColor, textColor } = useSharedStatus()
         </ReviewBadgeSelect>
       </Select>
     </AttributeItem>
-    <AttributeItem title="Price">
+    <AttributeItem :title="attributes[3]">
       <template #icon>
         <RatingSvg class="icon" />
       </template>
       <div class="flex flex-row items-center gap-2">
         <Price :price="1201020" class="pl-0 pr-0" />
-        <span class="text-sm text-neutral-500">company is ready to pay</span>
+        <span class="text-sm text-neutral-500">{{ $t('order.values', 1) }}</span>
       </div>
     </AttributeItem>
-    <AttributeItem title="Organization">
+    <AttributeItem :title="attributes[4]">
       <template #icon>
         <Department class="icon" />
       </template>
@@ -73,7 +79,10 @@ const { statusColor, textColor } = useSharedStatus()
             class="h-5 px-0 cursor-pointer text-neutral-500 hover:text-neutral-500 font-medium hover:bg-white focus-visible:ring-0"
             :class="{ 'cursor-not-allowed': isBtnDisabled }"
           >
-            <SelectValue :class="[!modelDepartment && 'text-neutral-300 font-normal']" placeholder="Choose an organization" />
+            <SelectValue
+              :class="[!modelDepartment && 'text-neutral-300 font-normal']"
+              :placeholder="$t('order.values', 3)"
+            />
           </Badge>
         </ReviewBadgeSelect>
       </Select>

@@ -33,9 +33,7 @@ const config = computed<VueUiKpiConfig>(() => ({
 const dataset = ref(2450000)
 
 const chart = markRaw<Chart>({
-  title: 'Profit',
   section: 'money',
-  description: 'Total profit from the entire company for the month',
 })
 </script>
 

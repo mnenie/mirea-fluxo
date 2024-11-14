@@ -65,7 +65,6 @@ const dataset = ref([
 
 const chart = markRaw<Chart>({
   section: 'workload',
-  title: 'Workload',
 })
 </script>
 

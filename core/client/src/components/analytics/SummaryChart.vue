@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { computed, markRaw, ref } from 'vue'
 import { VueUiDonut } from 'vue-data-ui'
+import { useI18n } from 'vue-i18n'
 import { useCharts } from '~/composables/useCharts'
 import type { Chart } from '~/types/chart.interface'
 import ChartItemWrapper from './ChartItemWrapper.vue'
 
 const chartDonut = ref(null)
 
+const { t } = useI18n()
 const { chartSummaryValue, generateCvs, generatePdf, generatePng } = useCharts(chartDonut)
 
 const nameSize = computed(() => chartSummaryValue.value - 4)
@@ -82,20 +84,19 @@ const config = computed(() => ({
 
 const dataset = ref([
   {
-    name: 'Closed Orders',
+    name: t('analytics.charts.summary.dataset', 0),
     values: [10],
     color: '#538BF3',
   },
   {
-    name: 'Opened Orders',
+    name: t('analytics.charts.summary.dataset', 1),
     values: [34],
     color: '#d4d4d8',
   },
 ])
 
 const chart = markRaw<Chart>({
-  title: 'Summary of orders',
-  section: 'orders',
+  section: 'summary',
 })
 </script>
 

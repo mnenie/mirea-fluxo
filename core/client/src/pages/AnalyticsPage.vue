@@ -31,7 +31,7 @@ const badges = ['1CManager', '1C:Enterprise', '1C:Platform']
   <div :class="$style.container" class="w-full h-full">
     <div :class="$style.section_about">
       <p class="text-sm">
-        View the analytics for all orders in our service and compare the successes with the past 👀
+        {{ $t('analytics.description') }} 👀
       </p>
     </div>
     <div :class="$style.section_badges">

@@ -88,7 +88,6 @@ const dataset = ref([{ name: 'boards', series: [5, 2, 10, 2, 1, 5, 5, 9, 7, 3, 1
 
 const chart = markRaw<Chart>({
   section: 'orders',
-  title: 'Orders in our workspace',
 })
 </script>
 

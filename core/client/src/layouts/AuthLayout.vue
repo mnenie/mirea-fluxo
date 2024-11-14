@@ -21,13 +21,27 @@ const router = useRouter()
     </div>
     <div class="footer flex justify-center items-center pb-6 gap-6 flex-col">
       <div class="text-sm text-neutral-500 max-w-[400px] text-center">
-        By proceeding you acknowledge that you have read, understood and agree to our
-        <a rel="noreferrer noopener" target="_blank" href="https://attio.com/legal/terms-and-conditions" class="underline">Terms and Conditions.</a>
+        {{ $t('sign_in.link', 1) }}
+        <a rel="noreferrer noopener" target="_blank" href="https://attio.com/legal/terms-and-conditions" class="underline"> {{ $t('sign_in.link', 0) }}</a>
       </div>
       <div class="text-xs text-neutral-500 flex items-center gap-4">
         <span>© 2024 1C Open Source</span>
-        <a rel="noreferrer noopener" target="_blank" href="https://github.com/mnenie/iptip-hack-2024" class="underline">Repository</a>
-        <a rel="noreferrer noopener" target="_blank" href="https://1c.ru/" class="underline">About Us</a>
+        <a
+          rel="noreferrer noopener"
+          target="_blank"
+          href="https://github.com/mnenie/iptip-hack-2024"
+          class="underline"
+        >
+          {{ $t('sign_in.footer', 1) }}
+        </a>
+        <a
+          rel="noreferrer noopener"
+          target="_blank"
+          href="https://1c.ru/"
+          class="underline"
+        >
+          {{ $t('sign_in.footer', 0) }}
+        </a>
       </div>
     </div>
   </div>

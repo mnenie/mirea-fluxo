@@ -26,10 +26,10 @@ const emits = defineEmits<{
     <div class="flex items-center justify-evenly mb-4 w-full">
       <div class="flex items-center gap-3 w-full">
         <p class="text-sm font-medium">
-          {{ chart.title }}
+          {{ $t(`analytics.charts.${chart.section}.title`) }}
         </p>
         <Badge variant="secondary" class="text-neutral-600">
-          {{ chart.section }}
+          {{ $t(`analytics.charts.${chart.section}.badge`) }}
         </Badge>
       </div>
       <DropdownMenu>
@@ -56,7 +56,7 @@ const emits = defineEmits<{
       <slot />
     </div>
     <span v-if="chart.section === 'money'" class="text-xs text-neutral-400">
-      {{ chart.description }}
+      {{ $t(`analytics.charts.${chart.section}.description`) }}
     </span>
   </div>
 </template>
