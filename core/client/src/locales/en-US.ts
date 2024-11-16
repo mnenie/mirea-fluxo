@@ -95,4 +95,30 @@ export default {
       password: 'Password',
     },
   },
+  welcome: {
+    orders: {
+      title: 'Orders',
+      description: 'Convenience of tracking orders in real-time in a table format',
+    },
+    analytics: {
+      title: 'Analytics',
+      description: 'Charts and statistics on government orders in a convenient format for you',
+    },
+    ai: {
+      title: 'Built-in AI',
+      description: 'Artificial intelligence will help you with work and risk analysis of the project',
+    },
+    map: {
+      title: 'Heat Map',
+      description: 'Risks of government orders can be displayed as a heat map',
+    },
+    notifications: {
+      title: 'Notifications',
+      description: 'Notifications arrive quickly in real-time',
+    },
+    contract: {
+      title: 'Contract',
+      description: 'Signing a contract with one click in each valid government order',
+    },
+  },
 }
