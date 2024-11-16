@@ -13,6 +13,7 @@
  * @property {string} _id - Уникальный идентификатор заказа
  * @property {string} title - Название заказа
  * @property {string} content - Содержание заказа
+ * @property {Date} dateEnd - Дата и время предполагаемого окончания заказа (заменятеся при закрытии заказа)
  * @property {Date} date - Дата и время создания заказа
  * @property {'not verified' | 'in process' | 'closed'} status - Статус заказа, может быть не проверен, в процессе или закрыт
  * @property {number} price - Цена заказа
