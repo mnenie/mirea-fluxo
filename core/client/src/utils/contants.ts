@@ -1,6 +1,6 @@
 export enum Routes {
-  reviews = 'reviews',
-  review = 'review',
+  orders = 'orders',
+  order = 'order',
   archive = 'archive',
   settings = 'settings',
   analytics = 'analytics',

@@ -8,18 +8,18 @@ import { Routes } from '~/utils/contants'
 
 const routes = [
   {
-    name: Routes.reviews,
+    name: Routes.orders,
     path: '/',
-    component: () => import('~/pages/ReviewsPage.vue'),
+    component: () => import('~/pages/OrdersPage.vue'),
     meta: {
       requiresAuth: false,
       layout: DefaultLayout,
     },
     children: [
       {
-        name: Routes.review,
-        path: 'reviews/:id',
-        component: () => import('~/pages/ReviewSheetPage.vue'),
+        name: Routes.order,
+        path: 'orders/:id',
+        component: () => import('~/pages/OrderSheetPage.vue'),
       },
     ],
 
@@ -64,15 +64,6 @@ const routes = [
     name: Routes.signin,
     path: '/user/sign-in',
     component: () => import('~/pages/SignInPage.vue'),
-    meta: {
-      requiresAuth: false,
-      layout: AuthLayout,
-    },
-  },
-  {
-    name: Routes.signup,
-    path: '/user/sign-up',
-    component: () => import('~/pages/SignUpPage.vue'),
     meta: {
       requiresAuth: false,
       layout: AuthLayout,
