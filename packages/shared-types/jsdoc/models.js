@@ -5,7 +5,7 @@
  * @property {string} photoUrl - URL профиля пользователя
  * @property {string} password - Пароль пользователя
  * @property {'manager' | 'corporation'} role - Роль пользователя в системе, может быть менеджер или человек с гк организации
- * @property {string} organization - Название организации пользователя !только если статус "corporation"
+ * @property {string?} organization - Название организации пользователя !только если статус "corporation"
  */
 
 /**
@@ -18,7 +18,8 @@
  * @property {'not verified' | 'in process' | 'closed'} status - Статус заказа, может быть не проверен, в процессе или закрыт
  * @property {number} price - Цена заказа
  * @property {string} organization - Название организации, ответственной за заказ
- * @property {Array<any>} stages - Список этапов заказа // any - TODO: fix
+ * @property {Array<any>?} stages - Список этапов заказа // any - TODO: fix
+ * @property {Array<Risk>?} risks - Список рисков, связанных с заказом
  */
 
 /**
