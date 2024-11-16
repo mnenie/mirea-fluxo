@@ -10,7 +10,7 @@ import { Routes } from '~/utils/contants'
 const routes = [
   {
     name: Routes.orders,
-    path: '/',
+    path: '/orders',
     component: () => import('~/pages/OrdersPage.vue'),
     meta: {
       requiresAuth: false,
@@ -45,7 +45,7 @@ const routes = [
   },
   {
     name: Routes.welcome,
-    path: '/welcome',
+    path: '/',
     component: () => import('~/pages/WelcomePage.vue'),
     meta: {
       requiresAuth: false,
