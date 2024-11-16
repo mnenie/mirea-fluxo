@@ -50,12 +50,13 @@ export default {
     },
   },
   order: {
-    actions: 'Contract | Analyze review',
+    actions: 'Contract | Analyze risks',
     attributes: ['Responsible', 'Date', 'Status', 'Price', 'Organization'],
+    tabs: 'Order stages | RHM',
     values: 'Change status to in process or closed... | company is ready to pay | Choose an organization',
     ai: {
       title: 'OR',
-      badges: ['ask ai', 'analyze and correct', 'so... make tea 😉'],
+      badges: ['ask ai', 'analyze', 'so... make tea 😉'],
     },
     stages: {
       no_stages: 'No stages yet',
@@ -81,6 +82,7 @@ export default {
         },
       },
     },
+    rhm: 'Risks (go in order in the map)',
   },
   sign_in: {
     title: 'Welcome back',
