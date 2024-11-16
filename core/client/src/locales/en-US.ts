@@ -22,7 +22,7 @@ export default {
   },
   orders: {
     filters: 'Filter by status | Sort | Reshuffle',
-    table: ['ID', 'Status', 'Organization', 'Heading', 'Price', 'Date'],
+    table: ['ID', 'Status', 'Organization', 'Heading', 'Price', 'Date', 'Close Date'],
     pagination: 'Display on the page',
   },
   analytics: {

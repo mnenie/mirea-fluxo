@@ -5,6 +5,7 @@ export interface Order {
   title: string
   content: string
   date: Date
+  closeDate?: Date
   status: OrderStatus
   price: number
   organization: string
