@@ -11,4 +11,10 @@ export interface Order {
   organization: string
   // TODO: fix stages
   stages: Array<any>
+  risks?: Risk[]
+}
+
+export interface Risk {
+  name: string
+  values: number[]
 }

@@ -5,6 +5,7 @@ export enum Routes {
   settings = 'settings',
   analytics = 'analytics',
   notifications = 'notifications',
+  welcome = 'welcome',
   signin = 'signin',
   signup = 'signup',
 }

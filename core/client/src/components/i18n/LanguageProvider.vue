@@ -14,13 +14,14 @@ const language = ref('')
 
 const i18nLanguage = computed(() => locales.find(item => item.value === language.value)?.name || language.value)
 
-useLanguage(locales, language)
+const { setLanguage } = useLanguage(locales, language)
 </script>
 
 <template>
   <Select
     v-model:model-value="language"
     :class="cn(buttonVariants({ variant: 'outline' }), 'appearance-none bg-transparent font-normal')"
+    @update:model-value="setLanguage($event)"
   >
     <SelectTrigger class="w-fit border-none shadow-none bg-none focus:ring-0 focus:outline-none ring-0 ring-offset-0" as-child>
       <Button variant="ghost" class="border-none px-0 py-0 items-center shadow-none bg-none focus:ring-0 focus:outline-none ring-0 ring-offset-0 focus-visible:ring-0 hover:bg-white text-neutral-600">

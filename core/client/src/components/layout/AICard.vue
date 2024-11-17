@@ -25,7 +25,7 @@ const showCard = computed((): boolean => {
       <div class="flex gap-2 items-center mb-2">
         <Ai class="min-w-5 min-h-5" />
         <div class="flex flex-col">
-          <p class="text-sm text-neutral-900 font-semibold">
+          <p class="text-sm 2xl:text-[13px] text-neutral-900 font-semibold">
             {{ $t('sidebar.card.title') }}
           </p>
           <span class="text-xs text-neutral-500">

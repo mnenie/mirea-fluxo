@@ -2,6 +2,7 @@ import type { AppRouterRecord } from './types'
 import { createRouter, createWebHistory } from 'vue-router'
 import AuthLayout from '~/layouts/AuthLayout.vue'
 import DefaultLayout from '~/layouts/DefaultLayout.vue'
+import EmptyLayout from '~/layouts/EmptyLayout.vue'
 import { Routes } from '~/utils/contants'
 
 // TODO (@mnenie): fix requiresAuth and add middlewares
@@ -9,7 +10,7 @@ import { Routes } from '~/utils/contants'
 const routes = [
   {
     name: Routes.orders,
-    path: '/',
+    path: '/orders',
     component: () => import('~/pages/OrdersPage.vue'),
     meta: {
       requiresAuth: false,
@@ -43,12 +44,12 @@ const routes = [
     },
   },
   {
-    name: Routes.settings,
-    path: '/settings',
-    component: () => import('~/pages/SettingsPage.vue'),
+    name: Routes.welcome,
+    path: '/',
+    component: () => import('~/pages/WelcomePage.vue'),
     meta: {
       requiresAuth: false,
-      layout: DefaultLayout,
+      layout: EmptyLayout,
     },
   },
   {
