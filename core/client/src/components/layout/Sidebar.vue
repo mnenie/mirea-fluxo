@@ -9,7 +9,7 @@ import MenuList from './MenuList.vue'
 import UpdateList from './UpdateList.vue'
 
 const routes = markRaw([
-  { name: Routes.orders, path: '/', icon: h(Inbox) },
+  { name: Routes.orders, path: '/orders', icon: h(Inbox) },
   { name: Routes.archive, path: '/archive', icon: h(Archive) },
   { name: Routes.notifications, path: '/notifications', icon: h(Notifications) },
   { name: Routes.analytics, path: '/analytics', icon: h(Rating) },

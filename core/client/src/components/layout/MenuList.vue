@@ -60,9 +60,9 @@ const { isExpanded } = expanded.getExpanded()
           />
           <span v-if="isExpanded" class="2xl:text-sm text-sm md:text-[13px]">{{ label }}</span>
         </div>
-        <Badge v-if="(path === '/' || path === '/notifications') && isExpanded" variant="outline" class="px-1.5 py-0 text-xs bg-blue-600 rounded-md">
+        <Badge v-if="(path === '/orders' || path === '/notifications') && isExpanded" variant="outline" class="px-1.5 py-0 text-xs bg-blue-600 rounded-md">
           <!-- TODO -->
-          <span class="text-[10px] text-white">{{ path === '/' ? '10' : '3' }}</span>
+          <span class="text-[10px] text-white">{{ path === '/orders' ? '10' : '3' }}</span>
         </Badge>
       </Button>
     </RouterLink>

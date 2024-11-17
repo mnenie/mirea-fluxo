@@ -19,7 +19,7 @@ const routes = [
     children: [
       {
         name: Routes.order,
-        path: 'orders/:id',
+        path: '/orders/:id',
         component: () => import('~/pages/OrderSheetPage.vue'),
       },
     ],

@@ -31,7 +31,7 @@ function handleCheckAll() {
 
 <template>
   <div class="w-full h-full">
-    <div class="flex flex-row items-center space-x-4 ml-6">
+    <div class="flex flex-row items-center space-x-4 ml-4">
       <!-- TODO: fix check all -->
       <Checkbox :disabled="true" @update:checked="handleCheckAll" />
       <Button size="sm" variant="outline" class="px-2 py-0 flex gap-1.5 items-center">
@@ -42,7 +42,7 @@ function handleCheckAll() {
       </Button>
       <!-- TODO: add tooltip -->
       <Button v-if="selectedNotifications.length > 0" size="sm" class="text-neutral-600" variant="outline" @click="markSelectedAsRead">
-        <LetterCheck />
+        <LetterCheck class="w-[18px] h-[18px]" />
       </Button>
     </div>
     <NotificationsContainer />

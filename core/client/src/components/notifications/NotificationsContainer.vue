@@ -8,7 +8,7 @@ const { notifications } = storeToRefs(notificationStore)
 </script>
 
 <template>
-  <div class="p-2">
+  <div class="my-4 bg-white rounded-md">
     <NotificationCard v-for="notification in notifications" :key="notification._id" :notification="notification" />
   </div>
 </template>
