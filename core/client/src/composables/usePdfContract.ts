@@ -1,6 +1,5 @@
 import type { Ref } from 'vue'
 import jsPDF from 'jspdf'
-
 import { formatDate } from '~/helpers/formatDateHelper'
 import type { Order } from '~/types/order.interface'
 
@@ -11,14 +10,13 @@ const _date = formatDate(date)
 
 export async function generatePDF(pathImg: string, order: Ref<Order>, totalOrderPriceByStages: Ref<number>) {
   // eslint-disable-next-line new-cap
-  const doc = new jsPDF({
-    unit: 'px',
-    format: 'a4',
-    putOnlyUsedFonts: true,
-    floatPrecision: 16,
-    hotfixes: ['px_scaling'],
-    filters: ['ASCIIHexEncode'],
-  })
+  const doc = new jsPDF()
+
+  const responseFont = await fetch('https://raw.githubusercontent.com/alixaxel/typhon/refs/heads/master/typeface/serif/Times%20New%20Roman.base64').then(res => res.text())
+
+  doc.addFileToVFS('WorkSans-normal.ttf', responseFont)
+  doc.addFont('WorkSans-normal.ttf', 'WorkSans', 'normal')
+  doc.setFont('WorkSans')
 
   doc.setFontSize(16)
   doc.text('ДОГОВОР', doc.internal.pageSize.width / 2, 20, { align: 'center' })
