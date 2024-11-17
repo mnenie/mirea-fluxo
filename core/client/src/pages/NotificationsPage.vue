@@ -42,7 +42,7 @@ function handleCheckAll() {
       </Button>
       <!-- TODO: add tooltip -->
       <Button v-if="selectedNotifications.length > 0" size="sm" class="text-neutral-600" variant="outline" @click="markSelectedAsRead">
-        <LetterCheck class="w-[18px] h-[18px]" />
+        <LetterCheck class="w-[17px] h-[17px] 2xl:w-[18px] 2xl:h-[18px]" />
       </Button>
     </div>
     <NotificationsContainer />
