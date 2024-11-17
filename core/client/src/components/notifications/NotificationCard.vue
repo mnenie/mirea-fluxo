@@ -43,8 +43,8 @@ onMounted(() => {
           {{ notification.title }}
         </div>
         <div v-if="isHovered" class="flex flex-row items-center ml-auto space-x-2 text-neutral-600">
-          <Trash class="w-[18px] h-[18px]" />
-          <LetterCheck class="w-[18px] h-[18px]" />
+          <Trash class="w-[16px] h-[16px] 2xl:w-[18px] 2xl:h-[18px]" />
+          <LetterCheck class="w-[16px] h-[16px] 2xl:w-[18px] 2xl:h-[18px]" />
         </div>
         <div v-else class="ml-auto text-xs text-neutral-500 font-medium">
           {{ formatDate(notification.date) }}
