@@ -6,6 +6,10 @@ const notificationStore = useNotificationStore()
 const { selectedNotifications } = storeToRefs(notificationStore)
 
 export function useNotifications() {
+  /*
+  * TODO(@sv022): я думаю надо все же это затащить все в стор дабы не изменять стор переменные отдельно от пьньи
+  * разрыв центр. логики
+  */
   function addToSelected(notification: Notification) {
     selectedNotifications.value.push(notification)
   }
