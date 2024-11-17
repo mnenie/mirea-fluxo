@@ -4,6 +4,11 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'Verdana';
+  src: url('tnr.ttf') format('truetype');
+  }
+
 @layer base {
   :root {
     --background: 0 0% 100%;

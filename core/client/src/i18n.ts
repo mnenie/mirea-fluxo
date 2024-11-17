@@ -10,17 +10,15 @@ const messages = {
   'ru-RU': ruLocale,
 }
 
-// Determine current locale
 const getCurrentLocale = computed(() => {
   const storageLanguage = localStorage.getItem('i18n')
   if (storageLanguage) {
     return storageLanguage
   }
-  // Fallback to 'ru-RU' if browser language starts with 'ru'
   if (navigator.language.split('-')[0] === 'ru') {
     return 'ru-RU'
   }
-  return 'en-US' // Default to 'en-US'
+  return 'en-US'
 })
 
 const i18n = createI18n<[MessageSchema], 'en-US' | 'ru-RU'>({

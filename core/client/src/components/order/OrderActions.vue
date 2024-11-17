@@ -12,7 +12,7 @@ const { totalOrderPriceByStages, order } = storeToRefs(orderStore)
 
 const isDisabled = computed(() => totalOrderPriceByStages.value > order.value.price)
 
-const generatePDF = () => useJsToPdf(imagePath, order, totalOrderPriceByStages)
+const generatePDF = async () => await useJsToPdf(imagePath, order, totalOrderPriceByStages)
 </script>
 
 <template>

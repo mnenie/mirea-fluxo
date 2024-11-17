@@ -1,6 +1,6 @@
 import type { Ref } from 'vue'
 import jsPDF from 'jspdf'
-import { font } from '~/assets/fonts/font'
+
 import { formatDate } from '~/helpers/formatDateHelper'
 import type { Order } from '~/types/order.interface'
 
@@ -9,13 +9,16 @@ const arrDatesMonths = ['января', 'февраля', 'марта', 'апр�
 const date = new Date()
 const _date = formatDate(date)
 
-export function generatePDF(path: string, order: Ref<Order>, totalOrderPriceByStages: Ref<number>) {
+export async function generatePDF(pathImg: string, order: Ref<Order>, totalOrderPriceByStages: Ref<number>) {
   // eslint-disable-next-line new-cap
-  const doc = new jsPDF()
-
-  doc.addFileToVFS('WorkSans-normal.ttf', font)
-  doc.addFont('WorkSans-normal.ttf', 'WorkSans', 'normal')
-  doc.setFont('WorkSans')
+  const doc = new jsPDF({
+    unit: 'px',
+    format: 'a4',
+    putOnlyUsedFonts: true,
+    floatPrecision: 16,
+    hotfixes: ['px_scaling'],
+    filters: ['ASCIIHexEncode'],
+  })
 
   doc.setFontSize(16)
   doc.text('ДОГОВОР', doc.internal.pageSize.width / 2, 20, { align: 'center' })
@@ -33,13 +36,7 @@ export function generatePDF(path: string, order: Ref<Order>, totalOrderPriceBySt
   doc.setFontSize(12)
   doc.setTextColor(0)
 
-  const text = `
-    От ответственного лица данного заказа
-    example@gmail.com, действующего на основании государственного контракта,
-    именуемый в дальнейшем «Работодатель», с одной стороны, и гр. hi@example.com,
-    именуемый в дальнейшем «Работник», с другой стороны, именуемые в дальнейшем «Стороны»,
-    заключили настоящий договор, в дальнейшем «Договор», о нижеследующем:
-  `
+  const text = `От ответственного лица данного заказа example@gmail.com, действующего на основании государственного контракта, именуемый в дальнейшем «Работодатель», с одной стороны, и гр. hi@example.com, именуемый в дальнейшем «Работник», с другой стороны, именуемые в дальнейшем «Стороны», заключили настоящий договор, в дальнейшем «Договор», о нижеследующем:`
 
   const pageWidth = doc.internal.pageSize.width - 20
 
@@ -105,7 +102,7 @@ export function generatePDF(path: string, order: Ref<Order>, totalOrderPriceBySt
   cursorY += 20
 
   const img = new Image()
-  img.src = path
+  img.src = pathImg
   img.onload = () => {
     const imgWidth = 80
     const imgHeight = 30
