@@ -6,10 +6,8 @@ import { LetterCheck, Sort } from '~/assets/svgs-vite'
 import NotificationsContainer from '~/components/notifications/NotificationsContainer.vue'
 import Button from '~/components/ui/button/Button.vue'
 import Checkbox from '~/components/ui/checkbox/Checkbox.vue'
-import { useNotifications } from '~/composables/useNotifications'
 import { useNotificationStore } from '~/stores/notifications'
 
-const { selectAll, markSelectedAsRead } = useNotifications()
 const notificationStore = useNotificationStore()
 const { selectedNotifications } = storeToRefs(notificationStore)
 
@@ -21,7 +19,7 @@ const isMarked = ref<boolean>(false)
 function handleCheckAll() {
   isMarked.value = !isMarked.value
   if (isMarked.value) {
-    selectAll()
+    notificationStore.selectAll()
   }
   else {
     selectedNotifications.value = []
@@ -41,7 +39,7 @@ function handleCheckAll() {
         </span>
       </Button>
       <!-- TODO: add tooltip -->
-      <Button v-if="selectedNotifications.length > 0" size="sm" class="text-neutral-600" variant="outline" @click="markSelectedAsRead">
+      <Button v-if="selectedNotifications.length > 0" size="sm" class="text-neutral-600" variant="outline" @click="notificationStore.markSelectedAsRead">
         <LetterCheck class="w-[17px] h-[17px] 2xl:w-[18px] 2xl:h-[18px]" />
       </Button>
     </div>

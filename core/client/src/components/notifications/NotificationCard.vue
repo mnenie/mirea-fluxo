@@ -2,14 +2,14 @@
 import { onMounted, ref } from 'vue'
 import { Trash } from '~/assets/svgs-vite'
 import { LetterCheck } from '~/assets/svgs-vite/notification'
-import { useNotifications } from '~/composables/useNotifications'
 import { formatDate } from '~/helpers/formatDateHelper'
 import { cn } from '~/lib/utils'
+import { useNotificationStore } from '~/stores/notifications'
 import type { Notification } from '~/types/notification.interface'
 import Checkbox from '../ui/checkbox/Checkbox.vue'
 
 const { notification } = defineProps<{ notification: Notification }>()
-const { addToSelected, removeFromSelected, checkSelected } = useNotifications()
+const { addToSelected, removeFromSelected, checkSelected } = useNotificationStore()
 
 const isHovered = ref<boolean>(false)
 const isExpanded = ref<boolean>(false)
