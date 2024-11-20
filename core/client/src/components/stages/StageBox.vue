@@ -13,7 +13,7 @@ const { order } = storeToRefs(orderStore)
     <div class="flex flex-col w-full items-center">
       <Button variant="secondary" class="w-full backdrop:blur-sm text-neutral-600 justify-between">
         {{ $t('order.stages.add') }}
-        <div class="text-sm text-neutral-400 flex items-center gap-1">
+        <div class="text-sm text-neutral-600 flex items-center gap-1">
           <History class="w-[14px] h-[14px]" />
           {{ order.stages.length }}
         </div>

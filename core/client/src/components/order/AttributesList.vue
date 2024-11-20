@@ -32,7 +32,7 @@ const { statusColor, textColor } = useSharedStatus()
       <span v-if="modelStatus === 'not verified'" class="text-sm text-neutral-300">
         {{ $t('order.values', 0) }}
       </span>
-      <span v-else class="text-sm text-neutral-500 font-medium">hi@example.com</span>
+      <span v-else class="text-sm text-neutral-500 font-medium">manager.1c.ru</span>
     </AttributeItem>
     <AttributeItem :title="attributes[1]">
       <template #icon>

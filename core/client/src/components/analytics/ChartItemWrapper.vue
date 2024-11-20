@@ -35,7 +35,7 @@ const emits = defineEmits<{
       <DropdownMenu>
         <DropdownMenuTrigger>
           <ChartMenu
-            v-if="chart.section === 'orders'"
+            v-if="chart.section === 'orders' || chart.section === 'summary'"
             class="min-w-[16px] min-h-[16px] text-neutral-600 cursor-pointer"
           />
         </DropdownMenuTrigger>

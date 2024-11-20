@@ -36,7 +36,7 @@ const notNeededPrice = computed(() => totalOrderPriceByStages.value > order.valu
     </div>
     <div v-for="stage, idx in order.stages" :key="idx" class="flex items-center gap-10 justify-between">
       <span class="text-sm text-neutral-400">
-        <span class="text-neutral-800">new@gmail</span>
+        <span class="text-neutral-800">hi@example</span>
         {{ $t('order.stages.container.value', 0) }} {{ stage.stage }}
       </span>
       <span class="text-sm text-neutral-400 font-medium">

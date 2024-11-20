@@ -25,8 +25,8 @@ import { Input } from '~/components/ui/input'
 import { useOrderStore } from '~/stores/orders'
 
 const formSchema = toTypedSchema(z.object({
-  stage: z.string({ required_error: `Required field` }).min(2).max(50),
-  price: z.number({ required_error: `Required field` }),
+  stage: z.string({ required_error: `Обязательное поле` }).min(2).max(50),
+  price: z.number({ required_error: `Обязательное поле` }),
 }))
 const isDialogOpen = ref(false)
 
