@@ -58,11 +58,13 @@ const { user } = storeToRefs(authStore)
     <div class="flex flex-col h-full items-start pt-2 w-full">
       <div class="flex flex-col">
         <Badge variant="secondary" class="py-[0px] px-1.5 w-fit">
-          <span class="sm:text-[10px] 2xl:text-[11px] text-neutral-600">{{ $t('header.badge') }}</span>
-        </Badge>
-        <span class="text-sm md:text-[13px] 2xl:text-sm font-semibold text-neutral-800 px-1.5">
-          {{ user.email }}
-        </span>
+          <Badge variant="secondary" class="py-[0px] px-1.5 w-fit">
+            <span class="sm:text-[10px] 2xl:text-[11px] text-neutral-600">{{ $t('header.badge') }}</span>
+          </Badge>
+          <span class="text-sm md:text-[13px] 2xl:text-sm font-semibold text-neutral-800 px-1.5">
+            {{ user.email }}
+          </span>
+        </badge>
       </div>
     </div>
     <Pane v-if="isExpanded" class="text-neutral-500 cursor-pointer" @click="emits('toggleSidebar')" />
