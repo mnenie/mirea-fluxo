@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
-import { computed } from 'vue'
+import { computed, type ComputedRef } from 'vue'
 import { Ai, FileContract } from '~/assets/svgs-vite'
 import { generatePDF as useJsToPdf } from '~/composables/usePdfContract'
 import { useOrderStore } from '~/stores/orders'
@@ -10,9 +10,9 @@ import { Button } from '../ui/button'
 const orderStore = useOrderStore()
 const { totalOrderPriceByStages, order } = storeToRefs(orderStore)
 
-const isDisabled = computed(() => totalOrderPriceByStages.value > order.value.price)
+const isDisabled = computed(() => totalOrderPriceByStages.value! > order.value.price)
 
-const generatePDF = async () => await useJsToPdf(imagePath, order, totalOrderPriceByStages)
+const generatePDF = async () => await useJsToPdf(imagePath, order, totalOrderPriceByStages as ComputedRef<number>)
 </script>
 
 <template>

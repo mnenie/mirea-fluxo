@@ -25,7 +25,7 @@ export async function generatePDF(pathImg: string, order: Ref<Order>, totalOrder
 
   doc.setFontSize(10)
   doc.setTextColor(150)
-  doc.text(`«${_date.split('.')[0]}» ${arrDatesMonths[_date.split('.')[1] as unknown as number - 1]} 2024 г.`, doc.internal.pageSize.width - 10, cursorY, {
+  doc.text(`«${_date!.split('.')[0]}» ${arrDatesMonths[_date!.split('.')[1] as unknown as number - 1]} 2024 г.`, doc.internal.pageSize.width - 10, cursorY, {
     align: 'right',
   })
 
@@ -81,7 +81,7 @@ export async function generatePDF(pathImg: string, order: Ref<Order>, totalOrder
   cursorY += 10
 
   order.value.stages.forEach((stage) => {
-    doc.text(stage.stage, 10, cursorY)
+    doc.text(stage.title, 10, cursorY)
     doc.text(stage.price.toString(), pageWidth / 2, cursorY, { align: 'center' })
     cursorY += 10
   })
