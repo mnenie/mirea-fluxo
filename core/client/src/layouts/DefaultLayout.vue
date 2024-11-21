@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useLocalStorage } from '@vueuse/core'
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import Header from '~/components/layout/header/Header.vue'
 import Sidebar from '~/components/layout/Sidebar.vue'
 import {
@@ -8,6 +8,7 @@ import {
   ResizablePanelGroup,
 } from '~/components/ui/resizable'
 import { useExpanded } from '~/composables/useExpanded'
+import { useAuthStore } from '~/stores/auth'
 
 const expanded = useLocalStorage('expanded', true)
 const transitionFl = ref<boolean>(false)
@@ -24,6 +25,12 @@ const { createContext } = useExpanded()
 createContext({
   isExpanded: expanded,
   toggleExpanded: toggleSidebar,
+})
+
+const authStore = useAuthStore()
+
+onMounted(async () => {
+  await authStore.getCurrentUser()
 })
 </script>
 

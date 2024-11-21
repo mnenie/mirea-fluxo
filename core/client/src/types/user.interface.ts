@@ -7,3 +7,7 @@ export interface User {
   role: Role
   organization?: string
 }
+
+export interface UserAuth extends User {
+  token: string
+}

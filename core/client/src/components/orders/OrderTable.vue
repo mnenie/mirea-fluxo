@@ -24,7 +24,7 @@ const route = useRoute()
 const { tm } = useI18n()
 
 const orderStore = useOrderStore()
-const { ordersPage } = storeToRefs(orderStore)
+const { orders } = storeToRefs(orderStore)
 
 const sheet = useTemplateRef<InstanceType<typeof Sheet> | null>('sheet')
 
@@ -76,11 +76,11 @@ onBeforeMount(() => {
         <Sheet ref="sheet" v-model:open="isSheetOpen" @update:open="toggleModalRoute">
           <SheetTrigger as-child>
             <OrderRow
-              v-for="order in ordersPage"
+              v-for="order in orders"
               :key="order._id"
               :order="order"
               class="cursor-pointer"
-              @click="router.push(`/orders/${order._id}`), isSheetOpen = true"
+              @click="isSheetOpen = true, router.push(`/orders/${order._id}`)"
             />
           </SheetTrigger>
           <SheetContent class="min-w-[560px] !max-w-full w-1/4">

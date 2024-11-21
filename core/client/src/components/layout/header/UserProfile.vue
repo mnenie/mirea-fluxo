@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { storeToRefs } from 'pinia'
 import { Menu, Pane } from '~/assets/svgs-vite'
 import { Avatar, AvatarFallback, AvatarImage } from '~/components/ui/avatar'
 import { Badge } from '~/components/ui/badge'
@@ -23,6 +24,7 @@ const emits = defineEmits<{
 }>()
 
 const authStore = useAuthStore()
+const { user } = storeToRefs(authStore)
 </script>
 
 <template>
@@ -30,13 +32,15 @@ const authStore = useAuthStore()
     <DropdownMenu>
       <DropdownMenuTrigger>
         <Avatar class="w-9 h-9 bg-neutral-100 border border-neutral-200 rounded-lg flex items-center justify-center mr-2 cursor-pointer">
-          <AvatarImage :src="authStore.user.photoUrl" alt="@radix-vue" />
-          <AvatarFallback>1A</AvatarFallback>
+          <AvatarImage :src="user.photoUrl" alt="@radix-vue" />
+          <AvatarFallback v-if="user.email">
+            {{ user.email.split('').slice(0, 2).join('') }}
+          </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start" class="w-[200px]">
-        <DropdownMenuLabel v-if="authStore.user.email" class="2xl:text-[13px] sm:text-sm">
-          {{ authStore.user.email }}
+        <DropdownMenuLabel class="2xl:text-[13px] sm:text-sm">
+          {{ user.email }}
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
@@ -53,11 +57,11 @@ const authStore = useAuthStore()
     </DropdownMenu>
     <div class="flex flex-col h-full items-start pt-2 w-full">
       <div class="flex flex-col">
-        <Badge variant="secondary" class="py-[0px] px-1.5">
+        <Badge variant="secondary" class="py-[0px] px-1.5 w-fit">
           <span class="sm:text-[10px] 2xl:text-[11px] text-neutral-600">{{ $t('header.badge') }}</span>
         </Badge>
-        <span v-if="false" class="text-sm md:text-[13px] 2xl:text-sm font-semibold text-neutral-800 px-1.5">
-          {{ authStore.user.email }}
+        <span class="text-sm md:text-[13px] 2xl:text-sm font-semibold text-neutral-800 px-1.5">
+          {{ user.email }}
         </span>
       </div>
     </div>

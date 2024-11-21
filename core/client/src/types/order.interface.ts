@@ -1,3 +1,5 @@
+import type { Stage } from './stages.interface'
+
 export type OrderStatus = 'not verified' | 'in process' | 'closed'
 
 export interface Order {
@@ -5,12 +7,13 @@ export interface Order {
   title: string
   content: string
   date: Date
+  dateEnd?: Date
   closeDate?: Date
   status: OrderStatus
   price: number
   organization: string
-  // TODO: fix stages
-  stages: Array<any>
+  manager?: string
+  stages: Array<Stage>
   risks?: Risk[]
 }
 

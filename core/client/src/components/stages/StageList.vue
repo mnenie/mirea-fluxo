@@ -8,11 +8,11 @@ import { Badge } from '../ui/badge'
 const orderStore = useOrderStore()
 const { order, totalOrderPriceByStages } = storeToRefs(orderStore)
 
-const notNeededPrice = computed(() => totalOrderPriceByStages.value > order.value.price)
+const notNeededPrice = computed(() => order.value && order.value.price && totalOrderPriceByStages.value! > order.value.price)
 </script>
 
 <template>
-  <div v-if="order.stages.length === 0" class="px-6 mt-36 text-base text-neutral-400 flex flex-col gap-2 items-center justify-center">
+  <div v-if="!order.stages || !order || order.stages.length === 0" class="px-6 mt-36 text-base text-neutral-400 flex flex-col gap-2 items-center justify-center">
     <NoComments class="w-[50px] h-[50px]" />
     <span class="text-sm">{{ $t('order.stages.no_stages') }}</span>
   </div>
@@ -35,11 +35,11 @@ const notNeededPrice = computed(() => totalOrderPriceByStages.value > order.valu
       </div>
     </div>
     <div v-for="stage, idx in order.stages" :key="idx" class="flex items-center gap-10 justify-between">
-      <span class="text-sm text-neutral-400">
-        <span class="text-neutral-800">new@gmail</span>
-        {{ $t('order.stages.container.value', 0) }} {{ stage.stage }}
+      <span v-if="stage" class="text-sm text-neutral-400">
+        <span class="text-neutral-800">{{ stage.organization }}</span>
+        {{ $t('order.stages.container.value', 0) }} {{ stage.title }}
       </span>
-      <span class="text-sm text-neutral-400 font-medium">
+      <span v-if="stage" class="text-sm text-neutral-400 font-medium">
         {{ stage.price }} {{ $t('order.stages.container.value', 1) }}
       </span>
     </div>

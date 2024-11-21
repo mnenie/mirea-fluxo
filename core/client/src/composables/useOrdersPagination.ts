@@ -9,7 +9,7 @@ interface ReviewsContext {
   updateItemsPerPage: (newItemsPerPage: number) => void
 }
 
-const reviewStore = useOrderStore()
+const orderStore = useOrderStore()
 
 export function useOrdersPagination(): ReviewsContext {
   const itemsPerPage = ref<number>(15)
@@ -17,7 +17,7 @@ export function useOrdersPagination(): ReviewsContext {
 
   function selectOrderPage(page: number, items: number) {
     currentPage.value = page
-    reviewStore.updateOrders(page, items)
+    orderStore.updateOrders(page, items)
   }
 
   function updateItemsPerPage(newItemsPerPage: number) {

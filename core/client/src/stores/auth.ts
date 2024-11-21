@@ -1,30 +1,42 @@
+import { useCookies } from '@vueuse/integrations/useCookies'
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { ref, shallowRef } from 'vue'
 import { useRouter } from 'vue-router'
+import UserService from '~/services/user'
 import type { User } from '~/types/user.interface'
 
 export const useAuthStore = defineStore('auth', () => {
-  const user = ref<User>({} as User)
+  const user = shallowRef<User>({} as User)
   const isPending = ref<boolean>(false)
   const router = useRouter()
 
-  const login = async (email: string, password: string) => {
+  const cookies = useCookies()
+
+  const login = async <T extends Record<string, string>>(info: T) => {
     isPending.value = true
     try {
-      if (password !== '11111111') {
-        throw new Error('Invalid password!')
-      }
-      // TODO: link to backend
-      user.value = {
-        _id: '0',
-        email,
-        role: 'manager',
-        photoUrl: `https://api.dicebear.com/9.x/glass/svg?seed=${Math.floor(Math.random() * 1000)}}`,
-      }
+      const { data } = await UserService.login(info)
+      cookies.set('token', data.token, { path: '/' })
+      user.value = data
     }
-    catch (err) {
+    catch (err: any) {
       isPending.value = false
-      return err
+      throw new Error(err)
+    }
+    finally {
+      isPending.value = false
+    }
+  }
+
+  async function getCurrentUser(): Promise<void> {
+    isPending.value = true
+    try {
+      const { data } = await UserService.getUser()
+      user.value = data
+    }
+    catch (err: any) {
+      isPending.value = false
+      throw new Error(err)
     }
     finally {
       isPending.value = false
@@ -32,6 +44,7 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   const logout = () => {
+    UserService.logout()
     user.value = {} as User
     router.push('/')
   }
@@ -40,5 +53,6 @@ export const useAuthStore = defineStore('auth', () => {
     user,
     login,
     logout,
+    getCurrentUser,
   }
 })

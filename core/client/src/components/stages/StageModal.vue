@@ -23,9 +23,12 @@ import {
 } from '~/components/ui/form'
 import { Input } from '~/components/ui/input'
 import { useOrderStore } from '~/stores/orders'
+import { Textarea } from '../ui/textarea'
 
 const formSchema = toTypedSchema(z.object({
-  stage: z.string({ required_error: `Required field` }).min(2).max(50),
+  title: z.string({ required_error: `Required field` }).min(2).max(50),
+  content: z.string({ required_error: `Required field` }).min(2).max(50),
+  date: z.string({ required_error: `Required field` }),
   price: z.number({ required_error: `Required field` }),
 }))
 const isDialogOpen = ref(false)
@@ -40,10 +43,13 @@ const { value: stage } = useField<string>('stage')
 const { value: price } = useField<number | null>('price')
 
 const onSubmit = handleSubmit(async (values) => {
-  orderStore.postNewStage({
-    stage: values.stage,
+  const data = {
+    title: values.title,
     price: values.price,
-  })
+    content: values.content,
+    dateEnd: values.date,
+  }
+  await orderStore.createStageById(orderStore.order._id, data)
   stage.value = ''
   price.value = null
   isDialogOpen.value = false
@@ -51,6 +57,7 @@ const onSubmit = handleSubmit(async (values) => {
 </script>
 
 <template>
+  <!-- TODO: component logic(@mnenie) -->
   <Dialog v-model:open="isDialogOpen">
     <DialogTrigger as-child>
       <slot />
@@ -63,11 +70,27 @@ const onSubmit = handleSubmit(async (values) => {
         </DialogDescription>
       </DialogHeader>
       <form id="dialogForm" class="space-y-4" @submit="onSubmit">
-        <FormField v-slot="{ componentField }" name="stage">
+        <FormField v-slot="{ componentField }" name="title">
           <FormItem>
             <FormLabel>{{ $t('order.stages.dialog.fields.stage.label') }}</FormLabel>
             <FormControl>
               <Input
+                type="text"
+                :placeholder="$t('order.stages.dialog.fields.stage.placeholder')"
+                v-bind="componentField"
+              />
+            </FormControl>
+            <FormDescription>
+              {{ $t('order.stages.dialog.fields.stage.description') }}
+            </FormDescription>
+            <FormMessage />
+          </FormItem>
+        </FormField>
+        <FormField v-slot="{ componentField }" name="content">
+          <FormItem>
+            <FormLabel>{{ $t('order.stages.dialog.fields.stage.label') }}</FormLabel>
+            <FormControl>
+              <Textarea
                 type="text"
                 :placeholder="$t('order.stages.dialog.fields.stage.placeholder')"
                 v-bind="componentField"
@@ -89,6 +112,22 @@ const onSubmit = handleSubmit(async (values) => {
                 v-bind="componentField"
               />
             </FormControl>
+            <FormMessage />
+          </FormItem>
+        </FormField>
+        <FormField v-slot="{ componentField }" name="date">
+          <FormItem>
+            <FormLabel>{{ $t('order.stages.dialog.fields.stage.label') }}</FormLabel>
+            <FormControl>
+              <Input
+                type="text"
+                :placeholder="$t('order.stages.dialog.fields.stage.placeholder')"
+                v-bind="componentField"
+              />
+            </FormControl>
+            <FormDescription>
+              {{ $t('order.stages.dialog.fields.stage.description') }}
+            </FormDescription>
             <FormMessage />
           </FormItem>
         </FormField>

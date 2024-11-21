@@ -1,12 +1,20 @@
 <script setup lang="ts">
 import { useHead } from '@unhead/vue'
+import { onMounted } from 'vue'
 import { Arrow, Filter, Reload, Sort } from '~/assets/svgs-vite'
 import OrderTable from '~/components/orders/OrderTable.vue'
 import TablePagination from '~/components/orders/TablePagination.vue'
 import { Button } from '~/components/ui/button'
+import { useOrderStore } from '~/stores/orders'
 
 useHead({
   title: '1CManager | Orders',
+})
+
+const ordersStore = useOrderStore()
+
+onMounted(async () => {
+  await ordersStore.getOrders()
 })
 </script>
 

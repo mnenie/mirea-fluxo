@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { ref, shallowRef } from 'vue'
+import { storeToRefs } from 'pinia'
+import { nextTick, ref, watchPostEffect } from 'vue'
+import { useRoute } from 'vue-router'
 import { Link } from '~/assets/svgs-vite'
 import AttributesList from '~/components/order/AttributesList.vue'
 import BadgesList from '~/components/order/BadgesList.vue'
@@ -13,34 +15,35 @@ import StageModal from '~/components/stages/StageModal.vue'
 import { Badge } from '~/components/ui/badge'
 import { SheetHeader } from '~/components/ui/sheet'
 import { Tabs, TabsContent } from '~/components/ui/tabs'
-import type { Order } from '~/types/order.interface'
+import { useOrderStore } from '~/stores/orders'
 
-const orderDescription = `
-  Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos, quas
-  <strong>consectetur</strong> Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-  <br />
-  Odit blanditiis ab quaerat, <strong>quisquam eos pariatur neque consequatur possimus</strong> at id nam officia libero repellendus quo deleniti, fuga totam vel accusantium?
-`
+// const orderDescription = `
+//   Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos, quas
+//   <strong>consectetur</strong> Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+//   <br />
+//   Odit blanditiis ab quaerat, <strong>quisquam eos pariatur neque consequatur possimus</strong> at id nam officia libero repellendus quo deleniti, fuga totam vel accusantium?
+// `
 
-const risks = shallowRef([
-  { name: 'Риск какой то там', values: [1, 0, 0, 0, 0] },
-  { name: 'Риск какой то там 2', values: [4, 0, 2, 0, 1] },
-  { name: 'Риск какой то там 3', values: [2, 0, 0, 3, 0] },
-])
-
-const order = ref<Order>({
-  _id: '0',
-  title: 'Привет мир 👋',
-  date: new Date(),
-  content: orderDescription,
-  status: 'in process',
-  price: 10000,
-  organization: 'Google',
-  stages: [],
-  risks: risks.value,
-})
+// const risks = shallowRef([
+//   { name: 'Риск какой то там', values: [1, 0, 0, 0, 0] },
+//   { name: 'Риск какой то там 2', values: [4, 0, 2, 0, 1] },
+//   { name: 'Риск какой то там 3', values: [2, 0, 0, 3, 0] },
+// ])
 
 const tabValue = ref('stages')
+
+const route = useRoute()
+
+const orderStore = useOrderStore()
+
+const { order } = storeToRefs(orderStore)
+
+watchPostEffect(async () => {
+  await orderStore.getOrderById(route.params.id as string)
+  nextTick(() => {
+    console.log(route.params.id)
+  })
+})
 </script>
 
 <template>

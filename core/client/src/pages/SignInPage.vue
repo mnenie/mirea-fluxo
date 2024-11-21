@@ -1,6 +1,4 @@
 <script setup lang="ts">
-// TODO: add logic with form to components/auth
-
 import { toTypedSchema } from '@vee-validate/zod'
 import { useField, useForm } from 'vee-validate'
 import { ref } from 'vue'
@@ -16,6 +14,7 @@ import {
 import { Input } from '~/components/ui/input'
 import { Label } from '~/components/ui/label'
 import { useAuthStore } from '~/stores/auth'
+import { Routes } from '~/utils/contants'
 
 const authStore = useAuthStore()
 const authError = ref<boolean>(false)
@@ -31,15 +30,13 @@ const { handleSubmit } = useForm({
 })
 
 const onSubmit = handleSubmit(async (values) => {
-  // placeholder actions
-  // TODO: Add user store / composable
-  const err = await authStore.login(values.email, values.password)
-  if (err) {
-    authError.value = true
+  try {
+    await authStore.login(values)
+    router.push({ name: Routes.orders })
   }
-  else {
-    authError.value = false
-    router.push('/')
+  catch (err: any) {
+    authError.value = true
+    throw new Error(err)
   }
 })
 
