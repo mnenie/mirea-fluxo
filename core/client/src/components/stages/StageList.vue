@@ -4,9 +4,12 @@ import { computed } from 'vue'
 import { NoComments } from '~/assets/svgs-vite'
 import { useOrderStore } from '~/stores/orders'
 import { Badge } from '../ui/badge'
+import StageItem from './stage/StageItem.vue'
 
 const orderStore = useOrderStore()
 const { order, totalOrderPriceByStages } = storeToRefs(orderStore)
+
+const layer: number = 0
 
 const notNeededPrice = computed(() => order.value && order.value.price && totalOrderPriceByStages.value! > order.value.price)
 </script>
@@ -34,14 +37,6 @@ const notNeededPrice = computed(() => order.value && order.value.price && totalO
         </Badge>
       </div>
     </div>
-    <div v-for="stage, idx in order.stages" :key="idx" class="flex items-center gap-10 justify-between">
-      <span v-if="stage" class="text-sm text-neutral-400">
-        <span class="text-neutral-800">{{ stage.organization }}</span>
-        {{ $t('order.stages.container.value', 0) }} {{ stage.title }}
-      </span>
-      <span v-if="stage" class="text-sm text-neutral-400 font-medium">
-        {{ stage.price }} {{ $t('order.stages.container.value', 1) }}
-      </span>
-    </div>
+    <StageItem v-for="stage, idx in order.stages" :key="idx" :stage="stage" :layer="layer" />
   </div>
 </template>
