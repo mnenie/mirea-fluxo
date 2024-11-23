@@ -32,7 +32,7 @@ const { user } = storeToRefs(authStore)
     <DropdownMenu>
       <DropdownMenuTrigger>
         <Avatar class="w-9 h-9 bg-neutral-100 border border-neutral-200 rounded-lg flex items-center justify-center mr-2 cursor-pointer">
-          <AvatarImage :src="user.photoUrl" alt="@radix-vue" />
+          <AvatarImage v-if="user.photoUrl" :src="user.photoUrl" alt="@radix-vue" />
           <AvatarFallback v-if="user.email">
             {{ user.email.split('').slice(0, 2).join('') }}
           </AvatarFallback>
@@ -58,13 +58,11 @@ const { user } = storeToRefs(authStore)
     <div class="flex flex-col h-full items-start pt-2 w-full">
       <div class="flex flex-col">
         <Badge variant="secondary" class="py-[0px] px-1.5 w-fit">
-          <Badge variant="secondary" class="py-[0px] px-1.5 w-fit">
-            <span class="sm:text-[10px] 2xl:text-[11px] text-neutral-600">{{ $t('header.badge') }}</span>
-          </Badge>
-          <span class="text-sm md:text-[13px] 2xl:text-sm font-semibold text-neutral-800 px-1.5">
-            {{ user.email }}
-          </span>
-        </badge>
+          <span class="sm:text-[10px] 2xl:text-[11px] text-neutral-600">{{ $t('header.badge') }}</span>
+        </Badge>
+        <span class="text-sm md:text-[13px] 2xl:text-sm font-semibold text-neutral-800 px-1.5">
+          {{ user.email }}
+        </span>
       </div>
     </div>
     <Pane v-if="isExpanded" class="text-neutral-500 cursor-pointer" @click="emits('toggleSidebar')" />

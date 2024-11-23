@@ -4,8 +4,8 @@ import AuthLayout from '~/layouts/AuthLayout.vue'
 import DefaultLayout from '~/layouts/DefaultLayout.vue'
 import EmptyLayout from '~/layouts/EmptyLayout.vue'
 import { Routes } from '~/utils/contants'
-
-// TODO (@mnenie): fix requiresAuth and add middlewares
+import { authMiddleware } from './middleware/auth'
+import { signInMiddleware } from './middleware/sign-in'
 
 const routes = [
   {
@@ -13,7 +13,7 @@ const routes = [
     path: '/orders',
     component: () => import('~/pages/OrdersPage.vue'),
     meta: {
-      requiresAuth: false,
+      requiresAuth: true,
       layout: DefaultLayout,
     },
     children: [
@@ -30,7 +30,7 @@ const routes = [
     path: '/notifications',
     component: () => import('~/pages/NotificationsPage.vue'),
     meta: {
-      requiresAuth: false,
+      requiresAuth: true,
       layout: DefaultLayout,
     },
   },
@@ -39,7 +39,7 @@ const routes = [
     path: '/analytics',
     component: () => import('~/pages/AnalyticsPage.vue'),
     meta: {
-      requiresAuth: false,
+      requiresAuth: true,
       layout: DefaultLayout,
     },
   },
@@ -57,7 +57,7 @@ const routes = [
     path: '/archive',
     component: () => import('~/pages/ArchivePage.vue'),
     meta: {
-      requiresAuth: false,
+      requiresAuth: true,
       layout: DefaultLayout,
     },
   },
@@ -76,5 +76,8 @@ const router = createRouter({
   history: createWebHistory(),
   routes,
 })
+
+router.beforeEach(authMiddleware)
+router.beforeEach(signInMiddleware)
 
 export default router

@@ -2,6 +2,7 @@
 import { toTypedSchema } from '@vee-validate/zod'
 import { useField, useForm } from 'vee-validate'
 import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import * as z from 'zod'
 import { Button } from '~/components/ui/button'
 import {
@@ -22,15 +23,18 @@ import {
   FormMessage,
 } from '~/components/ui/form'
 import { Input } from '~/components/ui/input'
+import { getFormFields } from '~/lib/form'
 import { useOrderStore } from '~/stores/orders'
 import { Textarea } from '../ui/textarea'
 
-const formSchema = toTypedSchema(z.object({
-  title: z.string({ required_error: `Required field` }).min(2).max(50),
-  content: z.string({ required_error: `Required field` }).min(2).max(50),
-  date: z.string({ required_error: `Required field` }),
-  price: z.number({ required_error: `Required field` }),
-}))
+const formSchema = toTypedSchema(
+  z.object({
+    title: z.string({ required_error: `Обязательное поле` }).min(2).max(50),
+    content: z.string({ required_error: `Обязательное поле` }).min(2).max(50),
+    date: z.string({ required_error: `Обязательное поле` }),
+    price: z.number({ required_error: `Обязательное поле` }),
+  }),
+)
 const isDialogOpen = ref(false)
 
 const orderStore = useOrderStore()
@@ -41,6 +45,10 @@ const { handleSubmit } = useForm({
 
 const { value: stage } = useField<string>('stage')
 const { value: price } = useField<number | null>('price')
+
+const { t } = useI18n()
+
+const { fields } = getFormFields(t)
 
 const onSubmit = handleSubmit(async (values) => {
   const data = {
@@ -57,7 +65,6 @@ const onSubmit = handleSubmit(async (values) => {
 </script>
 
 <template>
-  <!-- TODO: component logic(@mnenie) -->
   <Dialog v-model:open="isDialogOpen">
     <DialogTrigger as-child>
       <slot />
@@ -70,67 +77,25 @@ const onSubmit = handleSubmit(async (values) => {
         </DialogDescription>
       </DialogHeader>
       <form id="dialogForm" class="space-y-4" @submit="onSubmit">
-        <FormField v-slot="{ componentField }" name="title">
-          <FormItem>
-            <FormLabel>{{ $t('order.stages.dialog.fields.stage.label') }}</FormLabel>
-            <FormControl>
-              <Input
-                type="text"
-                :placeholder="$t('order.stages.dialog.fields.stage.placeholder')"
-                v-bind="componentField"
-              />
-            </FormControl>
-            <FormDescription>
-              {{ $t('order.stages.dialog.fields.stage.description') }}
-            </FormDescription>
-            <FormMessage />
-          </FormItem>
-        </FormField>
-        <FormField v-slot="{ componentField }" name="content">
-          <FormItem>
-            <FormLabel>{{ $t('order.stages.dialog.fields.stage.label') }}</FormLabel>
-            <FormControl>
-              <Textarea
-                type="text"
-                :placeholder="$t('order.stages.dialog.fields.stage.placeholder')"
-                v-bind="componentField"
-              />
-            </FormControl>
-            <FormDescription>
-              {{ $t('order.stages.dialog.fields.stage.description') }}
-            </FormDescription>
-            <FormMessage />
-          </FormItem>
-        </FormField>
-        <FormField v-slot="{ componentField }" name="price">
-          <FormItem>
-            <FormLabel> {{ $t('order.stages.dialog.fields.price.label') }}</FormLabel>
-            <FormControl>
-              <Input
-                type="number"
-                :placeholder="$t('order.stages.dialog.fields.price.placeholder')"
-                v-bind="componentField"
-              />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        </FormField>
-        <FormField v-slot="{ componentField }" name="date">
-          <FormItem>
-            <FormLabel>{{ $t('order.stages.dialog.fields.stage.label') }}</FormLabel>
-            <FormControl>
-              <Input
-                type="text"
-                :placeholder="$t('order.stages.dialog.fields.stage.placeholder')"
-                v-bind="componentField"
-              />
-            </FormControl>
-            <FormDescription>
-              {{ $t('order.stages.dialog.fields.stage.description') }}
-            </FormDescription>
-            <FormMessage />
-          </FormItem>
-        </FormField>
+        <div v-for="field, idx in fields" :key="idx">
+          <FormField v-slot="{ componentField }" :name="field.name">
+            <FormItem>
+              <FormLabel>{{ field.label }}</FormLabel>
+              <FormControl>
+                <component
+                  :is="field.name === 'content' ? Textarea : Input"
+                  :type="field.type"
+                  :placeholder="field.placeholder"
+                  v-bind="componentField"
+                />
+              </FormControl>
+              <FormDescription v-if="field.description">
+                {{ field.description }}
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          </FormField>
+        </div>
       </form>
       <DialogFooter>
         <Button type="submit" form="dialogForm">

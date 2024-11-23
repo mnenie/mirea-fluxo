@@ -12,7 +12,6 @@ import { Sheet, SheetContent, SheetTrigger } from '../ui/sheet'
 import {
   Table,
   TableBody,
-  TableCaption,
   TableHead,
   TableHeader,
   TableRow,
@@ -49,9 +48,6 @@ onBeforeMount(() => {
 <template>
   <div class="overflow-y-auto h-[calc(100dvh-200px)] w-full bg-white shadow rounded-md">
     <Table>
-      <TableCaption class="pb-4">
-        A list of all reviews.
-      </TableCaption>
       <TableHeader>
         <!-- reusable temlate -->
         <DefineTemplate v-slot="{ plural, icon, width }">
@@ -64,7 +60,7 @@ onBeforeMount(() => {
         </DefineTemplate>
 
         <TableRow>
-          <ReuseTemplate :plural="0" />
+          <ReuseTemplate :plural="0" width="w-[360px]" />
           <ReuseTemplate :plural="1" :icon="StatusTable" />
           <ReuseTemplate :plural="2" :icon="Department" />
           <ReuseTemplate :plural="3" :icon="Heading" />

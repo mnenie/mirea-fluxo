@@ -1,8 +1,11 @@
 <script setup lang="ts">
-import { ChevronDownIcon, ChevronUpIcon } from '@radix-icons/vue'
-import { reactive, ref } from 'vue'
+import { computed, ref } from 'vue'
+import { Arrow } from '~/assets/svgs-vite'
+import { Badge } from '~/components/ui/badge'
+import { formatDate } from '~/helpers/formatDateHelper'
 import type { Stage } from '~/types/stages.interface'
 import StageAttributes from './StageAttributes.vue'
+import StageMenu from './StageMenu.vue'
 
 const props = defineProps<{
   stage: Stage
@@ -11,29 +14,48 @@ const props = defineProps<{
 
 const isFolded = ref<boolean>(false)
 
-const identStyle = reactive({
-  paddingLeft: `${props.layer * 12 + (props.layer === 0 ? 0 : 12)}px`,
+const identStyle = computed(() => {
+  return {
+    paddingLeft: `${props.layer * 12 + (props.layer === 0 ? 0 : 12)}px`,
+  }
+})
+
+const contentPl = computed(() => {
+  return {
+    paddingLeft: `${(props.layer * 12 + 20) + (props.layer === 0 ? 0 : 12)}px`,
+  }
 })
 </script>
 
 <template>
   <div>
     <div class="flex items-center gap-10 justify-between" :style="identStyle">
-      <span v-if="props.stage" class="flex items-center gap-2 text-sm">
+      <div v-if="stage" class="flex items-center gap-2 text-sm">
         <div>
-          <ChevronUpIcon v-if="isFolded" @click="isFolded = !isFolded" />
-          <ChevronDownIcon v-else @click="isFolded = !isFolded" />
+          <Arrow v-if="isFolded" class="-rotate-90" @click="isFolded = !isFolded" />
+          <Arrow v-else @click="isFolded = !isFolded" />
         </div>
-        <span class="text-neutral-800">{{ props.stage.organization }}</span>
-        {{ props.stage.title }}
-      </span>
-      <span v-if="stage" class="text-sm text-neutral-400 font-medium">
-        {{ props.stage.price }} {{ $t('order.stages.container.value', 1) }}
-      </span>
+        <div class="flex items-center gap-3">
+          <span>{{ stage.title }}</span>
+        </div>
+      </div>
+      <div v-if="stage" class="flex items-center gap-1.5">
+        <Badge variant="secondary" class="px-1 py-px">
+          <span class="text-xs text-neutral-400 font-medium">
+            до {{ formatDate(stage.dateEnd) }}
+          </span>
+        </Badge>
+        <Badge variant="secondary" class="px-1 py-px">
+          <span class="text-xs text-neutral-400 font-medium">
+            {{ stage.price }} {{ $t('order.stages.container.value', 1) }}
+          </span>
+        </Badge>
+        <StageMenu />
+      </div>
     </div>
     <div v-if="!isFolded">
-      <StageAttributes :stage="stage" />
-      <StageItem v-for="substage, idx in props.stage.stages" :key="idx" :stage="substage" :layer="layer + 1" />
+      <StageAttributes :stage="stage" :style="contentPl" />
+      <StageItem v-for="substage in stage.stages" :key="substage._id" :stage="substage" :layer="layer + 1" />
     </div>
   </div>
 </template>

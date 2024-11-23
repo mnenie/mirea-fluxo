@@ -50,8 +50,8 @@ export default {
     },
   },
   order: {
-    actions: 'Contract | Analyze risks',
-    attributes: ['Responsible', 'Date', 'Status', 'Price', 'Organization'],
+    actions: 'Contract | Analyze risks | Add new stage',
+    attributes: ['Responsible', 'Date', 'Status', 'Price', 'Organization', 'Description'],
     tabs: 'Order stages | RHM',
     values: 'Change status to in process or closed... | company is ready to pay | Choose an organization',
     ai: {
@@ -71,13 +71,25 @@ export default {
         add: 'Add to the list',
         fields: {
           stage: {
-            label: 'Stage',
-            placeholder: 'Enter new stage',
-            description: 'This is the stage of the order',
-          },
-          price: {
-            label: 'Price',
-            placeholder: 'Enter the price',
+            title: {
+              label: 'Stage title',
+              placeholder: 'Enter new stage',
+              description: 'Title of the order stage',
+            },
+            content: {
+              label: 'Stage content',
+              placeholder: 'Enter stage description',
+              description: 'Description of the order stage',
+            },
+            price: {
+              label: 'Price',
+              placeholder: 'Enter price',
+            },
+            date: {
+              label: 'Date',
+              placeholder: 'Enter date',
+              description: 'End date for the stage',
+            },
           },
         },
       },

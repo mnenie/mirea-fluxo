@@ -47,7 +47,7 @@ watchPostEffect(async () => {
 </script>
 
 <template>
-  <div class="relative h-full overflow-auto flex flex-col">
+  <div class="relative h-full !overflow-auto flex flex-col">
     <SheetHeader
       class="border-b border-neutral-100 justify-between sticky bg-white opacity-100 z-[9999999] top-0 w-full"
     >
@@ -59,7 +59,7 @@ watchPostEffect(async () => {
         <OrderActions />
       </template>
     </SheetHeader>
-    <Tabs v-model:model-value="tabValue" default-value="stages" class="w-full h-full">
+    <Tabs v-model:model-value="tabValue" default-value="stages" class="w-full h-full overflow-auto">
       <InfoPart :order />
       <AttributesList />
       <BadgesList />
