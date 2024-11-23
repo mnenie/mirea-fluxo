@@ -15,7 +15,7 @@ import { Button } from '../ui/button'
 <template>
   <Button size="sm" variant="secondary" class="h-7 text-neutral-700">
     <Ai class="mr-1 w-[14px] h-[14px] " />
-    <span class="text-xs">{{ $t('order.actions', 0) }}</span>
+    <span class="text-xs">{{ $t('order.actions', 1) }}</span>
   </Button>
   <div class="w-px h-3 bg-neutral-200 mx-2" />
 </template>
