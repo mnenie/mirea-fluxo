@@ -1,17 +1,25 @@
 <script setup lang="ts">
+import { storeToRefs } from 'pinia'
 import { computed, markRaw, ref } from 'vue'
 import { VueUiDonut } from 'vue-data-ui'
 import { useI18n } from 'vue-i18n'
 import { useCharts } from '~/composables/useCharts'
+import { useOrderStore } from '~/stores/orders'
 import type { Chart } from '~/types/chart.interface'
 import ChartItemWrapper from './ChartItemWrapper.vue'
 
 const chartDonut = ref(null)
 
+const orderStore = useOrderStore()
+const { orders } = storeToRefs(orderStore)
+
 const { t } = useI18n()
+
 const { chartSummaryValue, generateCvs, generatePdf, generatePng } = useCharts(chartDonut)
 
 const nameSize = computed(() => chartSummaryValue.value - 4)
+const closedOrders = computed(() => orders.value.filter(order => order.status === 'closed').length)
+const openOrders = computed(() => orders.value.filter(order => order.status !== 'closed').length)
 
 const config = computed(() => ({
   responsive: false,
@@ -85,12 +93,12 @@ const config = computed(() => ({
 const dataset = ref([
   {
     name: t('analytics.charts.summary.dataset', 0),
-    values: [10],
+    values: [openOrders.value],
     color: '#538BF3',
   },
   {
     name: t('analytics.charts.summary.dataset', 1),
-    values: [34],
+    values: [closedOrders.value],
     color: '#d4d4d8',
   },
 ])

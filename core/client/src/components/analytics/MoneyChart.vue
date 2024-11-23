@@ -1,14 +1,19 @@
 <script lang="ts" setup>
 import { useWindowSize } from '@vueuse/core'
-import { computed, markRaw, ref } from 'vue'
+import { storeToRefs } from 'pinia'
+import { computed, markRaw } from 'vue'
 import { VueUiKpi, type VueUiKpiConfig } from 'vue-data-ui'
 import { useBreakpoints } from '~/composables/useBreakpoints'
+import { useOrderStore } from '~/stores/orders'
 import type { Chart } from '~/types/chart.interface'
 import ChartItemWrapper from './ChartItemWrapper.vue'
 
 const { width } = useWindowSize()
 
 const { breakpoints } = useBreakpoints()
+
+const orderStore = useOrderStore()
+const { orders } = storeToRefs(orderStore)
 
 const chartHeight = computed(() => {
   if (breakpoints.between('intermediateLaptop', 'intermediateDesktop').value) {
@@ -17,6 +22,8 @@ const chartHeight = computed(() => {
   return '90px'
 })
 const fontSizeChart = computed(() => (width.value >= 1500 ? 26 : 22))
+
+const totlatPrice = computed(() => orders.value.reduce((acc, order) => acc + order.price, 0))
 
 const config = computed<VueUiKpiConfig>(() => ({
   animationFrames: 40,
@@ -30,8 +37,6 @@ const config = computed<VueUiKpiConfig>(() => ({
   valueColor: '#2563eb',
 }))
 
-const dataset = ref(2450000)
-
 const chart = markRaw<Chart>({
   section: 'money',
 })
@@ -39,6 +44,6 @@ const chart = markRaw<Chart>({
 
 <template>
   <ChartItemWrapper :chart width="600px" :height="chartHeight">
-    <VueUiKpi :config="config" :dataset="dataset" />
+    <VueUiKpi :config="config" :dataset="totlatPrice" />
   </ChartItemWrapper>
 </template>
