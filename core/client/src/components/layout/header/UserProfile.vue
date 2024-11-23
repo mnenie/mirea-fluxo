@@ -13,6 +13,7 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from '~/components/ui/dropdown-menu'
+import Skeleton from '~/components/ui/skeleton/Skeleton.vue'
 import { useAuthStore } from '~/stores/auth'
 
 defineProps<{
@@ -24,7 +25,7 @@ const emits = defineEmits<{
 }>()
 
 const authStore = useAuthStore()
-const { user } = storeToRefs(authStore)
+const { user, isPending } = storeToRefs(authStore)
 </script>
 
 <template>
@@ -60,9 +61,10 @@ const { user } = storeToRefs(authStore)
         <Badge variant="secondary" class="py-[0px] px-1.5 w-fit">
           <span class="sm:text-[10px] 2xl:text-[11px] text-neutral-600">{{ $t('header.badge') }}</span>
         </Badge>
-        <span class="text-sm md:text-[13px] 2xl:text-sm font-semibold text-neutral-800 px-1.5">
+        <span v-if="!isPending" class="text-sm md:text-[13px] 2xl:text-sm font-semibold text-neutral-800 px-1.5">
           {{ user.email }}
         </span>
+        <Skeleton v-else class="w-[100px] h-3 mt-1.5 mx-1.5 rounded-md" />
       </div>
     </div>
     <Pane v-if="isExpanded" class="text-neutral-500 cursor-pointer" @click="emits('toggleSidebar')" />

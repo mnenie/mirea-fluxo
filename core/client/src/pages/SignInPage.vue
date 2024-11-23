@@ -1,47 +1,5 @@
 <script setup lang="ts">
-import { toTypedSchema } from '@vee-validate/zod'
-import { useField, useForm } from 'vee-validate'
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import * as z from 'zod'
-import Button from '~/components/ui/button/Button.vue'
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from '~/components/ui/form'
-import { Input } from '~/components/ui/input'
-import { Label } from '~/components/ui/label'
-import { useAuthStore } from '~/stores/auth'
-import { Routes } from '~/utils/contants'
-
-const authStore = useAuthStore()
-const authError = ref<boolean>(false)
-const router = useRouter()
-
-const formSchema = toTypedSchema(z.object({
-  email: z.string({ required_error: `Обязательное поле` }).email('Недействительный адрес электронной почты'),
-  password: z.string({ required_error: `Обязательное поле` }).min(8, 'Пароль должен содержать не менее 8 символов'),
-}))
-
-const { handleSubmit } = useForm({
-  validationSchema: formSchema,
-})
-
-const onSubmit = handleSubmit(async (values) => {
-  try {
-    await authStore.login(values)
-    router.push({ name: Routes.orders })
-  }
-  catch (err: any) {
-    authError.value = true
-    throw new Error(err)
-  }
-})
-
-const { value: email } = useField<string>('email')
-const { value: password } = useField<string>('password')
+import SignInForm from '~/components/auth/SignInForm.vue'
 </script>
 
 <template>
@@ -54,35 +12,6 @@ const { value: password } = useField<string>('password')
         {{ $t('sign_in.description') }}
       </p>
     </div>
-    <form class="w-[480px]" @submit="onSubmit">
-      <div class="space-y-3">
-        <FormField v-slot="{ componentField }" name="email">
-          <FormItem v-auto-animate>
-            <Label for="email"> {{ $t('sign_in.form.email') }} </Label>
-            <FormControl>
-              <Input v-model="email" type="text" placeholder="Email" v-bind="componentField" />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        </FormField>
-        <FormField v-slot="{ componentField }" name="password">
-          <FormItem v-auto-animate>
-            <Label for="password"> {{ $t('sign_in.form.password') }} </Label>
-            <FormControl>
-              <Input
-                v-model="password"
-                type="text"
-                :placeholder="$t('sign_in.form.password')"
-                v-bind="componentField"
-              />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        </FormField>
-      </div>
-      <Button class="mt-8 w-full" type="submit">
-        {{ $t('sign_in.btn') }}
-      </Button>
-    </form>
+    <SignInForm />
   </div>
 </template>

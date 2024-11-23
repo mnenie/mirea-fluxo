@@ -1,12 +1,13 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref, shallowRef } from 'vue'
-import OrdersService from '~/services/orders'
+import OrdersService from '~/services/order'
 import type { Order } from '~/types/order.interface'
 
 export const useOrderStore = defineStore('orders', () => {
   const orders = shallowRef<Order[]>([])
   const order = ref<Order>({} as Order)
   const ordersPage = shallowRef<Order[]>([])
+  const isPending = ref<boolean>(false)
 
   const totalOrderPriceByStages = computed(() => {
     if (order.value && order.value.stages) {
@@ -14,7 +15,19 @@ export const useOrderStore = defineStore('orders', () => {
     }
   })
 
+  function getPaginatedOrders(page: number, itemsPerPage: number) {
+    const paginatedOrders = <Order[]>[]
+    const pageEnd = Math.min(orders.value.length, page * itemsPerPage)
+    for (let i = (page - 1) * itemsPerPage; i < pageEnd; i++) {
+      paginatedOrders.push(orders.value[i])
+    }
+    return paginatedOrders
+  }
+
+  const isPendingOrders = ref<boolean>(false)
+
   async function getOrders(): Promise<void> {
+    isPendingOrders.value = true
     try {
       const { data } = await OrdersService.getOrders()
       orders.value = data
@@ -22,15 +35,23 @@ export const useOrderStore = defineStore('orders', () => {
     catch (err: any) {
       throw new Error(err)
     }
+    finally {
+      isPendingOrders.value = false
+    }
   }
 
   async function getOrderById(id: string): Promise<void> {
+    isPending.value = true
     try {
       const { data } = await OrdersService.getOrder(id)
       order.value = data
     }
     catch (err: any) {
+      isPending.value = false
       throw new Error(err)
+    }
+    finally {
+      isPending.value = false
     }
   }
 
@@ -56,15 +77,6 @@ export const useOrderStore = defineStore('orders', () => {
     }
   }
 
-  const getPaginatedOrders = function (page: number, itemsPerPage: number) {
-    const paginatedOrders = <Order[]>[]
-    const pageEnd = Math.min(orders.value.length, page * itemsPerPage)
-    for (let i = (page - 1) * itemsPerPage; i < pageEnd; i++) {
-      paginatedOrders.push(orders.value[i])
-    }
-    return paginatedOrders
-  }
-
   function updateOrders(page: number, items: number) {
     ordersPage.value = getPaginatedOrders(page, items)
   }
@@ -79,6 +91,8 @@ export const useOrderStore = defineStore('orders', () => {
     ordersPage,
     order,
     totalOrderPriceByStages,
+    isPending,
+    isPendingOrders,
     updateOrders,
     getOrders,
     getOrderById,

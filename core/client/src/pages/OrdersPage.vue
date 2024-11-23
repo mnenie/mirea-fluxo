@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { useHead } from '@unhead/vue'
+import { storeToRefs } from 'pinia'
 import { onMounted } from 'vue'
-import { Arrow, Filter, Reload, Sort } from '~/assets/svgs-vite'
+import { Arrow, Filter, Loader, Reload, Sort } from '~/assets/svgs-vite'
 import OrderTable from '~/components/orders/OrderTable.vue'
 import TablePagination from '~/components/orders/TablePagination.vue'
 import { Button } from '~/components/ui/button'
@@ -12,6 +13,7 @@ useHead({
 })
 
 const ordersStore = useOrderStore()
+const { isPendingOrders } = storeToRefs(ordersStore)
 
 onMounted(async () => {
   await ordersStore.getOrders()
@@ -45,7 +47,10 @@ onMounted(async () => {
         </span>
       </Button>
     </div>
-    <OrderTable />
-    <TablePagination />
+    <OrderTable v-if="!isPendingOrders" />
+    <TablePagination v-if="!isPendingOrders" />
+    <div v-else class="w-full h-[calc(100vh-300px)] flex items-center justify-center">
+      <Loader class="w-10 h-10 text-neutral-500 animate-spin" />
+    </div>
   </div>
 </template>

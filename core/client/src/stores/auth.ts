@@ -44,13 +44,14 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   const logout = () => {
-    UserService.logout()
     user.value = {} as User
+    cookies.remove('token')
     router.push('/')
   }
 
   return {
     user,
+    isPending,
     login,
     logout,
     getCurrentUser,

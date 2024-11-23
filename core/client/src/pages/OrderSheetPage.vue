@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
-import { nextTick, ref, watchPostEffect } from 'vue'
+import { ref, watchPostEffect } from 'vue'
 import { useRoute } from 'vue-router'
 import { Link } from '~/assets/svgs-vite'
 import AttributesList from '~/components/order/AttributesList.vue'
@@ -9,46 +9,32 @@ import InfoPart from '~/components/order/InfoPart.vue'
 import OrderActions from '~/components/order/OrderActions.vue'
 import RiskList from '~/components/order/RiskList.vue'
 import RiskMap from '~/components/order/RiskMap.vue'
+import SkeletonContent from '~/components/order/SkeletonContent.vue'
 import StageBox from '~/components/stages/StageBox.vue'
 import StageList from '~/components/stages/StageList.vue'
 import StageModal from '~/components/stages/StageModal.vue'
 import { Badge } from '~/components/ui/badge'
 import { SheetHeader } from '~/components/ui/sheet'
+import { Skeleton } from '~/components/ui/skeleton'
 import { Tabs, TabsContent } from '~/components/ui/tabs'
 import { useOrderStore } from '~/stores/orders'
-
-// const orderDescription = `
-//   Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos, quas
-//   <strong>consectetur</strong> Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-//   <br />
-//   Odit blanditiis ab quaerat, <strong>quisquam eos pariatur neque consequatur possimus</strong> at id nam officia libero repellendus quo deleniti, fuga totam vel accusantium?
-// `
-
-// const risks = shallowRef([
-//   { name: 'Риск какой то там', values: [1, 0, 0, 0, 0] },
-//   { name: 'Риск какой то там 2', values: [4, 0, 2, 0, 1] },
-//   { name: 'Риск какой то там 3', values: [2, 0, 0, 3, 0] },
-// ])
 
 const tabValue = ref('stages')
 
 const route = useRoute()
 
 const orderStore = useOrderStore()
-
-const { order } = storeToRefs(orderStore)
+const { order, isPending } = storeToRefs(orderStore)
 
 watchPostEffect(async () => {
   await orderStore.getOrderById(route.params.id as string)
-  nextTick(() => {
-    console.log(route.params.id)
-  })
 })
 </script>
 
 <template>
   <div class="relative h-full !overflow-auto flex flex-col">
     <SheetHeader
+      v-if="!isPending"
       class="border-b border-neutral-100 justify-between sticky bg-white opacity-100 z-[9999999] top-0 w-full"
     >
       <Badge variant="secondary" class="text-neutral-500">
@@ -59,7 +45,15 @@ watchPostEffect(async () => {
         <OrderActions />
       </template>
     </SheetHeader>
-    <Tabs v-model:model-value="tabValue" default-value="stages" class="w-full h-full overflow-auto">
+    <div v-else class="flex items-center justify-between w-full px-4 py-2">
+      <Skeleton class="w-[240px] h-5" />
+    </div>
+    <Tabs
+      v-if="!isPending"
+      v-model:model-value="tabValue"
+      default-value="stages"
+      class="w-full h-full overflow-auto"
+    >
       <InfoPart :order />
       <AttributesList />
       <BadgesList />
@@ -72,8 +66,10 @@ watchPostEffect(async () => {
         <RiskList :risks="order.risks" />
       </TabsContent>
     </Tabs>
-    <StageModal v-if="tabValue === 'stages'">
+    <SkeletonContent v-else />
+    <StageModal v-if="tabValue === 'stages' && !isPending">
       <StageBox />
     </StageModal>
+    <Skeleton v-else class="sticky bottom-0 h-9 mx-6" />
   </div>
 </template>
