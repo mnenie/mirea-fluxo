@@ -15,8 +15,8 @@ const notNeededPrice = computed(() => order.value && order.value.price && totalO
 </script>
 
 <template>
-  <div v-if="!order.stages || !order || order.stages.length === 0" class="px-6 mt-36 text-base text-neutral-400 flex flex-col gap-2 items-center justify-center">
-    <NoComments class="w-[50px] h-[50px]" />
+  <div v-if="!order.stages || !order || order.stages.length === 0" class="px-6 mt-40 text-base text-neutral-400 flex flex-col gap-2 items-center justify-center">
+    <NoComments class="w-16 h-16" />
     <span class="text-sm">{{ $t('order.stages.no_stages') }}</span>
   </div>
   <div v-else class="px-6 mt-12 pb-10 flex flex-col gap-6 h-full">
