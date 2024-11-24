@@ -1,5 +1,7 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref, shallowRef } from 'vue'
+import { useRisks } from '~/composables/useRisks'
+import AiService from '~/services/ai'
 import OrdersService from '~/services/order'
 import type { Order } from '~/types/order.interface'
 
@@ -77,6 +79,24 @@ export const useOrderStore = defineStore('orders', () => {
     }
   }
 
+  const isMapUploading = ref<boolean>(false)
+
+  async function getRisksByOrderId(id: string): Promise<void> {
+    isMapUploading.value = true
+    try {
+      const response = await AiService.generateRHM(id)
+      const { normalizedArr } = await useRisks(response.data)
+      // await OrdersService.patchOrders(id, { risks: normalizedArr })
+      order.value.risks = normalizedArr
+    }
+    catch (err: any) {
+      throw new Error(err)
+    }
+    finally {
+      isMapUploading.value = false
+    }
+  }
+
   function updateOrders(page: number, items: number) {
     ordersPage.value = getPaginatedOrders(page, items)
   }
@@ -93,11 +113,13 @@ export const useOrderStore = defineStore('orders', () => {
     totalOrderPriceByStages,
     isPending,
     isPendingOrders,
+    isMapUploading,
     updateOrders,
     getOrders,
     getOrderById,
     postNewStage,
     updateOrdersById,
+    getRisksByOrderId,
     getPaginatedOrders,
     createStageById,
   }

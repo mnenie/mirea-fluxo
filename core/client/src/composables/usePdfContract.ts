@@ -1,14 +1,14 @@
 import type { Ref } from 'vue'
 import jsPDF from 'jspdf'
 import { formatDate } from '~/helpers/formatDateHelper'
-import type { Order } from '~/types/order.interface'
+import type { Stage } from '~/types/stages.interface'
 
 const arrDatesMonths = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'] as const
 
 const date = new Date()
 const _date = formatDate(date)
 
-export async function generatePDF(pathImg: string, order: Ref<Order>, totalOrderPriceByStages: Ref<number>) {
+export async function useJsToPdf(stage: Ref<Stage>, totalOrderPriceByStages: Ref<number>, executor: string) {
   // eslint-disable-next-line new-cap
   const doc = new jsPDF()
 
@@ -34,7 +34,7 @@ export async function generatePDF(pathImg: string, order: Ref<Order>, totalOrder
   doc.setFontSize(12)
   doc.setTextColor(0)
 
-  const text = `От ответственного лица данного заказа example@gmail.com, действующего на основании государственного контракта, именуемый в дальнейшем «Работодатель», с одной стороны, и гр. hi@example.com, именуемый в дальнейшем «Работник», с другой стороны, именуемые в дальнейшем «Стороны», заключили настоящий договор, в дальнейшем «Договор», о нижеследующем:`
+  const text = `От ответственного лица данного заказа ${executor}, действующего на основании государственного контракта, именуемый в дальнейшем «Работодатель», с одной стороны, и гк. ${stage.value.organization}, именуемая в дальнейшем «Работник», с другой стороны, именуемые в дальнейшем «Стороны», заключили настоящий договор, в дальнейшем «Договор», о нижеследующем:`
 
   const pageWidth = doc.internal.pageSize.width - 20
 
@@ -80,11 +80,9 @@ export async function generatePDF(pathImg: string, order: Ref<Order>, totalOrder
   doc.text('Цена', pageWidth / 2, cursorY, { align: 'center' })
   cursorY += 10
 
-  order.value.stages.forEach((stage) => {
-    doc.text(stage.title, 10, cursorY)
-    doc.text(stage.price.toString(), pageWidth / 2, cursorY, { align: 'center' })
-    cursorY += 10
-  })
+  doc.text(stage.value.title, 10, cursorY)
+  doc.text(stage.value.price.toString(), pageWidth / 2, cursorY, { align: 'center' })
+  cursorY += 10
 
   cursorY += 10
 
@@ -94,19 +92,19 @@ export async function generatePDF(pathImg: string, order: Ref<Order>, totalOrder
   doc.text(totalOrderPriceByStages.value.toString(), pageWidth / 2, cursorY, { align: 'center' })
   cursorY += 10
 
-  if (totalOrderPriceByStages.value <= order.value.price) {
-    doc.text(`Цена не превышает установленную в договоре сумму ${order.value.price}.`, 10, cursorY)
+  if (totalOrderPriceByStages.value <= stage.value.price) {
+    doc.text(`Цена не превышает установленную в договоре сумму ${stage.value.price}.`, 10, cursorY)
   }
   cursorY += 20
-
   const img = new Image()
-  img.src = pathImg
+  // TODO
+  img.src = import('~/assets/new.png') as unknown as string
   img.onload = () => {
     const imgWidth = 80
     const imgHeight = 30
     const xPos = (doc.internal.pageSize.width - imgWidth) / 2
     doc.addImage(img, 'PNG', xPos, cursorY, imgWidth, imgHeight)
-
-    doc.save('order_contract.pdf')
   }
+
+  doc.save('order_contract.pdf')
 }

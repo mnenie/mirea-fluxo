@@ -51,6 +51,7 @@ export default {
   },
   order: {
     actions: 'Contract | Analyze risks | Add new stage',
+    delete: 'Delete stage',
     attributes: ['Responsible', 'Date', 'Status', 'Price', 'Organization', 'Description'],
     tabs: 'Order stages | RHM',
     values: 'Change status to in process or closed... | company is ready to pay | Choose an organization',
@@ -60,6 +61,7 @@ export default {
     },
     stages: {
       no_stages: 'No stages yet',
+      no_map: 'Analyze risks and upload the map',
       add: 'Add new stage...',
       container: {
         section: 'History | Total price',

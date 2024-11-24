@@ -2,7 +2,7 @@
 import { storeToRefs } from 'pinia'
 import { ref, watchPostEffect } from 'vue'
 import { useRoute } from 'vue-router'
-import { Link } from '~/assets/svgs-vite'
+import { Link, Map } from '~/assets/svgs-vite'
 import AttributesList from '~/components/order/AttributesList.vue'
 import BadgesList from '~/components/order/BadgesList.vue'
 import InfoPart from '~/components/order/InfoPart.vue'
@@ -24,10 +24,11 @@ const tabValue = ref('stages')
 const route = useRoute()
 
 const orderStore = useOrderStore()
-const { order, isPending } = storeToRefs(orderStore)
+const { order, isPending, isMapUploading } = storeToRefs(orderStore)
 
 watchPostEffect(async () => {
   await orderStore.getOrderById(route.params.id as string)
+  console.log(order.value)
 })
 </script>
 
@@ -62,14 +63,23 @@ watchPostEffect(async () => {
       </TabsContent>
       <TabsContent value="trk">
         <!-- TODO: display -->
-        <RiskMap :dataset="order.risks" />
-        <RiskList :risks="order.risks" />
+        <RiskMap v-if="order.risks && Array.isArray(order.risks)" :dataset="order.risks" />
+        <RiskList v-if="order.risks && Array.isArray(order.risks)" :risks="order.risks" />
+        <div v-else>
+          <div
+            class="px-6 mt-44 text-base text-neutral-400 flex flex-col gap-2 items-center justify-center"
+            :class="[isMapUploading ? 'animate-pulse' : '']"
+          >
+            <Map class="w-20 h-20" />
+            <span class="text-sm">{{ $t('order.stages.no_map') }}</span>
+          </div>
+        </div>
       </TabsContent>
     </Tabs>
     <SkeletonContent v-else />
     <StageModal v-if="tabValue === 'stages' && !isPending">
       <StageBox />
     </StageModal>
-    <Skeleton v-else class="sticky bottom-0 h-9 mx-6" />
+    <Skeleton v-else-if="tabValue === 'stages' && isPending" class="sticky bottom-0 h-9 mx-6" />
   </div>
 </template>

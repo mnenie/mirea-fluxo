@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, toRef } from 'vue'
 import { VueUiHeatmap } from 'vue-data-ui'
 import type { Risk } from '~/types/order.interface'
 import 'vue-data-ui/style.css'
 
-defineProps<{
+const props = defineProps<{
   dataset?: Risk[]
 }>()
 
@@ -60,10 +60,12 @@ const config = ref({
     show: false,
   },
 })
+
+const refDataset = toRef(() => props.dataset)
 </script>
 
 <template>
   <div style="width:100%">
-    <VueUiHeatmap :config="config" :dataset="dataset!" />
+    <VueUiHeatmap :config="config" :dataset="refDataset!" />
   </div>
 </template>

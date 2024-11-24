@@ -50,11 +50,11 @@ const contentPl = computed(() => {
             {{ stage.price }} {{ $t('order.stages.container.value', 1) }}
           </span>
         </Badge>
-        <StageMenu />
+        <StageMenu :stage />
       </div>
     </div>
     <div v-if="!isFolded">
-      <StageAttributes :stage="stage" :style="contentPl" />
+      <StageAttributes :stage :style="contentPl" />
       <StageItem v-for="substage in stage.stages" :key="substage._id" :stage="substage" :layer="layer + 1" />
     </div>
   </div>
