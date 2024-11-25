@@ -135,7 +135,7 @@ const df = new DateFormatter('en-US', {
                 {{ dateEnd ? df.format(dateEnd.toDate(getLocalTimeZone())) : $t('order.stages.dialog.fields.stage.date.placeholder') }}
               </Button>
             </PopoverTrigger>
-            <PopoverContent class="z-[999999999999] -translate-x-11">
+            <PopoverContent class="z-[9999] -translate-x-11">
               <Calendar v-model="dateEnd" initial-focus />
             </PopoverContent>
           </Popover>
