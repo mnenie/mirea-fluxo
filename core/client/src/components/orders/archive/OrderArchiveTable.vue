@@ -1,14 +1,13 @@
 <script setup lang="ts">
 import { createReusableTemplate } from '@vueuse/core'
 import { storeToRefs } from 'pinia'
-import { computed, onBeforeMount, ref, useTemplateRef } from 'vue'
+import { computed, onBeforeMount } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import { Calendar, Department, Heading, Rating as RatingSvg, StatusTable } from '~/assets/svgs-vite'
 import { cn } from '~/lib/utils'
 import { useArchiveStore } from '~/stores/archive'
 import { Routes } from '~/utils/contants'
-import { Sheet, SheetContent, SheetTrigger } from '../../ui/sheet'
 import {
   Table,
   TableBody,
@@ -26,17 +25,7 @@ const { tm } = useI18n()
 const archiveStore = useArchiveStore()
 const { ordersPage } = storeToRefs(archiveStore)
 
-const sheet = useTemplateRef<InstanceType<typeof Sheet> | null>('sheet')
-
-const isSheetOpen = ref(false)
-
 const isOrder = computed(() => route.name === Routes.order)
-
-function toggleModalRoute() {
-  if (sheet.value && !sheet.value.open && route.name === Routes.order) {
-    router.back()
-  }
-}
 
 const [DefineTemplate, ReuseTemplate] = createReusableTemplate()
 
@@ -74,19 +63,12 @@ onBeforeMount(() => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        <Sheet ref="sheet" v-model:open="isSheetOpen" @update:open="toggleModalRoute">
-          <SheetTrigger as-child>
-            <ArchiveRow
-              v-for="order in ordersPage"
-              :key="order._id"
-              :order="order"
-              class="cursor-pointer"
-            />
-          </SheetTrigger>
-          <SheetContent class="min-w-[560px] !max-w-full w-1/4">
-            <RouterView />
-          </SheetContent>
-        </Sheet>
+        <ArchiveRow
+          v-for="order in ordersPage"
+          :key="order._id"
+          :order="order"
+          class="cursor-pointer"
+        />
       </TableBody>
     </Table>
   </div>
