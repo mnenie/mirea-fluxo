@@ -35,7 +35,7 @@ export const useOrderStore = defineStore('orders', () => {
     isPendingOrders.value = true
     try {
       const { data } = await OrdersService.getOrders()
-      orders.value = data
+      orders.value = data.filter((order: Order) => order.status !== 'closed')
     }
     catch (err: any) {
       throw new Error(err)

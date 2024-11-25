@@ -1,23 +1,25 @@
 import { defineStore } from 'pinia'
-import { shallowRef } from 'vue'
+import { ref, shallowRef } from 'vue'
+import OrdersService from '~/services/order'
 import type { Order } from '~/types/order.interface'
 
 export const useArchiveStore = defineStore('archive', () => {
   const ordersArchive = shallowRef<Order[]>([])
   const ordersPage = shallowRef<Order[]>([])
+  const isPendingOrders = ref<boolean>(false)
 
-  for (let index = 0; index < 52; index++) {
-    ordersArchive.value.push({
-      _id: `${index}`,
-      title: 'Hello world',
-      content: 'content',
-      date: new Date(),
-      closeDate: new Date(),
-      status: 'closed',
-      price: 1000000,
-      organization: 'organization',
-      stages: [],
-    })
+  async function getOrders(): Promise<void> {
+    isPendingOrders.value = true
+    try {
+      const { data } = await OrdersService.getOrders()
+      ordersArchive.value = data.filter((order: Order) => order.status === 'closed')
+    }
+    catch (err: any) {
+      throw new Error(err)
+    }
+    finally {
+      isPendingOrders.value = false
+    }
   }
 
   const getPaginatedOrders = function (page: number, itemsPerPage: number) {
@@ -38,5 +40,7 @@ export const useArchiveStore = defineStore('archive', () => {
     ordersPage,
     getPaginatedOrders,
     updateOrders,
+    getOrders,
+    isPendingOrders,
   }
 })

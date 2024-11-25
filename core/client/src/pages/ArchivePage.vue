@@ -1,12 +1,22 @@
 <script setup lang="ts">
 import { useHead } from '@unhead/vue'
-import { Arrow, Filter, Reload, Sort } from '~/assets/svgs-vite'
+import { storeToRefs } from 'pinia'
+import { onMounted } from 'vue'
+import { Arrow, Filter, Loader, Reload, Sort } from '~/assets/svgs-vite'
 import ArchivePagination from '~/components/orders/archive/ArchivePagination.vue'
 import OrderArchiveTable from '~/components/orders/archive/OrderArchiveTable.vue'
 import { Button } from '~/components/ui/button'
+import { useArchiveStore } from '~/stores/archive'
 
 useHead({
   title: '1CManager | Archive',
+})
+
+const archiveStore = useArchiveStore()
+const { isPendingOrders } = storeToRefs(archiveStore)
+
+onMounted(async () => {
+  await archiveStore.getOrders()
 })
 </script>
 
@@ -37,7 +47,10 @@ useHead({
         </span>
       </Button>
     </div>
-    <OrderArchiveTable />
-    <ArchivePagination />
+    <OrderArchiveTable v-if="!isPendingOrders" />
+    <ArchivePagination v-if="!isPendingOrders" />
+    <div v-else class="w-full h-[calc(100vh-300px)] flex items-center justify-center">
+      <Loader class="w-10 h-10 text-neutral-500 animate-spin" />
+    </div>
   </div>
 </template>
