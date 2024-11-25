@@ -41,7 +41,7 @@ function sortByPrice() {
 
 <template>
   <div class="flex flex-row items-center gap-2">
-    <Button size="sm" variant="outline" class="px-2 py-0 flex gap-1.5 items-center">
+    <Button size="sm" variant="outline" class="px-2 py-0 flex gap-1.5 items-center" disabled>
       <Filter class="text-neutral-600 min-w-[13px] min-h-[13px]" />
       <span class="2xl:text-[13px] text-sm text-neutral-800">
         {{ $t('orders.filters', 0) }}

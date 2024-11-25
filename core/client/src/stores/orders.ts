@@ -8,6 +8,7 @@ import type { Stage } from '~/types/stages.interface'
 
 export const useOrderStore = defineStore('orders', () => {
   const orders = shallowRef<Order[]>([])
+  const ordersFiltered = shallowRef<Order[]>([])
   const order = ref<Order>({} as Order)
   const ordersPage = shallowRef<Order[]>([])
   const isPending = ref<boolean>(false)
@@ -22,9 +23,9 @@ export const useOrderStore = defineStore('orders', () => {
 
   function getPaginatedOrders(page: number, itemsPerPage: number) {
     const paginatedOrders = <Order[]>[]
-    const pageEnd = Math.min(orders.value.length, page * itemsPerPage)
+    const pageEnd = Math.min(ordersFiltered.value.length, page * itemsPerPage)
     for (let i = (page - 1) * itemsPerPage; i < pageEnd; i++) {
-      paginatedOrders.push(orders.value[i])
+      paginatedOrders.push(ordersFiltered.value[i])
     }
     return paginatedOrders
   }
@@ -36,6 +37,7 @@ export const useOrderStore = defineStore('orders', () => {
     try {
       const { data } = await OrdersService.getOrders()
       orders.value = data
+      ordersFiltered.value = data
     }
     catch (err: any) {
       throw new Error(err)
@@ -128,15 +130,25 @@ export const useOrderStore = defineStore('orders', () => {
 
   function sortByPrice(order: 'asc' | 'desc') {
     if (order === 'asc') {
-      orders.value.sort((a, b) => a.price - b.price)
+      ordersFiltered.value.sort((a, b) => a.price - b.price)
     }
     else {
-      orders.value.sort((a, b) => b.price - a.price)
+      ordersFiltered.value.sort((a, b) => b.price - a.price)
     }
+  }
+
+  function applyFilters(showInProcess: boolean, showNotVerified: boolean, showClosed: boolean) {
+    const filterMap: Record<Order['status'], boolean> = {
+      'not verified': showNotVerified,
+      'in process': showInProcess,
+      'closed': showClosed,
+    } as const
+    ordersFiltered.value = orders.value.filter((order: Order) => filterMap[order.status])
   }
 
   return {
     orders,
+    ordersFiltered,
     ordersPage,
     order,
     totalOrderPriceByStages,
@@ -155,6 +167,7 @@ export const useOrderStore = defineStore('orders', () => {
     currentFormId,
     sortByDate,
     sortByPrice,
+    applyFilters,
   }
 })
 
