@@ -5,8 +5,9 @@ import {
   getLocalTimeZone,
 } from '@internationalized/date'
 import { toTypedSchema } from '@vee-validate/zod'
+import { storeToRefs } from 'pinia'
 import { useField, useForm } from 'vee-validate'
-import { ref } from 'vue'
+import { onUnmounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import * as z from 'zod'
 import { Button } from '~/components/ui/button'
@@ -37,7 +38,7 @@ import { Textarea } from '../ui/textarea'
 
 const { t } = useI18n()
 const orderStore = useOrderStore()
-const isDialogOpen = ref(false)
+const { isDialogOpen, currentFormId } = storeToRefs(orderStore)
 const dateEnd = ref<DateValue>()
 
 const requiredErrorMsg = t('order.stages.dialog.fields.error.required')
@@ -45,7 +46,6 @@ const invalidLengthErrorMsg = t('order.stages.dialog.fields.error.invalidLength'
 const invalidTypeErrorMsg = t('order.stages.dialog.fields.error.invalidType')
 
 const formSchema = toTypedSchema(
-
   z.object({
     title: z.string({ required_error: requiredErrorMsg }).min(2, invalidLengthErrorMsg).max(50, invalidLengthErrorMsg),
     content: z.string({ required_error: requiredErrorMsg }).min(2, invalidLengthErrorMsg).max(50, invalidLengthErrorMsg),
@@ -69,14 +69,19 @@ const onSubmit = handleSubmit(async (values) => {
     content: values.content,
     dateEnd: dateEnd.value!.toDate(getLocalTimeZone()),
   }
-  await orderStore.createStageById(orderStore.order._id, data)
+  await orderStore.createStageById(currentFormId.value, data)
   stage.value = ''
   price.value = null
+  dateEnd.value = undefined
   isDialogOpen.value = false
 })
 
 const df = new DateFormatter('en-US', {
   dateStyle: 'long',
+})
+
+onUnmounted(() => {
+  isDialogOpen.value = false
 })
 </script>
 

@@ -55,7 +55,9 @@ const contentPl = computed(() => {
     </div>
     <div v-if="!isFolded">
       <StageAttributes :stage :style="contentPl" />
-      <StageItem v-for="substage in stage.stages" :key="substage._id" :stage="substage" :layer="layer + 1" />
+      <div class="space-y-2">
+        <StageItem v-for="substage in stage.stages" :key="substage._id" :stage="substage" :layer="layer + 1" />
+      </div>
     </div>
   </div>
 </template>

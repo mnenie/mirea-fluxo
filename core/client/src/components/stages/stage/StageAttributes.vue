@@ -12,7 +12,7 @@ const attributes = computed(() => tm('order.attributes'))
 </script>
 
 <template>
-  <div class="w-full my-6 space-y-4 pl-6">
+  <div class="w-full my-4 space-y-2 pl-6">
     <div class="text-neutral-500 flex flex-row items-center gap-10 text-sm">
       <span class="flex gap-2 items-center">
         <Department class="w-[14px] h-[14px]" />

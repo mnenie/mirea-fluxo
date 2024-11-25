@@ -11,6 +11,9 @@ export const useOrderStore = defineStore('orders', () => {
   const ordersPage = shallowRef<Order[]>([])
   const isPending = ref<boolean>(false)
 
+  const isDialogOpen = ref<boolean>(false)
+  const currentFormId = ref<string>('')
+
   const totalOrderPriceByStages = computed(() => {
     if (order.value && order.value.stages) {
       return order.value.stages.reduce((acc, stage) => acc + stage.price, 0)
@@ -47,6 +50,7 @@ export const useOrderStore = defineStore('orders', () => {
     try {
       const { data } = await OrdersService.getOrder(id)
       order.value = data
+      currentFormId.value = order.value._id
     }
     catch (err: any) {
       isPending.value = false
@@ -69,13 +73,17 @@ export const useOrderStore = defineStore('orders', () => {
 
   // TODO: types with Pick
   async function createStageById(id: string, body: any): Promise<void> {
+    isPending.value = true
     try {
-      const { data } = await OrdersService.createStage(id, body)
-      order.value.stages.push({ ...body! })
-      order.value = data
+      await OrdersService.createStage(id, body)
+      await getOrderById(order.value._id)
     }
     catch (err: any) {
       throw new Error(err)
+      isPending.value = false
+    }
+    finally {
+      isPending.value = false
     }
   }
 
@@ -122,6 +130,8 @@ export const useOrderStore = defineStore('orders', () => {
     getRisksByOrderId,
     getPaginatedOrders,
     createStageById,
+    isDialogOpen,
+    currentFormId,
   }
 })
 

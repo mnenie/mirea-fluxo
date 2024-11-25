@@ -24,7 +24,7 @@ const tabValue = ref('stages')
 const route = useRoute()
 
 const orderStore = useOrderStore()
-const { order, isPending, isMapUploading } = storeToRefs(orderStore)
+const { order, isPending, isMapUploading, currentFormId } = storeToRefs(orderStore)
 
 watchPostEffect(async () => {
   await orderStore.getOrderById(route.params.id as string)
@@ -68,7 +68,7 @@ watchPostEffect(async () => {
     </Tabs>
     <SkeletonContent v-else />
     <StageModal v-if="tabValue === 'stages' && !isPending">
-      <StageBox />
+      <StageBox @click="currentFormId = order._id" />
     </StageModal>
     <Skeleton v-else-if="tabValue === 'stages' && isPending" class="sticky bottom-0 h-9 mx-6" />
   </div>
