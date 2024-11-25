@@ -29,7 +29,7 @@ const { hasPermission } = useRole()
 const { statusColor, textColor } = useSharedStatus()
 
 const manager = computed(() => order.value.status === 'not verified' ? undefined : user.value._id)
-const organizations = computed(() => order.value.stages.map(stage => stage.organization))
+const organizations = computed(() => order.value.stages?.map(stage => stage.organization))
 
 async function updateStatus() {
   const data = {
@@ -92,7 +92,7 @@ async function updateStatus() {
       <template #icon>
         <Department class="icon" />
       </template>
-      <template v-if="organizations.length > 0">
+      <template v-if="organizations?.length > 0">
         <div v-for="org, idx in organizations" :key="idx" class="flex flex-row items-center gap-2">
           <Badge variant="secondary" class="text-xs text-neutral-500 font-medium py-0 px-1">
             {{ org }}

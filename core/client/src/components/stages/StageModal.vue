@@ -7,7 +7,7 @@ import {
 import { toTypedSchema } from '@vee-validate/zod'
 import { storeToRefs } from 'pinia'
 import { useField, useForm } from 'vee-validate'
-import { onUnmounted, ref } from 'vue'
+import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import * as z from 'zod'
 import { Button } from '~/components/ui/button'
@@ -84,10 +84,6 @@ const onSubmit = handleSubmit(async (values) => {
 
 const df = new DateFormatter('en-US', {
   dateStyle: 'long',
-})
-
-onUnmounted(() => {
-  isDialogOpen.value = false
 })
 </script>
 

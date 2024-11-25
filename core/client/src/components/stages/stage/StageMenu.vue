@@ -27,6 +27,11 @@ const isContractDisabled = computed(() =>
   || !hasPermission(user.value.role, 'create:contract'),
 )
 
+function toggleDialog() {
+  isDialogOpen.value = true
+  currentFormId.value = props.stage._id
+}
+
 const generatePDf = async () => await useJsToPdf(toRef(() => props.stage), totalOrderPriceByStages as ComputedRef<number>, user.value!.email)
 </script>
 
@@ -40,8 +45,8 @@ const generatePDf = async () => await useJsToPdf(toRef(() => props.stage), total
         <span class="2xl:text-xs text-sm font-medium">{{ $t('order.actions', 0) }}</span>
         <DropdownMenuShortcut>⇧I</DropdownMenuShortcut>
       </DropdownMenuItem>
-      <DropdownMenuItem>
-        <span class="2xl:text-xs text-sm font-medium" @click.stop="isDialogOpen = true; currentFormId = stage._id">{{ $t('order.actions', 2) }}</span>
+      <DropdownMenuItem @click="toggleDialog">
+        <span class="2xl:text-xs text-sm font-medium">{{ $t('order.actions', 2) }}</span>
         <DropdownMenuShortcut>⌘N</DropdownMenuShortcut>
       </DropdownMenuItem>
       <DropdownMenuItem>
