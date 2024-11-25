@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
-import { type ComputedRef, toRef } from 'vue'
+import { computed, type ComputedRef, toRef } from 'vue'
 import { DotMenu } from '~/assets/svgs-vite'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuShortcut, DropdownMenuTrigger } from '~/components/ui/dropdown-menu'
 import { useJsToPdf } from '~/composables/usePdfContract'
+import { useRole } from '~/composables/useRole'
 import { cn } from '~/lib/utils'
 import { useAuthStore } from '~/stores/auth'
 import { useOrderStore } from '~/stores/orders'
@@ -15,12 +16,17 @@ const props = defineProps<{
 
 const orderStore = useOrderStore()
 const userStore = useAuthStore()
-const { totalOrderPriceByStages, isDialogOpen, currentFormId } = storeToRefs(orderStore)
+
+const { isDialogOpen, currentFormId, order, totalOrderPriceByStages } = storeToRefs(orderStore)
 const { user } = storeToRefs(userStore)
 
-// const isDisabled = computed(() => totalOrderPriceByStages.value! > order.value.price)
+const { hasPermission } = useRole()
 
-// TODO: with manager
+const isContractDisabled = computed(() =>
+  (order.value.price < props.stage.price || totalOrderPriceByStages.value! > order.value.price)
+  || !hasPermission(user.value.role, 'create:contract'),
+)
+
 const generatePDf = async () => await useJsToPdf(toRef(() => props.stage), totalOrderPriceByStages as ComputedRef<number>, user.value!.email)
 </script>
 
@@ -30,7 +36,7 @@ const generatePDf = async () => await useJsToPdf(toRef(() => props.stage), total
       <DotMenu class="w-4 h-4 cursor-pointer text-neutral-500" />
     </DropdownMenuTrigger>
     <DropdownMenuContent align="end" :class="cn(`w-[200px] z-[9999999]`, (isDialogOpen ? 'dialog' : ''))">
-      <DropdownMenuItem @click="generatePDf">
+      <DropdownMenuItem :disabled="isContractDisabled" @click="generatePDf">
         <span class="2xl:text-xs text-sm font-medium">{{ $t('order.actions', 0) }}</span>
         <DropdownMenuShortcut>⇧I</DropdownMenuShortcut>
       </DropdownMenuItem>

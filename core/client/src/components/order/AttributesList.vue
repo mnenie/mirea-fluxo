@@ -1,21 +1,19 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { Calendar, Department, Rating as RatingSvg, Smile, StatusTable } from '~/assets/svgs-vite'
+import { useRole } from '~/composables/useRole'
 import { useSharedStatus } from '~/composables/useStatus'
 import { formatDate } from '~/helpers/formatDateHelper'
 import { useAuthStore } from '~/stores/auth'
 import { useOrderStore } from '~/stores/orders'
-import type { Order } from '~/types/order.interface'
 import Price from '../orders/card/Price.vue'
 import ReviewBadgeSelect from '../shared/ReviewBadgeSelect.vue'
 import { Badge } from '../ui/badge'
 import { Button } from '../ui/button'
 import { Select, SelectValue } from '../ui/select'
 import AttributeItem from './AttributeItem.vue'
-
-const modelDepartment = ref<Order['organization']>()
 
 const ordersStore = useOrderStore()
 const authStore = useAuthStore()
@@ -26,11 +24,12 @@ const { order } = storeToRefs(ordersStore)
 const { tm } = useI18n()
 const attributes = computed(() => tm('order.attributes'))
 
-const isBtnDisabled = computed(() => order.value.status === 'closed')
+const { hasPermission } = useRole()
 
 const { statusColor, textColor } = useSharedStatus()
 
 const manager = computed(() => order.value.status === 'not verified' ? undefined : user.value._id)
+const organizations = computed(() => order.value.stages.map(stage => stage.organization))
 
 async function updateStatus() {
   const data = {
@@ -63,7 +62,11 @@ async function updateStatus() {
       <template #icon>
         <StatusTable class="icon" />
       </template>
-      <Select v-model:model-value="order.status" @update:model-value="updateStatus">
+      <Select
+        v-model:model-value="order.status"
+        :disabled="!hasPermission(user.role, 'update:order')"
+        @update:model-value="updateStatus"
+      >
         <ReviewBadgeSelect :values="['in process', 'closed', 'not verified']">
           <Button
             size="sm"
@@ -89,22 +92,14 @@ async function updateStatus() {
       <template #icon>
         <Department class="icon" />
       </template>
-      <Select v-model:model-value="modelDepartment" :disabled="isBtnDisabled">
-        <ReviewBadgeSelect :values="['marketing', 'design', 'development', 'sales', 'general']">
-          <Badge
-            variant="outline"
-            :disabled="isBtnDisabled"
-            size="sm"
-            class="h-5 px-0 cursor-pointer text-neutral-500 hover:text-neutral-500 font-medium hover:bg-white focus-visible:ring-0"
-            :class="{ 'cursor-not-allowed': isBtnDisabled }"
-          >
-            <SelectValue
-              :class="[!modelDepartment && 'text-neutral-300 font-normal']"
-              :placeholder="$t('order.values', 3)"
-            />
+      <template v-if="organizations.length > 0">
+        <div v-for="org, idx in organizations" :key="idx" class="flex flex-row items-center gap-2">
+          <Badge variant="secondary" class="text-xs text-neutral-500 font-medium py-0 px-1">
+            {{ org }}
           </Badge>
-        </ReviewBadgeSelect>
-      </Select>
+        </div>
+      </template>
+      <span v-else class="text-sm text-neutral-400">{{ $t('order.values', 2) }}</span>
     </AttributeItem>
   </div>
 </template>

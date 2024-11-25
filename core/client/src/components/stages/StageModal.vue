@@ -31,6 +31,7 @@ import {
 import { Input } from '~/components/ui/input'
 import { getFormFields } from '~/lib/form'
 import { cn } from '~/lib/utils'
+import { useAuthStore } from '~/stores/auth'
 import { useOrderStore } from '~/stores/orders'
 import Calendar from '../ui/calendar/Calendar.vue'
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
@@ -39,6 +40,10 @@ import { Textarea } from '../ui/textarea'
 const { t } = useI18n()
 const orderStore = useOrderStore()
 const { isDialogOpen, currentFormId } = storeToRefs(orderStore)
+
+const authStore = useAuthStore()
+const { user } = storeToRefs(authStore)
+
 const dateEnd = ref<DateValue>()
 
 const requiredErrorMsg = t('order.stages.dialog.fields.error.required')
@@ -68,6 +73,7 @@ const onSubmit = handleSubmit(async (values) => {
     price: values.price,
     content: values.content,
     dateEnd: dateEnd.value!.toDate(getLocalTimeZone()),
+    organization: user.value!.organization!,
   }
   await orderStore.createStageById(currentFormId.value, data)
   stage.value = ''

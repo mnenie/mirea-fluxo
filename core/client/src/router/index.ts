@@ -4,8 +4,7 @@ import AuthLayout from '~/layouts/AuthLayout.vue'
 import DefaultLayout from '~/layouts/DefaultLayout.vue'
 import EmptyLayout from '~/layouts/EmptyLayout.vue'
 import { Routes } from '~/utils/contants'
-import { authMiddleware } from './middleware/auth'
-import { signInMiddleware } from './middleware/sign-in'
+import { authMiddleware, permissionMiddleware, signInMiddleware } from './middlewares'
 
 const routes = [
   {
@@ -26,18 +25,19 @@ const routes = [
 
   },
   {
-    name: Routes.notifications,
-    path: '/notifications',
-    component: () => import('~/pages/NotificationsPage.vue'),
+    name: Routes.analytics,
+    path: '/analytics',
+    component: () => import('~/pages/AnalyticsPage.vue'),
     meta: {
+      permission: 'view:analytics',
       requiresAuth: true,
       layout: DefaultLayout,
     },
   },
   {
-    name: Routes.analytics,
-    path: '/analytics',
-    component: () => import('~/pages/AnalyticsPage.vue'),
+    name: Routes.notifications,
+    path: '/notifications',
+    component: () => import('~/pages/NotificationsPage.vue'),
     meta: {
       requiresAuth: true,
       layout: DefaultLayout,
@@ -79,5 +79,6 @@ const router = createRouter({
 
 router.beforeEach(authMiddleware)
 router.beforeEach(signInMiddleware)
+router.beforeEach(permissionMiddleware)
 
 export default router

@@ -1,6 +1,7 @@
 import type { AxiosResponse } from 'axios'
 import { api } from '~/api'
 import type { Order } from '~/types/order.interface'
+import type { Stage } from '~/types/stages.interface'
 
 export default class OrdersService {
   static async getOrders(): Promise<AxiosResponse<Order[]>> {
@@ -11,8 +12,11 @@ export default class OrdersService {
     return api.patch(`/orders/${id}`, data)
   }
 
-  // TODO: types with Pick(@mnenie)
-  static async createStage(id: string, data: any): Promise<AxiosResponse<Order>> {
+  static async createStage(
+    id: string,
+    data: Pick<Stage, 'title' | 'content' | 'dateEnd' | 'price' | 'organization'>,
+  ):
+    Promise<AxiosResponse<Order>> {
     return api.put(`/stages/${id}`, data)
   }
 

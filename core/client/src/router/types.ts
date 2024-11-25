@@ -5,6 +5,7 @@ declare module 'vue-router' {
   interface RouteMeta {
     meta?: Record<string, unknown>
     requiresAuth?: boolean
+    permission?: string
   }
 }
 

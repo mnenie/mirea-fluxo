@@ -4,7 +4,7 @@ import { useI18n } from 'vue-i18n'
 import { Department } from '~/assets/svgs-vite'
 import type { Stage } from '~/types/stages.interface'
 
-const props = defineProps<{
+defineProps<{
   stage: Stage
 }>()
 const { tm } = useI18n()
@@ -16,17 +16,14 @@ const attributes = computed(() => tm('order.attributes'))
     <div class="text-neutral-500 flex flex-row items-center gap-10 text-sm">
       <span class="flex gap-2 items-center">
         <Department class="w-[14px] h-[14px]" />
-        ООО Сладкая печенька
+        {{ stage.organization }}
       </span>
-      <span>{{ props.stage.organization }}</span>
     </div>
     <div class="text-neutral-500 flex flex-row items-center gap-10 text-sm">
       <span class="flex gap-3 items-center">
         {{ attributes[5] }}: <span>{{ stage.content }}</span>
       </span>
     </div>
-    <!-- TODO -->
-    <!-- перенес в StageItem -> StageMenu -->
   </div>
 </template>
 

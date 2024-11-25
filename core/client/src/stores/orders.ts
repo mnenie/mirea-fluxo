@@ -4,13 +4,13 @@ import { useRisks } from '~/composables/useRisks'
 import AiService from '~/services/ai'
 import OrdersService from '~/services/order'
 import type { Order } from '~/types/order.interface'
+import type { Stage } from '~/types/stages.interface'
 
 export const useOrderStore = defineStore('orders', () => {
   const orders = shallowRef<Order[]>([])
   const order = ref<Order>({} as Order)
   const ordersPage = shallowRef<Order[]>([])
   const isPending = ref<boolean>(false)
-
   const isDialogOpen = ref<boolean>(false)
   const currentFormId = ref<string>('')
 
@@ -72,7 +72,11 @@ export const useOrderStore = defineStore('orders', () => {
   }
 
   // TODO: types with Pick
-  async function createStageById(id: string, body: any): Promise<void> {
+  async function createStageById(
+    id: string,
+    body: Pick<Stage, 'title' | 'content' | 'dateEnd' | 'price' | 'organization'>,
+  ):
+    Promise<void> {
     isPending.value = true
     try {
       await OrdersService.createStage(id, body)
@@ -80,7 +84,6 @@ export const useOrderStore = defineStore('orders', () => {
     }
     catch (err: any) {
       throw new Error(err)
-      isPending.value = false
     }
     finally {
       isPending.value = false

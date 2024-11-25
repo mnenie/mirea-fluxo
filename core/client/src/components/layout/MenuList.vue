@@ -1,8 +1,12 @@
 <script setup lang="ts" generic="T extends MenuItem">
+import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useExpanded } from '~/composables/useExpanded'
+import { useRole } from '~/composables/useRole'
 import { cn } from '~/lib/utils'
+import { useAuthStore } from '~/stores/auth'
+import { useOrderStore } from '~/stores/orders'
 import { Button } from '../ui/button'
 
 export interface MenuItem {
@@ -18,11 +22,23 @@ defineProps<{
 
 const route = useRoute()
 
+const orderStore = useOrderStore()
+const { orders } = storeToRefs(orderStore)
+
+const userStore = useAuthStore()
+const { user } = storeToRefs(userStore)
+
 const isActiveRoute = computed(() => (path: string) => route.path === path)
+const ordersLength = computed(() => orders.value.length || 0)
 
 const expanded = useExpanded()
 
+const { hasPermission } = useRole()
 const { isExpanded } = expanded.getExpanded()
+
+const isPermissionValid = computed(() =>
+  (path: string) => path === '/analytics' && !hasPermission(user.value.role, 'view:analytics'),
+)
 </script>
 
 <template>
@@ -44,12 +60,14 @@ const { isExpanded } = expanded.getExpanded()
         disabled: isExpanded,
       }"
       :to="path"
+      :class="isPermissionValid(path) ? 'pointer-events-none' : ''"
       class="text-sm font-semibolds w-full"
     >
       <Button
         :variant="isActiveRoute(path) ? 'secondary' : 'ghost'"
         size="sm"
         class="w-full px-2"
+        :disabled="isPermissionValid(path)"
         :class="cn([isExpanded ? 'justify-between' : 'justify-center'], [isActiveRoute(path) ? '' : 'text-neutral-600'])"
       >
         <div class="flex items-center">
@@ -62,7 +80,7 @@ const { isExpanded } = expanded.getExpanded()
         </div>
         <Badge v-if="(path === '/orders' || path === '/notifications') && isExpanded" variant="outline" class="px-1.5 py-0 text-xs bg-blue-600 rounded-md">
           <!-- TODO -->
-          <span class="text-[10px] text-white">{{ path === '/orders' ? '10' : '3' }}</span>
+          <span class="text-[10px] text-white">{{ path === '/orders' ? ordersLength : '3' }}</span>
         </Badge>
       </Button>
     </RouterLink>

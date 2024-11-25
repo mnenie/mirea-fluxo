@@ -52,9 +52,9 @@ export default {
   order: {
     actions: 'Contract | Analyze risks | Add new stage',
     delete: 'Delete stage',
-    attributes: ['Responsible', 'Date', 'Status', 'Price', 'Organization', 'Description'],
+    attributes: ['Responsible', 'Date', 'Status', 'Price', 'Organizations', 'Description'],
     tabs: 'Order stages | RHM',
-    values: 'Change status to in process or closed... | company is ready to pay | Choose an organization',
+    values: 'Change status to in process or closed... | company is ready to pay | Create any stage',
     ai: {
       title: 'OR',
       badges: ['ask ai', 'analyze', 'so... make tea 😉'],

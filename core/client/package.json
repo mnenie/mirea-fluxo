@@ -13,6 +13,7 @@
     "lint:fix": "eslint . --fix"
   },
   "dependencies": {
+    "@internationalized/date": "^3.6.0",
     "@noction/hippie-nav": "^0.7.7",
     "@radix-icons/vue": "^1.0.0",
     "@unhead/vue": "^1.11.11",
