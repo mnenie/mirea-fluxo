@@ -35,6 +35,24 @@ export const useArchiveStore = defineStore('archive', () => {
     ordersPage.value = getPaginatedOrders(page, items)
   }
 
+  function sortByDate(order: 'asc' | 'desc') {
+    if (order === 'asc') {
+      ordersArchive.value.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+    }
+    else {
+      ordersArchive.value.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    }
+  }
+
+  function sortByPrice(order: 'asc' | 'desc') {
+    if (order === 'asc') {
+      ordersArchive.value.sort((a, b) => a.price - b.price)
+    }
+    else {
+      ordersArchive.value.sort((a, b) => b.price - a.price)
+    }
+  }
+
   return {
     ordersArchive,
     ordersPage,
@@ -42,5 +60,7 @@ export const useArchiveStore = defineStore('archive', () => {
     updateOrders,
     getOrders,
     isPendingOrders,
+    sortByDate,
+    sortByPrice,
   }
 })

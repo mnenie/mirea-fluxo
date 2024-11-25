@@ -11,7 +11,6 @@ import { Routes } from '~/utils/contants'
 import {
   Table,
   TableBody,
-  TableCaption,
   TableHead,
   TableHeader,
   TableRow,
@@ -38,9 +37,6 @@ onBeforeMount(() => {
 <template>
   <div class="overflow-y-auto h-[calc(100dvh-200px)] w-full bg-white shadow rounded-md">
     <Table>
-      <TableCaption class="pb-4">
-        A list of all reviews.
-      </TableCaption>
       <TableHeader>
         <!-- reusable temlate -->
         <DefineTemplate v-slot="{ plural, icon, width }">

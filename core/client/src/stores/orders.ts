@@ -35,7 +35,7 @@ export const useOrderStore = defineStore('orders', () => {
     isPendingOrders.value = true
     try {
       const { data } = await OrdersService.getOrders()
-      orders.value = data.filter((order: Order) => order.status !== 'closed')
+      orders.value = data
     }
     catch (err: any) {
       throw new Error(err)
@@ -117,6 +117,24 @@ export const useOrderStore = defineStore('orders', () => {
     order.value.stages.push(stage)
   }
 
+  function sortByDate(order: 'asc' | 'desc') {
+    if (order === 'asc') {
+      orders.value.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+    }
+    else {
+      orders.value.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    }
+  }
+
+  function sortByPrice(order: 'asc' | 'desc') {
+    if (order === 'asc') {
+      orders.value.sort((a, b) => a.price - b.price)
+    }
+    else {
+      orders.value.sort((a, b) => b.price - a.price)
+    }
+  }
+
   return {
     orders,
     ordersPage,
@@ -135,6 +153,8 @@ export const useOrderStore = defineStore('orders', () => {
     createStageById,
     isDialogOpen,
     currentFormId,
+    sortByDate,
+    sortByPrice,
   }
 })
 
