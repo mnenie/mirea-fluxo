@@ -93,6 +93,11 @@ export default {
               description: 'End date for the stage',
             },
           },
+          error: {
+            required: 'Required field.',
+            invalidLength: 'Field must contain between 2 and 50 characters.',
+            invalidType: 'Invalid value.',
+          },
         },
       },
     },

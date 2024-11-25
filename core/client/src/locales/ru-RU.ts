@@ -93,6 +93,11 @@ export default {
               description: 'Дата окончания для этапа',
             },
           },
+          error: {
+            required: 'Обязательное поле.',
+            invalidLength: 'Поле должно содержать от 2 до 50 символов.',
+            invalidType: 'Неверное значение.',
+          },
         },
       },
     },
