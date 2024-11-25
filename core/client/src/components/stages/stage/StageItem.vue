@@ -12,7 +12,7 @@ const props = defineProps<{
   layer: number
 }>()
 
-const isFolded = ref<boolean>(false)
+const isFolded = ref<boolean>(true)
 
 const identStyle = computed(() => {
   return {

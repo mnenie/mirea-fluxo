@@ -1,4 +1,9 @@
 <script setup lang="ts">
+import {
+  DateFormatter,
+  type DateValue,
+  getLocalTimeZone,
+} from '@internationalized/date'
 import { toTypedSchema } from '@vee-validate/zod'
 import { useField, useForm } from 'vee-validate'
 import { ref } from 'vue'
@@ -24,20 +29,29 @@ import {
 } from '~/components/ui/form'
 import { Input } from '~/components/ui/input'
 import { getFormFields } from '~/lib/form'
+import { cn } from '~/lib/utils'
 import { useOrderStore } from '~/stores/orders'
+import Calendar from '../ui/calendar/Calendar.vue'
+import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
 import { Textarea } from '../ui/textarea'
 
+const { t } = useI18n()
+const orderStore = useOrderStore()
+const isDialogOpen = ref(false)
+const dateEnd = ref<DateValue>()
+
+const requiredErrorMsg = t('order.stages.dialog.fields.error.required')
+const invalidLengthErrorMsg = t('order.stages.dialog.fields.error.invalidLength')
+const invalidTypeErrorMsg = t('order.stages.dialog.fields.error.invalidType')
+
 const formSchema = toTypedSchema(
+
   z.object({
-    title: z.string({ required_error: `Обязательное поле` }).min(2).max(50),
-    content: z.string({ required_error: `Обязательное поле` }).min(2).max(50),
-    date: z.string({ required_error: `Обязательное поле` }),
-    price: z.number({ required_error: `Обязательное поле` }),
+    title: z.string({ required_error: requiredErrorMsg }).min(2, invalidLengthErrorMsg).max(50, invalidLengthErrorMsg),
+    content: z.string({ required_error: requiredErrorMsg }).min(2, invalidLengthErrorMsg).max(50, invalidLengthErrorMsg),
+    price: z.number({ required_error: requiredErrorMsg, invalid_type_error: invalidTypeErrorMsg }),
   }),
 )
-const isDialogOpen = ref(false)
-
-const orderStore = useOrderStore()
 
 const { handleSubmit } = useForm({
   validationSchema: formSchema,
@@ -46,8 +60,6 @@ const { handleSubmit } = useForm({
 const { value: stage } = useField<string>('stage')
 const { value: price } = useField<number | null>('price')
 
-const { t } = useI18n()
-
 const { fields } = getFormFields(t)
 
 const onSubmit = handleSubmit(async (values) => {
@@ -55,12 +67,16 @@ const onSubmit = handleSubmit(async (values) => {
     title: values.title,
     price: values.price,
     content: values.content,
-    dateEnd: values.date,
+    dateEnd: dateEnd.value!.toDate(getLocalTimeZone()),
   }
   await orderStore.createStageById(orderStore.order._id, data)
   stage.value = ''
   price.value = null
   isDialogOpen.value = false
+})
+
+const df = new DateFormatter('en-US', {
+  dateStyle: 'long',
 })
 </script>
 
@@ -95,6 +111,27 @@ const onSubmit = handleSubmit(async (values) => {
               <FormMessage />
             </FormItem>
           </FormField>
+        </div>
+        <div class="space-y-2">
+          <div class="text-sm">
+            {{ $t('order.stages.dialog.fields.stage.date.label') }}
+          </div>
+          <Popover>
+            <PopoverTrigger as-child>
+              <Button
+                variant="outline"
+                :class="cn(
+                  'w-full justify-start text-left font-normal',
+                  'text-muted-foreground',
+                )"
+              >
+                {{ dateEnd ? df.format(dateEnd.toDate(getLocalTimeZone())) : $t('order.stages.dialog.fields.stage.date.placeholder') }}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent class="z-[999999999999] -translate-x-11">
+              <Calendar v-model="dateEnd" initial-focus />
+            </PopoverContent>
+          </Popover>
         </div>
       </form>
       <DialogFooter>

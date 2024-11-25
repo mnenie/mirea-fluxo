@@ -27,13 +27,6 @@ export function getFormFields(t: (key: string) => string): { fields: Readonly<Fo
       description: undefined,
       type: 'number',
     },
-    {
-      name: 'date',
-      label: t('order.stages.dialog.fields.stage.date.label'),
-      placeholder: t('order.stages.dialog.fields.stage.date.placeholder'),
-      description: t('order.stages.dialog.fields.stage.date.description'),
-      type: 'text',
-    },
   ]
   return {
     fields,
