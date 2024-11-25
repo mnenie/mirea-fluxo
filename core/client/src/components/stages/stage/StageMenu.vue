@@ -40,12 +40,12 @@ const generatePDf = async () => await useJsToPdf(toRef(() => props.stage), total
     <DropdownMenuTrigger>
       <DotMenu class="w-4 h-4 cursor-pointer text-neutral-500" />
     </DropdownMenuTrigger>
-    <DropdownMenuContent align="end" :class="cn(`w-[200px] z-[9999999]`, (isDialogOpen ? 'dialog' : ''))">
+    <DropdownMenuContent align="end" :class="cn(`w-[200px] z-[9999]`)">
       <DropdownMenuItem :disabled="isContractDisabled" @click="generatePDf">
         <span class="2xl:text-xs text-sm font-medium">{{ $t('order.actions', 0) }}</span>
         <DropdownMenuShortcut>⇧I</DropdownMenuShortcut>
       </DropdownMenuItem>
-      <DropdownMenuItem @click="toggleDialog">
+      <DropdownMenuItem @click.stop="toggleDialog">
         <span class="2xl:text-xs text-sm font-medium">{{ $t('order.actions', 2) }}</span>
         <DropdownMenuShortcut>⌘N</DropdownMenuShortcut>
       </DropdownMenuItem>
@@ -56,9 +56,3 @@ const generatePDf = async () => await useJsToPdf(toRef(() => props.stage), total
     </DropdownMenuContent>
   </DropdownMenu>
 </template>
-
-<style>
-.dialog {
-  display: none !important;
-}
-</style>
