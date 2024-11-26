@@ -1,0 +1,45 @@
+{
+    "laws": [
+      {
+        "name": "Федеральный закон № 44-ФЗ от 05.04.2013",
+        "description": "О контрактной системе в сфере закупок товаров, работ, услуг для обеспечения государственных и муниципальных нужд",
+        "link": "https://www.consultant.ru/document/cons_doc_LAW_144624/"
+      },
+      {
+        "name": "Федеральный закон № 223-ФЗ от 18.07.2011",
+        "description": "О закупках товаров, работ, услуг отдельными видами юридических лиц",
+        "link": "https://www.consultant.ru/document/cons_doc_LAW_116964/"
+      },
+      {
+        "name": "Федеральный закон № 63-ФЗ от 06.04.2011",
+        "description": "Об электронной подписи",
+        "link": "https://www.consultant.ru/document/cons_doc_LAW_112701/"
+      },
+      {
+        "name": "Федеральный закон № 149-ФЗ от 27.07.2006",
+        "description": "Об информации, информационных технологиях и о защите информации",
+        "link": "https://www.consultant.ru/document/cons_doc_LAW_61798/"
+      },
+      {
+        "name": "Федеральный закон № 129-ФЗ от 08.08.2001",
+        "description": "О государственной регистрации юридических лиц и индивидуальных предпринимателей",
+        "link": "https://www.consultant.ru/document/cons_doc_LAW_32881/"
+      },
+      {
+        "name": "Федеральный закон № 152-ФЗ от 27.07.2006",
+        "description": "О персональных данных",
+        "link": "https://www.consultant.ru/document/cons_doc_LAW_61801/"
+      },
+      {
+        "name": "Федеральный закон № 402-ФЗ от 06.12.2011",
+        "description": "О бухгалтерском учете",
+        "link": "https://www.consultant.ru/document/cons_doc_LAW_122855/"
+      },
+      {
+        "name": "Федеральный закон № 126-ФЗ от 07.07.2003",
+        "description": "О связи",
+        "link": "https://www.consultant.ru/document/cons_doc_LAW_43224/"
+      }
+    ]
+  }
+  
