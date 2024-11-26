@@ -60,7 +60,7 @@ async function updateStatus() {
       <template #icon>
         <Calendar class="icon" />
       </template>
-      <span class="text-sm text-neutral-500 font-medium">{{ formatDate(order.date) }}</span>
+      <span class="text-sm text-neutral-500 font-medium">{{ formatDate(order.date) }} - {{ formatDate(order.dateEnd) }}</span>
     </AttributeItem>
     <AttributeItem :title="attributes[2]">
       <template #icon>

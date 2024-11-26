@@ -29,7 +29,7 @@ const contentPl = computed(() => {
 
 const orderStore = useOrderStore()
 
-const isValidDate = computed(() => new Date() < new Date(props.stage.dateEnd!))
+const isValidDate = computed(() => new Date(orderStore.order.dateEnd!) > new Date(props.stage.dateEnd!))
 const isValidPrice = computed(() => orderStore.calculateStagePrice(props.stage.stages) <= props.stage.price)
 </script>
 
