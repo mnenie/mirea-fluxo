@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
+import { computed } from 'vue'
 import { History } from '~/assets/svgs-vite'
 import { useRole } from '~/composables/useRole'
 import { useAuthStore } from '~/stores/auth'
@@ -13,12 +14,14 @@ const authStore = useAuthStore()
 const { user } = storeToRefs(authStore)
 
 const { hasPermission } = useRole()
+
+const isBoxDisabled = computed(() => !hasPermission(user.value.role, 'create:stages') || order.value.status === 'closed')
 </script>
 
 <template>
   <div
     class="sticky bottom-0 z-[999] bg-white w-full mt-auto px-6 flex flex-col items-center justify-center"
-    :class="hasPermission(user.role, 'create:stages') ? '' : 'pointer-events-none cursor-not-allowed opacity-50'"
+    :class="isBoxDisabled ? 'pointer-events-none cursor-not-allowed opacity-50' : ''"
   >
     <div class="flex flex-col w-full items-center">
       <Button
