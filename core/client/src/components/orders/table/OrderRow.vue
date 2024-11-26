@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import Badge from '~/components/ui/badge/Badge.vue'
 import { TableCell, TableRow } from '~/components/ui/table/'
 import { useSharedStatus } from '~/composables/useStatus'
@@ -16,6 +17,7 @@ const organizationCell = computed(() => props.order.stages?.map(stage => stage.o
 const visibleBadges = computed(() => organizationCell.value.slice(0, 1))
 
 const { statusColor, textColor } = useSharedStatus()
+const { tm } = useI18n()
 </script>
 
 <template>
@@ -33,7 +35,7 @@ const { statusColor, textColor } = useSharedStatus()
           ],
         )"
       >
-        <span>{{ order.status }}</span>
+        <span>{{ tm(`orders.status.${order.status.replace(' ', '_')}`) }}</span>
       </Badge>
     </TableCell>
     <TableCell>

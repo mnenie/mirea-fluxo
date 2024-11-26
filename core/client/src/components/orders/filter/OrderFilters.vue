@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { Arrow, Filter, Sort } from '~/assets/svgs-vite'
 import Badge from '~/components/ui/badge/Badge.vue'
 import { Button } from '~/components/ui/button'
@@ -55,6 +56,7 @@ function applyFilters() {
   )
   selectOrderPage(currentPage.value, itemsPerPage.value)
 }
+const { tm } = useI18n()
 </script>
 
 <template>
@@ -82,7 +84,7 @@ function applyFilters() {
               ],
             )"
           >
-            <span>{{ 'in process' }}</span>
+            <span>{{ tm(`orders.status.in_process`) }}</span>
           </Badge>
         </DropdownMenuCheckboxItem>
         <DropdownMenuCheckboxItem v-model:checked="showNotVerified" @update:checked="applyFilters">
@@ -95,7 +97,7 @@ function applyFilters() {
               ],
             )"
           >
-            <span>{{ 'not verified' }}</span>
+            <span>{{ tm(`orders.status.not_verified`) }}</span>
           </Badge>
         </DropdownMenuCheckboxItem>
         <DropdownMenuCheckboxItem v-model:checked="showClosed" @update:checked="applyFilters">
@@ -108,7 +110,7 @@ function applyFilters() {
               ],
             )"
           >
-            <span>{{ 'closed' }}</span>
+            <span>{{ tm(`orders.status.closed`) }}</span>
           </Badge>
         </DropdownMenuCheckboxItem>
       </DropdownMenuContent>
