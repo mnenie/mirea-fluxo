@@ -1,7 +1,12 @@
 <script setup lang="ts">
+import { useHead } from '@unhead/vue'
 import HeaderWelcome from '~/components/layout/header/HeaderWelcome.vue'
 import MainPart from '~/components/welcome/MainPart.vue'
 import PatternBackground from '~/components/welcome/PatternBackground.vue'
+
+useHead({
+  title: 'Fluxo - service for managing business processes and orders in 1C Enterprise.',
+})
 </script>
 
 <template>

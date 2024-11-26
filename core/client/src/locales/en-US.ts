@@ -139,5 +139,9 @@ export default {
       title: 'Contract',
       description: 'Signing a contract with one click in each valid government order',
     },
+    title: 'Our Business Solution',
+    description: 'Fluxo - a service for managing business processes and orders in 1C Enterprise.',
+    badge: 'Fluxo Core',
+    btns: 'Log in | About us | Privacy Policy',
   },
 }

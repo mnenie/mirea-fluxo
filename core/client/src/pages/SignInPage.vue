@@ -1,5 +1,10 @@
 <script setup lang="ts">
+import { useHead } from '@unhead/vue'
 import SignInForm from '~/components/auth/SignInForm.vue'
+
+useHead({
+  title: 'Fluxo | Sign In',
+})
 </script>
 
 <template>

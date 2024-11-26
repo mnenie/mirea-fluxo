@@ -12,7 +12,7 @@ const notificationStore = useNotificationStore()
 const { selectedNotifications } = storeToRefs(notificationStore)
 
 useHead({
-  title: '1CManager | Notifications',
+  title: 'Fluxo | Notifications',
 })
 const isMarked = ref<boolean>(false)
 

@@ -10,7 +10,7 @@ import { Button } from '~/components/ui/button'
 import { useArchiveStore } from '~/stores/archive'
 
 useHead({
-  title: '1CManager | Archive',
+  title: 'Fluxo | Archive',
 })
 
 const archiveStore = useArchiveStore()

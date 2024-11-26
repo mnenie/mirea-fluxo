@@ -10,7 +10,7 @@ import { Button } from '~/components/ui/button'
 import { useOrderStore } from '~/stores/orders'
 
 useHead({
-  title: '1CManager | Orders',
+  title: 'Fluxo | Orders',
 })
 
 const ordersStore = useOrderStore()

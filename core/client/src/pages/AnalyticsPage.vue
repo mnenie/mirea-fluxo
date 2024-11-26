@@ -9,7 +9,7 @@ import { Badge } from '~/components/ui/badge'
 import { useBreakpoints } from '~/composables/useBreakpoints'
 
 useHead({
-  title: '1CManager | Analytics',
+  title: 'Fluxo | Analytics',
 })
 
 const { breakpoints } = useBreakpoints()
