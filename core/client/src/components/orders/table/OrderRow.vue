@@ -12,10 +12,8 @@ const props = defineProps<{
   order: Order
 }>()
 
-const organizationCell = computed(() => {
-  return props.order.stages.length !== 0 ? props.order.stages?.map(stage => stage.organization) : '-'
-})
-const visibleBadges = computed(() => organizationCell.value.slice(0, 3))
+const organizationCell = computed(() => props.order.stages?.map(stage => stage.organization))
+const visibleBadges = computed(() => organizationCell.value.slice(0, 1))
 
 const { statusColor, textColor } = useSharedStatus()
 </script>
@@ -39,7 +37,7 @@ const { statusColor, textColor } = useSharedStatus()
       </Badge>
     </TableCell>
     <TableCell>
-      <template v-if="organizationCell.length">
+      <template v-if="organizationCell.length !== 0">
         <Badge
           v-for="organization, idx in visibleBadges"
           :key="idx"
@@ -51,7 +49,8 @@ const { statusColor, textColor } = useSharedStatus()
           <span>{{ organization }}</span>
         </Badge>
       </template>
-      <span v-if="organizationCell.length > 3" class="text-gray-500 ml-1">...</span>
+      <span v-else class="text-gray-500 px-10">-</span>
+      <span v-if="organizationCell.length > 1" class="text-gray-500 ml-1">...</span>
     </TableCell>
     <TableCell>
       <span class="line-clamp-1 font-semibold">{{ order.title }}</span>

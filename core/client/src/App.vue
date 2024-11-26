@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useWindowSize } from '@vueuse/core'
 import { defineAsyncComponent } from 'vue'
+import { Toaster } from '~/components/ui/sonner'
 
 const NotAvailable = defineAsyncComponent(() =>
   import('./components/device/NotAvailable.vue'))
@@ -15,4 +16,5 @@ const { width } = useWindowSize()
     </RouterView>
   </component>
   <component :is="NotAvailable" v-else />
+  <Toaster />
 </template>

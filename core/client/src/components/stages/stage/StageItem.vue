@@ -25,6 +25,8 @@ const contentPl = computed(() => {
     paddingLeft: `${(props.layer * 12 + 20) + (props.layer === 0 ? 0 : 12)}px`,
   }
 })
+
+const isValidDate = computed(() => formatDate(props.stage.dateEnd)! < formatDate(new Date())!)
 </script>
 
 <template>
@@ -41,7 +43,10 @@ const contentPl = computed(() => {
       </div>
       <div v-if="stage" class="flex items-center gap-1.5">
         <Badge variant="secondary" class="px-1 py-px">
-          <span class="text-xs text-neutral-400 font-medium">
+          <span
+            :class="isValidDate ? '' : 'text-red-500'"
+            class="text-xs text-neutral-400 font-medium"
+          >
             до {{ formatDate(stage.dateEnd) }}
           </span>
         </Badge>

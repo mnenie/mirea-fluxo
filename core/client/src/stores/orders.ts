@@ -1,5 +1,6 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, ref, shallowRef } from 'vue'
+import { toast } from 'vue-sonner'
 import { useRisks } from '~/composables/useRisks'
 import AiService from '~/services/ai'
 import OrdersService from '~/services/order'
@@ -73,7 +74,6 @@ export const useOrderStore = defineStore('orders', () => {
     }
   }
 
-  // TODO: types with Pick
   async function createStageById(
     id: string,
     body: Pick<Stage, 'title' | 'content' | 'dateEnd' | 'price' | 'organization'>,
@@ -81,8 +81,17 @@ export const useOrderStore = defineStore('orders', () => {
     Promise<void> {
     isPending.value = true
     try {
-      await OrdersService.createStage(id, body)
-      await getOrderById(order.value._id)
+      toast.promise(
+        (async () => {
+          await OrdersService.createStage(id, body)
+          await getOrderById(order.value._id)
+        })(),
+        {
+          loading: 'Подождите, этап создается...',
+          success: 'Этап успешно создан!',
+          error: 'Ошибка при создании этапа',
+        },
+      )
     }
     catch (err: any) {
       throw new Error(err)
@@ -99,7 +108,7 @@ export const useOrderStore = defineStore('orders', () => {
     try {
       const response = await AiService.generateRHM(id)
       const { normalizedArr } = await useRisks(response.data)
-      // await OrdersService.patchOrders(id, { risks: normalizedArr })
+      await OrdersService.patchOrders(id, { risks: normalizedArr })
       order.value.risks = normalizedArr
     }
     catch (err: any) {
