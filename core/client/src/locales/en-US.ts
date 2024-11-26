@@ -24,6 +24,11 @@ export default {
     filters: 'Filter by status | Sort | Reshuffle',
     table: ['ID', 'Status', 'Organizations', 'Heading', 'Price', 'Date', 'Close Date'],
     pagination: 'Display on the page',
+    status: {
+      not_verified: 'Not verified',
+      in_process: 'In process',
+      closed: 'Closed',
+    },
   },
   analytics: {
     description: 'View the analytics for all orders in our service and compare the successes with the past',
