@@ -1,4 +1,5 @@
 import type { Stage } from './stages.interface'
+import type { User } from './user.interface'
 
 export type OrderStatus = 'not verified' | 'in process' | 'closed'
 
@@ -12,7 +13,7 @@ export interface Order {
   status: OrderStatus
   price: number
   organization: string
-  manager?: string
+  manager?: User | string
   stages: Array<Stage>
   risks?: Risk[]
 }

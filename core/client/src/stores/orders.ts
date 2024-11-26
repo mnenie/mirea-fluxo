@@ -17,10 +17,14 @@ export const useOrderStore = defineStore('orders', () => {
   const currentFormId = ref<string>('')
 
   const totalOrderPriceByStages = computed(() => {
-    if (order.value && order.value.stages) {
-      return order.value.stages.reduce((acc, stage) => acc + stage.price, 0)
-    }
+    return order.value && order.value.stages ? calculateStagePrice(order.value.stages) : 0
   })
+
+  function calculateStagePrice(stages: Stage[]): number {
+    if (!stages)
+      return 0
+    return stages.reduce((total: number, stage: Stage) => total + stage.price + calculateStagePrice(stage.stages), 0)
+  }
 
   function getPaginatedOrders(page: number, itemsPerPage: number) {
     const paginatedOrders = <Order[]>[]
@@ -128,6 +132,16 @@ export const useOrderStore = defineStore('orders', () => {
     order.value.stages.push(stage)
   }
 
+  async function deleteStageById(id: string): Promise<void> {
+    try {
+      await OrdersService.deleteStage(id)
+      await getOrderById(order.value._id)
+    }
+    catch (err: any) {
+      throw new Error(err)
+    }
+  }
+
   function sortByDate(order: 'asc' | 'desc') {
     if (order === 'asc') {
       orders.value.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
@@ -172,11 +186,13 @@ export const useOrderStore = defineStore('orders', () => {
     getRisksByOrderId,
     getPaginatedOrders,
     createStageById,
+    deleteStageById,
     isDialogOpen,
     currentFormId,
     sortByDate,
     sortByPrice,
     applyFilters,
+    calculateStagePrice,
   }
 })
 

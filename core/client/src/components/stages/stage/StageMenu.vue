@@ -12,6 +12,7 @@ import type { Stage } from '~/types/stages.interface'
 
 const props = defineProps<{
   stage: Stage
+  isValidPrice: boolean
 }>()
 
 const orderStore = useOrderStore()
@@ -23,13 +24,17 @@ const { user } = storeToRefs(userStore)
 const { hasPermission } = useRole()
 
 const isContractDisabled = computed(() =>
-  (order.value.price < props.stage.price || totalOrderPriceByStages.value! > order.value.price)
+  (order.value.price < props.stage.price || totalOrderPriceByStages.value! > order.value.price || !props.isValidPrice)
   || !hasPermission(user.value.role, 'create:contract'),
 )
 
 function toggleDialog() {
   isDialogOpen.value = true
   currentFormId.value = props.stage._id
+}
+
+async function deleteStage() {
+  await orderStore.deleteStageById(props.stage._id)
 }
 
 const generatePDf = async () => await useJsToPdf(toRef(() => props.stage), totalOrderPriceByStages as ComputedRef<number>, user.value!.email)
@@ -49,7 +54,7 @@ const generatePDf = async () => await useJsToPdf(toRef(() => props.stage), total
         <span class="2xl:text-xs text-sm font-medium">{{ $t('order.actions', 2) }}</span>
         <DropdownMenuShortcut>⌘N</DropdownMenuShortcut>
       </DropdownMenuItem>
-      <DropdownMenuItem>
+      <DropdownMenuItem @click.stop="deleteStage">
         <span class="2xl:text-xs text-sm font-medium text-red-500">{{ $t('order.delete') }}</span>
         <DropdownMenuShortcut>⌘X</DropdownMenuShortcut>
       </DropdownMenuItem>

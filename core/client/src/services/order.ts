@@ -23,4 +23,8 @@ export default class OrdersService {
   static async getOrder(id: string): Promise<AxiosResponse<Order>> {
     return api.get(`/orders/${id}`)
   }
+
+  static async deleteStage(id: string): Promise<AxiosResponse<void>> {
+    return api.delete(`/stages/${id}`)
+  }
 }

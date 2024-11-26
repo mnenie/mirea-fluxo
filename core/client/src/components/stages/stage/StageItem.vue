@@ -3,6 +3,7 @@ import { computed, ref } from 'vue'
 import { Arrow } from '~/assets/svgs-vite'
 import { Badge } from '~/components/ui/badge'
 import { formatDate } from '~/helpers/formatDateHelper'
+import { useOrderStore } from '~/stores/orders'
 import type { Stage } from '~/types/stages.interface'
 import StageAttributes from './StageAttributes.vue'
 import StageMenu from './StageMenu.vue'
@@ -26,7 +27,10 @@ const contentPl = computed(() => {
   }
 })
 
-const isValidDate = computed(() => formatDate(props.stage.dateEnd)! < formatDate(new Date())!)
+const orderStore = useOrderStore()
+
+const isValidDate = computed(() => new Date() < new Date(props.stage.dateEnd!))
+const isValidPrice = computed(() => orderStore.calculateStagePrice(props.stage.stages) <= props.stage.price)
 </script>
 
 <template>
@@ -44,18 +48,21 @@ const isValidDate = computed(() => formatDate(props.stage.dateEnd)! < formatDate
       <div v-if="stage" class="flex items-center gap-1.5">
         <Badge variant="secondary" class="px-1 py-px">
           <span
-            :class="isValidDate ? '' : 'text-red-500'"
+            :class="isValidDate ? '' : 'text-red-400'"
             class="text-xs text-neutral-400 font-medium"
           >
             до {{ formatDate(stage.dateEnd) }}
           </span>
         </Badge>
         <Badge variant="secondary" class="px-1 py-px">
-          <span class="text-xs text-neutral-400 font-medium">
+          <span
+            :class="isValidPrice ? '' : 'text-red-400'"
+            class="text-xs text-neutral-400 font-medium"
+          >
             {{ stage.price }} {{ $t('order.stages.container.value', 1) }}
           </span>
         </Badge>
-        <StageMenu :stage />
+        <StageMenu :stage :is-valid-price />
       </div>
     </div>
     <div v-if="!isFolded">

@@ -5,6 +5,7 @@ import { History } from '~/assets/svgs-vite'
 import { useRole } from '~/composables/useRole'
 import { useAuthStore } from '~/stores/auth'
 import { useOrderStore } from '~/stores/orders'
+import type { Stage } from '~/types/stages.interface'
 import { Button } from '../ui/button'
 
 const orderStore = useOrderStore()
@@ -16,6 +17,14 @@ const { user } = storeToRefs(authStore)
 const { hasPermission } = useRole()
 
 const isBoxDisabled = computed(() => !hasPermission(user.value.role, 'create:stages') || order.value.status === 'closed')
+
+function countStages(stages: Stage[]): number {
+  if (!stages)
+    return 0
+  return stages.reduce((total: number, stage: Stage) => total + 1 + countStages(stage.stages), 0)
+}
+
+const totalStages = computed(() => countStages(order.value.stages))
 </script>
 
 <template>
@@ -31,7 +40,7 @@ const isBoxDisabled = computed(() => !hasPermission(user.value.role, 'create:sta
         {{ $t('order.stages.add') }}
         <div v-if="order.stages && order.stages.length !== 0" class="text-sm text-neutral-400 flex items-center gap-1">
           <History class="w-[14px] h-[14px]" />
-          {{ order.stages.length }}
+          {{ totalStages }}
         </div>
       </Button>
     </div>

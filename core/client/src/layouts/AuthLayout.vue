@@ -22,7 +22,12 @@ const router = useRouter()
     <div class="footer flex justify-center items-center pb-6 gap-6 flex-col">
       <div class="text-sm text-neutral-500 max-w-[400px] text-center">
         {{ $t('sign_in.link', 1) }}
-        <a rel="noreferrer noopener" target="_blank" href="https://attio.com/legal/terms-and-conditions" class="underline"> {{ $t('sign_in.link', 0) }}</a>
+        <a
+          rel="noreferrer noopener"
+          target="_blank"
+          href="https://github.com/mnenie/mirea-fluxo/blob/docs/docs/fz.txt"
+          class="underline"
+        > {{ $t('sign_in.link', 0) }}</a>
       </div>
       <div class="text-xs text-neutral-500 flex items-center gap-4">
         <span>© 2024 1C Open Source</span>

@@ -8,6 +8,7 @@ import { useSharedStatus } from '~/composables/useStatus'
 import { formatDate } from '~/helpers/formatDateHelper'
 import { useAuthStore } from '~/stores/auth'
 import { useOrderStore } from '~/stores/orders'
+import type { User } from '~/types/user.interface'
 import Price from '../orders/card/Price.vue'
 import ReviewBadgeSelect from '../shared/ReviewBadgeSelect.vue'
 import { Badge } from '../ui/badge'
@@ -29,13 +30,16 @@ const { hasPermission } = useRole()
 const { statusColor, textColor } = useSharedStatus()
 
 const manager = computed(() => order.value.status === 'not verified' ? undefined : user.value._id)
-const organizations = computed(() => order.value.stages?.map(stage => stage.organization))
+const organizations = computed(() => {
+  const organizations = order.value.stages?.map(stage => stage.organization)
+  return Array.from(new Set(organizations))
+})
 
 async function updateStatus() {
   const data = {
     ...order.value,
     status: order.value.status,
-    manager: manager.value,
+    manager: manager.value as string,
   }
   await ordersStore.updateOrdersById(order.value._id, data)
 }
@@ -50,7 +54,7 @@ async function updateStatus() {
       <span v-if="order.status === 'not verified'" class="text-sm text-neutral-300">
         {{ $t('order.values', 0) }}
       </span>
-      <span v-else class="text-sm text-neutral-500 font-medium">{{ user.email }}</span>
+      <span v-else class="text-sm text-neutral-500 font-medium">{{ (order.manager as User)?.email }}</span>
     </AttributeItem>
     <AttributeItem :title="attributes[1]">
       <template #icon>
@@ -92,14 +96,16 @@ async function updateStatus() {
       <template #icon>
         <Department class="icon" />
       </template>
-      <template v-if="organizations?.length > 0">
-        <div v-for="org, idx in organizations" :key="idx" class="flex flex-row items-center gap-2">
-          <Badge variant="secondary" class="text-xs text-neutral-500 font-medium py-0 px-1">
-            {{ org }}
-          </Badge>
-        </div>
-      </template>
-      <span v-else class="text-sm text-neutral-400">{{ $t('order.values', 2) }}</span>
+      <div class="flex flex-row items-center gap-2 flex-wrap">
+        <template v-if="organizations?.length > 0">
+          <div v-for="org, idx in organizations" :key="idx" class="flex flex-row items-center gap-2">
+            <Badge variant="secondary" class="text-xs text-neutral-500 font-medium py-0 px-1">
+              {{ org }}
+            </Badge>
+          </div>
+        </template>
+        <span v-else class="text-sm text-neutral-400">{{ $t('order.values', 2) }}</span>
+      </div>
     </AttributeItem>
   </div>
 </template>

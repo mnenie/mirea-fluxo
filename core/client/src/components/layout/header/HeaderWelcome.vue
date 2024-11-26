@@ -19,7 +19,10 @@ import { redirect } from '~/helpers/redirectHelper'
       >
         {{ $t('welcome.btns', 1) }}
       </Button>
-      <Button variant="ghost">
+      <Button
+        variant="ghost"
+        @click="redirect('https://github.com/mnenie/mirea-fluxo/blob/docs/docs/fz.txt')"
+      >
         {{ $t('welcome.btns', 2) }}
       </Button>
     </div>
