@@ -6,6 +6,7 @@ import { useExpanded } from '~/composables/useExpanded'
 import { useRole } from '~/composables/useRole'
 import { cn } from '~/lib/utils'
 import { useAuthStore } from '~/stores/auth'
+import { useNotificationStore } from '~/stores/notifications'
 import { useOrderStore } from '~/stores/orders'
 import { Button } from '../ui/button'
 
@@ -28,8 +29,12 @@ const { orders } = storeToRefs(orderStore)
 const userStore = useAuthStore()
 const { user } = storeToRefs(userStore)
 
+const notificationStore = useNotificationStore()
+const { notifications } = storeToRefs(notificationStore)
+
 const isActiveRoute = computed(() => (path: string) => route.path === path)
 const ordersLength = computed(() => orders.value.length || 0)
+const notificationsLength = computed(() => notifications.value.length || 0)
 
 const expanded = useExpanded()
 
@@ -80,7 +85,7 @@ const isPermissionValid = computed(() =>
         </div>
         <Badge v-if="(path === '/orders' || path === '/notifications') && isExpanded" variant="outline" class="px-1.5 py-0 text-xs bg-blue-600 rounded-md">
           <!-- TODO -->
-          <span class="text-[10px] text-white">{{ path === '/orders' ? ordersLength : '3' }}</span>
+          <span class="text-[10px] text-white">{{ path === '/orders' ? ordersLength : notificationsLength }}</span>
         </Badge>
       </Button>
     </RouterLink>
