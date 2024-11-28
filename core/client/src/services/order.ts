@@ -5,7 +5,9 @@ import type { Stage } from '~/types/stages.interface'
 
 export default class OrdersService {
   static async getOrders(): Promise<AxiosResponse<Order[]>> {
-    return api.get('/orders')
+    return api.get('/orders', {
+      headers: { 'Accept': 'text/event-stream', 'Cache-Control': 'no-cache', 'Connection': 'keep-alive' },
+    })
   }
 
   static async patchOrders(id: string, data: Partial<Order>): Promise<AxiosResponse<Order>> {
