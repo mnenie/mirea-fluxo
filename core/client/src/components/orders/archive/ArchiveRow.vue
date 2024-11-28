@@ -34,7 +34,7 @@ const { tm } = useI18n()
           ],
         )"
       >
-        <span>{{ tm(`orders.status.${order.status.replace(' ', '_')}`) }}</span>
+        <span class="text-nowrap">{{ tm(`orders.status.${order.status.replace(' ', '_')}`) }}</span>
       </Badge>
     </TableCell>
     <TableCell>
@@ -44,7 +44,7 @@ const { tm } = useI18n()
           'shadow-none border-none',
         )"
       >
-        <span>{{ organizationCell }}</span>
+        <span class="text-nowrap">{{ organizationCell }}</span>
       </Badge>
     </TableCell>
     <TableCell>

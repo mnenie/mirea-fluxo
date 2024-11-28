@@ -38,7 +38,7 @@ const { tm } = useI18n()
           ],
         )"
       >
-        <span>{{ tm(`orders.status.${order.status.replace(' ', '_')}`) }}</span>
+        <span class=" text-nowrap">{{ tm(`orders.status.${order.status.replace(' ', '_')}`) }}</span>
       </Badge>
     </TableCell>
     <TableCell>
@@ -51,7 +51,7 @@ const { tm } = useI18n()
             'shadow-none',
           )"
         >
-          <span>{{ organization }}</span>
+          <span class="text-nowrap">{{ organization }}</span>
         </Badge>
       </template>
       <span v-else class="text-gray-500 px-10">-</span>
