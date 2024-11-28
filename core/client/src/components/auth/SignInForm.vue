@@ -66,7 +66,7 @@ const { value: password } = useField<string>('password')
           <FormControl>
             <Input
               v-model="password"
-              type="text"
+              type="password"
               :placeholder="$t('sign_in.form.password')"
               v-bind="componentField"
             />
