@@ -12,6 +12,8 @@ export async function register(req, res) {
       email: req.body.email,
       passwordHash: hash,
       photoUrl: req.body.photoUrl,
+      role: req.body.role,
+      organization: req.body.organization,
     })
     const hash_env = process.env.HASH
     const user = await doc.save()

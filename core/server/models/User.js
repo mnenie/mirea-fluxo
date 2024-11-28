@@ -12,6 +12,14 @@ const UserSchema = new mongoose.Schema({
   photoUrl: {
     type: String,
   },
+  role: {
+    type: String,
+    enum: ['manager', 'corporation'],
+    default: 'corporation',
+  },
+  organization: {
+    type: String,
+  },
 }, {
   timestamps: true,
 })
