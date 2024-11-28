@@ -64,6 +64,10 @@ export default {
       title: 'OR',
       badges: ['ask ai', 'analyze', 'so... make tea 😉'],
     },
+    contract: {
+      title: 'Automatic prolongation',
+      values: ['-', '1 week', '1 month', '1 year'],
+    },
     stages: {
       no_stages: 'No stages yet',
       no_map: 'Analyze risks and upload the map',

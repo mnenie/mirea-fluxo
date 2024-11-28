@@ -1,5 +1,5 @@
-import type { Ref } from 'vue'
 import jsPDF from 'jspdf'
+import { computed, type Ref, toValue } from 'vue'
 import { formatDate } from '~/helpers/formatDateHelper'
 import type { Stage } from '~/types/stages.interface'
 
@@ -8,7 +8,7 @@ const arrDatesMonths = ['января', 'февраля', 'марта', 'апр�
 const date = new Date()
 const _date = formatDate(date)
 
-export async function useJsToPdf(stage: Ref<Stage>, totalOrderPriceByStages: Ref<number>, executor: string) {
+export async function useJsToPdf(stage: Ref<Stage>, totalOrderPriceByStages: Ref<number>, executor: string, autoContract: Ref<string>) {
   // eslint-disable-next-line new-cap
   const doc = new jsPDF()
 
@@ -61,9 +61,12 @@ export async function useJsToPdf(stage: Ref<Stage>, totalOrderPriceByStages: Ref
 
   cursorY += 20
 
+  const isAutoContractValueValid = computed(() => toValue(autoContract) !== '-' ? `продлевается на тех же условиях на срок: ${toValue(autoContract)}.` : 'не продлевается.')
+
   const paragraphs = doc.splitTextToSize(
     '1.1. Работодатель обязуется оплатить Работнику вознаграждение за выполнение работ (услуг).\n'
-    + '1.2. Работы выполнены в полном объеме, в соответствии с условиями государственного контракта, в установленные сроки и по согласованной сторонами стоимости.',
+    + '1.2. Работы выполнены в полном объеме, в соответствии с условиями государственного контракта, в установленные сроки и по согласованной сторонами стоимости.\n'
+    + `1.3. Если до окончания срока действия настоящего Договора, ни одна из Сторон не заявит о своем намерении его расторгнуть его, то действие настоящего Договора ${isAutoContractValueValid.value}`,
     pageWidth,
   )
 

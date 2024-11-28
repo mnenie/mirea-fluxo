@@ -45,7 +45,7 @@ const isValidPrice = computed(() => orderStore.calculateStagePrice(props.stage.s
           <span>{{ stage.title }}</span>
         </div>
       </div>
-      <div v-if="stage" class="flex items-center gap-1.5">
+      <div v-if="stage" class="flex items-center gap-1.5 relative">
         <Badge variant="secondary" class="px-1 py-px">
           <span
             :class="isValidDate ? '' : 'text-red-400'"
