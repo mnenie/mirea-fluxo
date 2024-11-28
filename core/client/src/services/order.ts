@@ -8,6 +8,17 @@ export default class OrdersService {
     return api.get('/orders')
   }
 
+  static sseOrders(onMessage: (order: Order) => void): EventSource {
+    const eventSource = new EventSource(`${api.defaults.baseURL}/sse`, {
+      withCredentials: true,
+    })
+    eventSource.onmessage = (event: MessageEvent) => {
+      const order: Order = JSON.parse(event.data)
+      onMessage(order)
+    }
+    return eventSource
+  }
+
   static async patchOrders(id: string, data: Partial<Order>): Promise<AxiosResponse<Order>> {
     return api.patch(`/orders/${id}`, data)
   }

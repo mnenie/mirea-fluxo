@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useHead } from '@unhead/vue'
 import { storeToRefs } from 'pinia'
-import { onMounted } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 import { Loader, Reload } from '~/assets/svgs-vite'
 import OrderFilters from '~/components/orders/filter/OrderFilters.vue'
 import OrderTable from '~/components/orders/OrderTable.vue'
@@ -16,8 +16,17 @@ useHead({
 const ordersStore = useOrderStore()
 const { isPendingOrders } = storeToRefs(ordersStore)
 
+const eventSource = ref<EventSource | null>(null)
+
 onMounted(async () => {
   await ordersStore.getOrders()
+  eventSource.value = ordersStore.getSseOrders()
+})
+
+onUnmounted(() => {
+  if (eventSource.value) {
+    eventSource.value.close()
+  }
 })
 </script>
 

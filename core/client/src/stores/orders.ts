@@ -1,5 +1,5 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { computed, ref, shallowRef } from 'vue'
+import { computed, ref } from 'vue'
 import { toast } from 'vue-sonner'
 import { useRisks } from '~/composables/useRisks'
 import AiService from '~/services/ai'
@@ -8,10 +8,10 @@ import type { Order } from '~/types/order.interface'
 import type { Stage } from '~/types/stages.interface'
 
 export const useOrderStore = defineStore('orders', () => {
-  const orders = shallowRef<Order[]>([])
-  const ordersFiltered = shallowRef<Order[]>([])
+  const orders = ref<Order[]>([])
+  const ordersFiltered = ref<Order[]>([])
   const order = ref<Order>({} as Order)
-  const ordersPage = shallowRef<Order[]>([])
+  const ordersPage = ref<Order[]>([])
   const isPending = ref<boolean>(false)
   const isDialogOpen = ref<boolean>(false)
   const currentFormId = ref<string>('')
@@ -50,6 +50,15 @@ export const useOrderStore = defineStore('orders', () => {
     finally {
       isPendingOrders.value = false
     }
+  }
+
+  function getSseOrders(): EventSource | null {
+    return OrdersService.sseOrders((order: Order) => {
+      const index = orders.value.findIndex(o => o._id === order._id)
+      if (index === -1)
+        orders.value.push(order)
+      orders.value[index] = order
+    })
   }
 
   async function getOrderById(id: string): Promise<void> {
@@ -180,6 +189,7 @@ export const useOrderStore = defineStore('orders', () => {
     isMapUploading,
     updateOrders,
     getOrders,
+    getSseOrders,
     getOrderById,
     postNewStage,
     updateOrdersById,
