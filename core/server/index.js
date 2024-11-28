@@ -12,8 +12,9 @@ const MONGO_DB = process.env.MONGO_DB
 
 mongoose
   .connect(MONGO_DB)
+  // eslint-disable-next-line no-console
   .then(() => console.log('DB ok'))
-  .catch(err => console.log('DB error', err))
+  .catch(err => console.error('DB error', err))
 
 const app = express()
 app.use(express.json())
@@ -33,9 +34,10 @@ app.use(cors({
 
 app.listen(1234, (err) => {
   if (err) {
-    return console.log(err)
+    throw new Error(err)
   }
 
+  // eslint-disable-next-line no-console
   console.log('Server OK ')
 })
 

@@ -32,10 +32,10 @@ export async function register(req, res) {
     })
   }
   catch (err) {
-    console.log(err)
     res.status(500).json({
       message: 'Не удалось зарегаться',
     })
+    throw new Error(err)
   }
 }
 export async function login(req, res) {
@@ -74,10 +74,10 @@ export async function login(req, res) {
     })
   }
   catch (err) {
-    console.log(err)
     res.status(500).json({
       message: 'Не удалось авторизоваться',
     })
+    throw new Error(err)
   }
 }
 
@@ -96,9 +96,9 @@ export async function getMe(req, res) {
     res.json(userData)
   }
   catch (err) {
-    console.log(err)
     res.status(500).json({
       message: 'Нет доступа',
     })
+    throw new Error(err)
   }
 }

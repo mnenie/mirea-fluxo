@@ -21,7 +21,7 @@ export async function podborka(req, res) {
     res.status(500).json({
       message: 'Что-то пошло не так',
     })
-    console.log(err)
+    throw new Error(err)
   }
 }
 
@@ -66,10 +66,10 @@ export async function createstage(req, res) {
     }
   }
   catch (err) {
-    console.log(err)
     res.status(500).json({
       message: 'Не удалось подгрузить ордеры',
     })
+    throw new Error(err)
   }
 }
 
@@ -102,10 +102,10 @@ export async function create(req, res) {
     res.json(savedOrder)
   }
   catch (err) {
-    console.log(err)
     res.status(500).json({
       message: 'Не удалось создать ордер',
     })
+    throw new Error(err)
   }
 }
 
@@ -129,10 +129,10 @@ export async function getAll(req, res) {
     res.json(populatedOrders)
   }
   catch (err) {
-    console.log(err)
     res.status(500).json({
       message: 'Не удалось подгрузить ордеры',
     })
+    throw new Error(err)
   }
 }
 
@@ -186,10 +186,10 @@ export async function remove(req, res) {
     res.json({ message: 'Cвязанные стадии удалены' })
   }
   catch (err) {
-    console.log(err)
     res.status(500).json({
       message: 'Не удалось удалить cтадию',
     })
+    throw new Error(err)
   }
 }
 
@@ -228,10 +228,10 @@ export async function update(req, res) {
     res.json(updatedOrder)
   }
   catch (err) {
-    console.log(err)
     res.status(500).json({
       message: 'Не удалось изменить ордер',
       error: err,
     })
+    throw new Error(err)
   }
 }
