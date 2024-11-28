@@ -2,7 +2,7 @@ import { useCookies } from '@vueuse/integrations/useCookies'
 import axios from 'axios'
 
 export const api = axios.create({
-  baseURL: 'https://iptip-hack-2024-11-backend.vercel.app',
+  baseURL: import.meta.env.VITE_API_URL,
   headers: {
     'Content-Type': 'application/json',
   },
