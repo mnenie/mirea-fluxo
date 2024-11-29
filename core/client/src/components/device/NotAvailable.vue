@@ -13,7 +13,7 @@ import { redirect } from '~/helpers/redirectHelper'
       Сервис недоступен на вашем типе девайса
     </h2>
     <p class="mb-4 text-sm text-neutral-600">
-      Пожалуйста, попробуйте зайти на сервис с другого устройства
+      Пожалуйста, попробуйте зайти на сервис с другого устройства. Для этого типа девайса сервис находится в режиме разработки
     </p>
     <div class="flex items-center gap-4">
       <Button variant="outline" @click="redirect('https://github.com/mnenie/Notium')">

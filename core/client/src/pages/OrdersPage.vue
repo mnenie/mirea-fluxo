@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useHead } from '@unhead/vue'
+import { useWindowSize } from '@vueuse/core'
 import { storeToRefs } from 'pinia'
 import { onMounted, onUnmounted, ref } from 'vue'
 import { Loader, Reload } from '~/assets/svgs-vite'
@@ -15,6 +16,8 @@ useHead({
 
 const ordersStore = useOrderStore()
 const { isPendingOrders } = storeToRefs(ordersStore)
+
+const { width } = useWindowSize()
 
 const eventSource = ref<EventSource | null>(null)
 
@@ -32,7 +35,7 @@ onUnmounted(() => {
 
 <template>
   <div class="relative w-full h-full">
-    <div class="flex flex-row items-center justify-between mb-4">
+    <div v-if="width > 800" class="flex flex-row items-center justify-between mb-4">
       <OrderFilters />
       <Button size="sm" variant="outline" class="px-2 py-0 flex gap-1.5 items-center">
         <Reload class="text-neutral-600 min-w-[14px] min-h-[14px]" />

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useWindowSize } from '@vueuse/core'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import Badge from '~/components/ui/badge/Badge.vue'
@@ -16,6 +17,8 @@ const props = defineProps<{
 
 const orderStore = useOrderStore()
 
+const { width } = useWindowSize()
+
 const organizationCell = computed(() => {
   const organizations = orderStore.collectOrganizations(props.order.stages)
   return Array.from(new Set(organizations))
@@ -28,11 +31,12 @@ const { tm } = useI18n()
 
 <template>
   <TableRow>
-    <TableCell class="pl-6">
-      <span class="line-clamp-1 text-neutral-500">{{ order._id }}</span>
+    <TableCell v-if="width > 800" class="md:pl-6 sm:pl-0">
+      <span class="id sm:max-w-[6rem] md:max-w-full text-neutral-500">{{ order._id }}</span>
     </TableCell>
     <TableCell>
       <Badge
+        v-if="width > 800"
         variant="outline"
         :class="cn(
           [statusColor(props.order.status),
@@ -43,30 +47,42 @@ const { tm } = useI18n()
       >
         <span class=" text-nowrap">{{ tm(`orders.status.${order.status.replace(' ', '_')}`) }}</span>
       </Badge>
-    </TableCell>
-    <TableCell>
-      <template v-if="organizationCell.length !== 0">
-        <Badge
-          v-for="organization, idx in visibleBadges"
-          :key="idx"
-          variant="secondary"
-          :class="cn(
-            'shadow-none',
-          )"
-        >
-          <span class="text-nowrap">{{ organization }}</span>
-        </Badge>
-      </template>
-      <span v-else class="text-gray-500 px-10">-</span>
       <Badge
-        v-if="organizationCell.length > 1"
-        variant="secondary"
-        class="text-gray-500 ml-1 text-xs shadow-none px-1"
-      >
-        +{{ organizationCell.length - 1 }}
-      </Badge>
+        v-else
+        variant="outline"
+        :class="cn(
+          [statusColor(props.order.status),
+           textColor(props.order.status),
+           'shadow-none border-none max-[800px]:p-2 max-[800px]:ml-4',
+          ],
+        )"
+      />
     </TableCell>
-    <TableCell>
+    <TableCell v-if="width > 800">
+      <div class="flex flex-row items-center gap-1">
+        <template v-if="organizationCell.length !== 0">
+          <Badge
+            v-for="organization, idx in visibleBadges"
+            :key="idx"
+            variant="secondary"
+            :class="cn(
+              'shadow-none',
+            )"
+          >
+            <span class="text-nowrap">{{ organization }}</span>
+          </Badge>
+        </template>
+        <span v-else class="text-gray-500 px-10">-</span>
+        <Badge
+          v-if="organizationCell.length > 1"
+          variant="secondary"
+          class="text-gray-500 text-xs shadow-none px-1"
+        >
+          +{{ organizationCell.length - 1 }}
+        </Badge>
+      </div>
+    </TableCell>
+    <TableCell class="max-[800px]:pl-8">
       <span class="line-clamp-1 font-semibold">{{ order.title }}</span>
     </TableCell>
     <TableCell>
@@ -79,3 +95,12 @@ const { tm } = useI18n()
     </TableCell>
   </TableRow>
 </template>
+
+<style scoped>
+.id {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+</style>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { createReusableTemplate } from '@vueuse/core'
+import { createReusableTemplate, useWindowSize } from '@vueuse/core'
 import { storeToRefs } from 'pinia'
 import { computed, onBeforeMount, ref, useTemplateRef } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -21,6 +21,8 @@ import OrderRow from './table/OrderRow.vue'
 const router = useRouter()
 const route = useRoute()
 const { tm } = useI18n()
+
+const { width: windowWidth } = useWindowSize()
 
 const orderStore = useOrderStore()
 const { ordersPage } = storeToRefs(orderStore)
@@ -46,12 +48,17 @@ onBeforeMount(() => {
 </script>
 
 <template>
-  <div class="overflow-y-auto h-[calc(100dvh-200px)] w-full bg-white shadow rounded-md">
+  <div class="overflow-y-auto h-[calc(100dvh-200px)] max-[800px]:h-[calc(100dvh-160px)] w-full bg-white shadow rounded-md">
     <Table>
       <TableHeader>
         <!-- reusable temlate -->
         <DefineTemplate v-slot="{ plural, icon, width }">
-          <TableHead :class="cn(width, [(plural === 0 && 'pl-6')], [plural === 5 && 'pr-8'], [plural === 4 && 'pl-10'])">
+          <TableHead
+            :class="cn(width, [(plural === 0 && 'sm:pl-0 md:pl-6')],
+                       [plural === 3 && 'max-[800px]:pl-8'],
+                       [plural === 5 && 'pr-8'],
+                       [plural === 4 && 'sm:pl-4 md:pl-10'])"
+          >
             <div class="flex justify-start items-center gap-2">
               <component :is="icon" />
               <span class="2xl:text-sm text-sm md:text-[13px]">{{ tm('orders.table')[plural] }}</span>
@@ -60,9 +67,9 @@ onBeforeMount(() => {
         </DefineTemplate>
 
         <TableRow>
-          <ReuseTemplate :plural="0" width="w-[260px]" />
-          <ReuseTemplate :plural="1" :icon="StatusTable" width="w-[140px]" />
-          <ReuseTemplate :plural="2" :icon="Department" width="w-[180px]" />
+          <ReuseTemplate v-if="windowWidth > 800" :plural="0" width="w-[260px] min-[1700px]:w-[280px]" />
+          <ReuseTemplate :plural="1" :icon="StatusTable" width="w-[140px] min-[1700px]:w-[160px]" />
+          <ReuseTemplate v-if="windowWidth > 800" :plural="2" :icon="Department" width="w-[180px] min-[1700px]:w-[200px]" />
           <ReuseTemplate :plural="3" :icon="Heading" />
           <ReuseTemplate :plural="4" :icon="RatingSvg" width="w-[170px]" />
           <ReuseTemplate :plural="5" :icon="Calendar" />

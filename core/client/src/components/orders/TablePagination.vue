@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { createReusableTemplate } from '@vueuse/core'
+import { createReusableTemplate, useWindowSize } from '@vueuse/core'
 import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
 import { useOrdersPagination } from '~/composables/useOrdersPagination'
@@ -19,6 +19,8 @@ import {
 const orderStore = useOrderStore()
 const { orders } = storeToRefs(orderStore)
 
+const { width } = useWindowSize()
+
 const { selectOrderPage, updateItemsPerPage, itemsPerPage, currentPage } = useOrdersPagination()
 
 const isActiveBtn = computed(() => (count: number) => itemsPerPage.value === count)
@@ -27,7 +29,7 @@ const [DefineTemplate, ReuseTemplate] = createReusableTemplate()
 </script>
 
 <template>
-  <div class="absolute w-full bottom-0 flex flex-row items-stretch justify-between mt-6">
+  <div class="absolute w-full bottom-0 flex flex-row gap-10 items-stretch justify-between max-[800px]:justify-center mt-6">
     <Pagination v-slot="{ page }" :total="orders.length / (itemsPerPage / 10)" :sibling-count="1" show-edges :default-page="1" class="mb-0">
       <PaginationList v-slot="{ items }" class="flex items-center gap-1">
         <PaginationFirst @click="selectOrderPage(1, itemsPerPage)" />
@@ -57,7 +59,7 @@ const [DefineTemplate, ReuseTemplate] = createReusableTemplate()
         <PaginationLast @click="selectOrderPage(orders.length / 50, itemsPerPage)" />
       </PaginationList>
     </Pagination>
-    <div class="flex flex-row items-center space-x-2">
+    <div v-if="width > 800" class="flex flex-row items-center space-x-2">
       <span class="text-sm text-muted-foreground whitespace-nowrap">{{ $t('orders.pagination') }}: </span>
 
       <DefineTemplate v-slot="{ count }">

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useWindowSize } from '@vueuse/core'
 import { type Component, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
@@ -23,6 +24,8 @@ const section = new Map<Component, string>([
 
 const route = useRoute()
 const { tm } = useI18n()
+
+const { width } = useWindowSize()
 
 const icon = computed(() => {
   for (const [icon, routeName] of section.entries()) {
@@ -53,7 +56,7 @@ const localizedRouteName = computed(() => {
         </span>
       </div>
       <div class="flex flex-row items-center gap-4">
-        <div class="z-10 flex items-center justify-center">
+        <div v-if="width > 800" class="z-10 flex items-center justify-center">
           <ShimmerButton
             shimmer-size="2px"
             class="h-9 2xl:h-8 px-4 py-2 rounded-md flex items-center gap-2 bg-white"
@@ -66,10 +69,10 @@ const localizedRouteName = computed(() => {
             </span>
           </ShimmerButton>
         </div>
-        <div class="h-3 w-px bg-neutral-200" />
+        <div v-if="width > 800" class="h-3 w-px bg-neutral-200" />
         <LanguageProvider />
-        <div class="h-3 w-px bg-neutral-200" />
-        <div class="h-10 rounded-md flex items-center gap-3">
+        <div v-if="width > 800" class="h-3 w-px bg-neutral-200" />
+        <div v-if="width > 800" class="h-10 rounded-md flex items-center gap-3">
           <Check v-tooltip.bottom="'Open Source'" class="w-[15px] h-[15px] 2xl:w-4 2xl:h-4 text-neutral-600" />
           <Notifications class="w-[15px] h-[15px] 2xl:w-[17px] 2xl:h-[17px] text-neutral-600 cursor-pointer" />
         </div>
