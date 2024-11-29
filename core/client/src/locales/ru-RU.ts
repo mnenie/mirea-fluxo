@@ -35,9 +35,9 @@ export default {
     badges: ['1CManager', '1C:Enterprise', '1C:Platform'],
     charts: {
       money: {
-        title: 'Прибыль',
+        title: 'Всего выделено',
         badge: 'money',
-        description: 'Общая прибыль всей компании за месяц',
+        description: 'Общая цена всех заказов компаний за месяц',
       },
       workload: {
         title: 'Нагрузка',
