@@ -1,14 +1,31 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
+import OrdersService from '~/services/order'
 import type { Notification } from '~/types/notification.interface'
 
 export const useNotificationStore = defineStore('notifications', () => {
   const notifications = ref<Notification[]>([])
   const selectedNotifications = ref<Notification[]>([])
 
-  for (let i = 0; i < 5; i++) {
-    notifications.value.push({ _id: `${i}`, title: 'Hello world!', content: 'content', date: new Date(), isRead: false })
+  const isPendingOrders = ref<boolean>(false)
+
+  async function getOrders(): Promise<void> {
+    isPendingOrders.value = true
+    try {
+      const { data } = await OrdersService.getOrders()
+      for (let i = 0; i < 10; i++) {
+        notifications.value.push({ _id: `${i}`, title: data[i].title, content: `Был создан заказ ${data[i].title}`, date: data[i].date, isRead: false })
+      }
+    }
+    catch (err: any) {
+      throw new Error(err)
+    }
+    finally {
+      isPendingOrders.value = false
+    }
   }
+
+  getOrders()
 
   function addToSelected(notification: Notification) {
     selectedNotifications.value.push(notification)
