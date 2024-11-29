@@ -51,7 +51,7 @@ onBeforeMount(() => {
       <TableHeader>
         <!-- reusable temlate -->
         <DefineTemplate v-slot="{ plural, icon, width }">
-          <TableHead :class="cn(width, [plural === 0 && 'pl-10'])">
+          <TableHead :class="cn(width, [(plural === 0 && 'pl-6')], [plural === 5 && 'pr-8'], [plural === 4 && 'pl-10'])">
             <div class="flex justify-start items-center gap-2">
               <component :is="icon" />
               <span class="2xl:text-sm text-sm md:text-[13px]">{{ tm('orders.table')[plural] }}</span>
@@ -64,7 +64,7 @@ onBeforeMount(() => {
           <ReuseTemplate :plural="1" :icon="StatusTable" width="w-[140px]" />
           <ReuseTemplate :plural="2" :icon="Department" width="w-[180px]" />
           <ReuseTemplate :plural="3" :icon="Heading" />
-          <ReuseTemplate :plural="4" :icon="RatingSvg" width="w-[180px]" />
+          <ReuseTemplate :plural="4" :icon="RatingSvg" width="w-[170px]" />
           <ReuseTemplate :plural="5" :icon="Calendar" />
         </TableRow>
       </TableHeader>

@@ -15,6 +15,7 @@ import {
 } from '~/components/ui/dropdown-menu'
 import Skeleton from '~/components/ui/skeleton/Skeleton.vue'
 import { useAuthStore } from '~/stores/auth'
+import { Routes } from '~/utils/contants'
 
 defineProps<{
   isExpanded?: boolean
@@ -45,7 +46,7 @@ const { user, isPending } = storeToRefs(authStore)
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>
+          <DropdownMenuItem @click="$router.push({ name: Routes.welcome })">
             <span class="2xl:text-xs text-sm font-medium">{{ $t('header.welcome') }}</span>
             <DropdownMenuShortcut>⇧P</DropdownMenuShortcut>
           </DropdownMenuItem>

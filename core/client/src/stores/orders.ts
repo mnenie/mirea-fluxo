@@ -26,6 +26,15 @@ export const useOrderStore = defineStore('orders', () => {
     return stages.reduce((total: number, stage: Stage) => total + stage.price + calculateStagePrice(stage.stages), 0)
   }
 
+  function collectOrganizations(stages: Stage[]): string[] {
+    if (!stages)
+      return []
+    return stages.reduce((organizations: string[], stage: Stage) => {
+      const nested = collectOrganizations(stage.stages || [])
+      return [...organizations, stage.organization, ...nested].filter(Boolean)
+    }, [])
+  }
+
   function getPaginatedOrders(page: number, itemsPerPage: number) {
     const paginatedOrders = <Order[]>[]
     const pageEnd = Math.min(ordersFiltered.value.length, page * itemsPerPage)
@@ -203,6 +212,7 @@ export const useOrderStore = defineStore('orders', () => {
     sortByPrice,
     applyFilters,
     calculateStagePrice,
+    collectOrganizations,
   }
 })
 

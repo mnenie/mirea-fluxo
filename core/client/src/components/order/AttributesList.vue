@@ -31,8 +31,8 @@ const { statusColor, textColor } = useSharedStatus()
 
 const manager = computed(() => order.value.status === 'not verified' ? undefined : user.value._id)
 const organizations = computed(() => {
-  const organizations = order.value.stages?.map(stage => stage.organization)
-  return Array.from(new Set(organizations))
+  const allOrgs = ordersStore.collectOrganizations(order.value.stages)
+  return Array.from(new Set(allOrgs))
 })
 
 async function updateStatus() {

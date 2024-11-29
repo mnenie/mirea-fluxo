@@ -71,7 +71,7 @@ const [DefineTemplate, ReuseTemplate] = createReusableTemplate()
         </Button>
       </DefineTemplate>
 
-      <ReuseTemplate :count="15" />
+      <ReuseTemplate :count="16" />
       <ReuseTemplate :count="50" />
       <ReuseTemplate :count="100" />
     </div>

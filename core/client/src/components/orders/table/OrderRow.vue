@@ -6,6 +6,7 @@ import { TableCell, TableRow } from '~/components/ui/table/'
 import { useSharedStatus } from '~/composables/useStatus'
 import { formatDate } from '~/helpers/formatDateHelper'
 import { cn } from '~/lib/utils'
+import { useOrderStore } from '~/stores/orders'
 import type { Order } from '~/types/order.interface'
 import Price from '../card/Price.vue'
 
@@ -13,8 +14,10 @@ const props = defineProps<{
   order: Order
 }>()
 
+const orderStore = useOrderStore()
+
 const organizationCell = computed(() => {
-  const organizations = props.order.stages?.map(stage => stage.organization)
+  const organizations = orderStore.collectOrganizations(props.order.stages)
   return Array.from(new Set(organizations))
 })
 const visibleBadges = computed(() => organizationCell.value.slice(0, 1))
@@ -25,7 +28,7 @@ const { tm } = useI18n()
 
 <template>
   <TableRow>
-    <TableCell class="pl-10">
+    <TableCell class="pl-6">
       <span class="line-clamp-1 text-neutral-500">{{ order._id }}</span>
     </TableCell>
     <TableCell>
@@ -70,8 +73,8 @@ const { tm } = useI18n()
       <Price :price="order.price" />
     </TableCell>
     <TableCell>
-      <div class="px-2">
-        {{ formatDate(order.date) }}
+      <div>
+        {{ formatDate(order.dateEnd) }}
       </div>
     </TableCell>
   </TableRow>

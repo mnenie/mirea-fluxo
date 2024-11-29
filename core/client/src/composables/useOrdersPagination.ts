@@ -12,7 +12,7 @@ interface ReviewsContext {
 const orderStore = useOrderStore()
 
 export function useOrdersPagination(): ReviewsContext {
-  const itemsPerPage = ref<number>(15)
+  const itemsPerPage = ref<number>(16)
   const currentPage = ref<number>(1)
 
   function selectOrderPage(page: number, items: number) {
