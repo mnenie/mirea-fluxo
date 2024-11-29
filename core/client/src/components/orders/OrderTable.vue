@@ -60,11 +60,11 @@ onBeforeMount(() => {
         </DefineTemplate>
 
         <TableRow>
-          <ReuseTemplate :plural="0" width="w-[360px]" />
-          <ReuseTemplate :plural="1" :icon="StatusTable" />
-          <ReuseTemplate :plural="2" :icon="Department" />
+          <ReuseTemplate :plural="0" width="w-[260px]" />
+          <ReuseTemplate :plural="1" :icon="StatusTable" width="w-[140px]" />
+          <ReuseTemplate :plural="2" :icon="Department" width="w-[180px]" />
           <ReuseTemplate :plural="3" :icon="Heading" />
-          <ReuseTemplate :plural="4" :icon="RatingSvg" width="w-[200px]" />
+          <ReuseTemplate :plural="4" :icon="RatingSvg" width="w-[180px]" />
           <ReuseTemplate :plural="5" :icon="Calendar" />
         </TableRow>
       </TableHeader>
