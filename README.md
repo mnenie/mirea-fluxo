@@ -1,7 +1,11 @@
-# IPTIP Hack 2024 Autumn
+# Mirea Fluxo
 
-> [!WARNING]
-> 🚧 This project in development mode.
+> [!NOTE]
+> This project is a fully customized monrepo with a core
+
+### Online state order management service
+
+![photo_2024-11-29_14-55-07](https://github.com/user-attachments/assets/6cb34616-ddc8-4adb-8e07-c5b138e6fc8c)
 
 ## 📦 Installation
 
