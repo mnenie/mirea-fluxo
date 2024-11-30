@@ -13,7 +13,6 @@ const roles = {
     'view:archive',
     'view:notifications',
     'delete:stages',
-    'create:stages',
     'create:contract',
   ],
   corporation: [
