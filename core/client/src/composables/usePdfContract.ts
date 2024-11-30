@@ -8,7 +8,13 @@ const arrDatesMonths = ['января', 'февраля', 'марта', 'апр�
 const date = new Date()
 const _date = formatDate(date)
 
-export async function useJsToPdf(stage: Ref<Stage>, totalOrderPriceByStages: Ref<number>, executor: string, autoContract: Ref<string>) {
+export async function useJsToPdf(
+  stage: Ref<Stage>,
+  totalOrderPriceByStages: Ref<number>,
+  totalPriceByStage: Ref<number>,
+  executor: string,
+  autoContract: Ref<string>,
+) {
   // eslint-disable-next-line new-cap
   const doc = new jsPDF()
 
@@ -84,7 +90,7 @@ export async function useJsToPdf(stage: Ref<Stage>, totalOrderPriceByStages: Ref
   cursorY += 10
 
   doc.text(stage.value.title, 10, cursorY)
-  doc.text(stage.value.price.toString(), pageWidth / 2, cursorY, { align: 'center' })
+  doc.text(totalPriceByStage.value.toString(), pageWidth / 2, cursorY, { align: 'center' })
   cursorY += 10
 
   cursorY += 10
@@ -95,7 +101,7 @@ export async function useJsToPdf(stage: Ref<Stage>, totalOrderPriceByStages: Ref
   doc.text(totalOrderPriceByStages.value.toString(), pageWidth / 2, cursorY, { align: 'center' })
   cursorY += 10
 
-  if (totalOrderPriceByStages.value <= stage.value.price) {
+  if (totalOrderPriceByStages.value <= totalPriceByStage.value) {
     doc.text(`Цена не превышает установленную в договоре сумму ${stage.value.price}.`, 10, cursorY)
   }
   cursorY += 20

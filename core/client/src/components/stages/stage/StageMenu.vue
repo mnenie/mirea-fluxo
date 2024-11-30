@@ -52,15 +52,27 @@ const formFl = ref(false)
 const dropdownModel = ref(false)
 const modelSelect = ref('-')
 
+const totalPriceByReduce = computed(() => orderStore.calculateStagePrice(props.stage.stages) + props.stage.price)
+
 const valueComputed = computed(() => valuesFromSelect[modelSelect.value])
 
-const generatePDf = async () => await useJsToPdf(toRef(() => props.stage), totalOrderPriceByStages as ComputedRef<number>, user.value!.email, valueComputed)
+async function generatePDf() {
+  return await useJsToPdf(
+    toRef(() => props.stage),
+    totalOrderPriceByStages as ComputedRef<number>,
+    totalPriceByReduce,
+    user.value!.email,
+    valueComputed,
+  )
+}
 
 async function downloadPdf() {
   await generatePDf()
   dropdownModel.value = !dropdownModel.value
   formFl.value = !formFl.value
 }
+
+console.log(totalPriceByReduce.value)
 </script>
 
 <template>
